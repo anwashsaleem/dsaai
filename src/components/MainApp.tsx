@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { BookOpen, User as UserIcon, Star, Award, Info, ChevronLeft, ChevronRight, Menu } from 'lucide-react';
+import { BookOpen, User as UserIcon, Star, Award, Info, ChevronLeft, ChevronRight, Menu, Trophy, LogOut, Settings } from 'lucide-react';
 import { LearningPath } from './LearningPath';
 import { AboutScreen } from './AboutScreen';
 import { StackLesson1 } from './StackLesson1';
@@ -24,16 +24,22 @@ import { LinkedListLesson3 } from './LinkedListLesson3';
 import { LinkedListLesson4 } from './LinkedListLesson4';
 import { LessonCompletionScreen } from './LessonCompletionScreen';
 import { ProfileScreen } from './ProfileScreen';
+import { LeaderboardScreen } from './LeaderboardScreen';
+import { SettingsScreen } from './SettingsScreen';
+import { EditProfileScreen } from './EditProfileScreen';
 import { AuthModal } from './AuthModal';
 import { useAuth } from '../contexts/AuthContext';
 import { AnimatePresence } from 'motion/react';
+import { TopBar } from './TopBar';
 
-type Tab = 'learn' | 'about' | 'profile';
+type Tab = 'learn' | 'leaderboard' | 'profile' | 'about';
+type ProfileScreen = 'main' | 'settings' | 'edit';
 type LearningScreen = 'path' | 'stack-lesson-1' | 'stack-lesson-2' | 'stack-lesson-3' | 'stack-lesson-4' | 'queue-lesson-1' | 'queue-lesson-2' | 'queue-lesson-3' | 'queue-lesson-4' | 'circular-lesson-1' | 'circular-lesson-2' | 'circular-lesson-3' | 'circular-lesson-4' | 'priority-lesson-1' | 'priority-lesson-2' | 'priority-lesson-3' | 'priority-lesson-4' | 'linked-list-lesson-1' | 'linked-list-lesson-2' | 'linked-list-lesson-3' | 'linked-list-lesson-4' | 'completion';
 
 export function MainApp() {
   const { user, progress, updateProgress, loading } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>('learn');
+  const [profileScreen, setProfileScreen] = useState<ProfileScreen>('main');
   const [learningScreen, setLearningScreen] = useState<LearningScreen>('path');
   const [lessonProgress, setLessonProgress] = useState(0);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -53,15 +59,23 @@ export function MainApp() {
   
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const TOTAL_LESSONS = 7;
+  const TOTAL_LESSONS = 19;
 
   // Logic to determine if we are in "Lesson Mode" (Full screen, no sidebar)
   const isLessonMode = activeTab === 'learn' && learningScreen !== 'path' && learningScreen !== 'completion';
 
+  // Reset profile screen when changing tabs
+  useEffect(() => {
+    if (activeTab !== 'profile') {
+      setProfileScreen('main');
+    }
+  }, [activeTab]);
+
   // Scroll to top whenever screen changes
   useEffect(() => {
     scrollRef.current?.scrollTo(0, 0);
-  }, [learningScreen, activeTab]);
+    window.scrollTo(0, 0);
+  }, [learningScreen, activeTab, profileScreen]);
 
   useEffect(() => {
     if (justClaimed) {
@@ -85,39 +99,34 @@ export function MainApp() {
   };
 
   const handleClaimXP = async () => {
-    let xpToAdd = 0;
     let newCompletedState = {};
 
     if (lastCompletedLesson === 'stack-lesson-4') {
       if (!progress.completedLessons.stack) {
-          xpToAdd = 110;
           newCompletedState = { stack: true };
       }
     } else if (lastCompletedLesson === 'queue-lesson-4') {
       if (!progress.completedLessons.queue) {
-          xpToAdd = 120;
           newCompletedState = { queue: true };
       }
     } else if (lastCompletedLesson === 'circular-lesson-4') {
       if (!progress.completedLessons.circular) {
-          xpToAdd = 135;
           newCompletedState = { circular: true };
       }
     } else if (lastCompletedLesson === 'priority-lesson-4') {
       if (!progress.completedLessons.priority) {
-          xpToAdd = 145;
           newCompletedState = { priority: true };
       }
     } else if (lastCompletedLesson === 'linked-list-lesson-4') {
       if (!progress.completedLessons.linkedList) {
-          xpToAdd = 150;
           newCompletedState = { linkedList: true };
       }
     }
     
-    if (xpToAdd > 0) {
+    // Only update if there's actually a new completion
+    // XP will be calculated automatically by updateProgress
+    if (Object.keys(newCompletedState).length > 0) {
         await updateProgress({
-            xp: progress.xp + xpToAdd,
             completedLessons: newCompletedState
         });
     }
@@ -127,12 +136,12 @@ export function MainApp() {
     setJustClaimed(true);
   };
 
-  const showMobileNav = activeTab === 'about' || activeTab === 'profile' || (activeTab === 'learn' && learningScreen === 'path');
+  const showMobileNav = activeTab === 'leaderboard' || activeTab === 'profile' || (activeTab === 'learn' && learningScreen === 'path') || activeTab === 'about';
 
   if (loading) {
       return (
           <div className="min-h-screen bg-white flex items-center justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#58CC02]"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#288CFF]"></div>
           </div>
       );
   }
@@ -148,7 +157,7 @@ export function MainApp() {
         >
           <div className="p-5 flex items-center justify-between">
             {!isSidebarCollapsed && (
-              <h2 className="text-2xl font-extrabold text-[#58CC02] tracking-tight">Dsaai</h2>
+              <h2 className="text-2xl font-extrabold text-[#288CFF] tracking-tight">dsaai</h2>
             )}
             <button 
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
@@ -168,18 +177,18 @@ export function MainApp() {
               } ${isSidebarCollapsed ? 'justify-center px-2' : ''}`}
             >
               <BookOpen className="w-6 h-6" strokeWidth={2.5} />
-              {!isSidebarCollapsed && <span className="uppercase text-sm tracking-wide">Learn</span>}
+              {!isSidebarCollapsed && <span className="uppercase text-sm tracking-wide">Lessons</span>}
             </button>
             <button
-              onClick={() => setActiveTab('about')}
+              onClick={() => setActiveTab('leaderboard')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all ${
-                activeTab === 'about'
+                activeTab === 'leaderboard'
                   ? 'bg-[#DDF4FF] text-[#1CB0F6] border-2 border-[#1CB0F6]'
                   : 'text-[#777] hover:bg-[#F7F7F7] border-2 border-transparent'
               } ${isSidebarCollapsed ? 'justify-center px-2' : ''}`}
             >
-              <Info className="w-6 h-6" strokeWidth={2.5} />
-              {!isSidebarCollapsed && <span className="uppercase text-sm tracking-wide">About</span>}
+              <Trophy className="w-6 h-6" strokeWidth={2.5} />
+              {!isSidebarCollapsed && <span className="uppercase text-sm tracking-wide">Leaderboard</span>}
             </button>
             <button
               onClick={() => setActiveTab('profile')}
@@ -192,6 +201,17 @@ export function MainApp() {
               <UserIcon className="w-6 h-6" strokeWidth={2.5} />
               {!isSidebarCollapsed && <span className="uppercase text-sm tracking-wide">Profile</span>}
             </button>
+            <button
+              onClick={() => setActiveTab('about')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all ${
+                activeTab === 'about'
+                  ? 'bg-[#DDF4FF] text-[#1CB0F6] border-2 border-[#1CB0F6]'
+                  : 'text-[#777] hover:bg-[#F7F7F7] border-2 border-transparent'
+              } ${isSidebarCollapsed ? 'justify-center px-2' : ''}`}
+            >
+              <Info className="w-6 h-6" strokeWidth={2.5} />
+              {!isSidebarCollapsed && <span className="uppercase text-sm tracking-wide">About</span>}
+            </button>
           </nav>
 
           {/* User Profile Mini-View in Sidebar */}
@@ -199,7 +219,7 @@ export function MainApp() {
              <div className="p-4 border-t-2 border-[#E5E5E5]">
                  <button 
                     onClick={() => setIsAuthModalOpen(true)}
-                    className="w-full py-3 bg-[#58CC02] text-white rounded-xl font-bold shadow-[0_4px_0_#46A302] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all uppercase tracking-wider text-sm"
+                    className="w-full py-3 bg-[#288CFF] text-white rounded-xl font-bold shadow-[0_4px_0_#2563EB] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all uppercase tracking-wider text-sm"
                  >
                      Sign In
                  </button>
@@ -379,63 +399,89 @@ export function MainApp() {
               {learningScreen === 'completion' && (
                 <LessonCompletionScreen 
                   onClaimXP={handleClaimXP}
-                  xpEarned={
-                      lastCompletedLesson === 'linked-list-lesson-4' ? 150 :
-                      lastCompletedLesson === 'priority-lesson-4' ? 145 :
-                      lastCompletedLesson === 'circular-lesson-4' ? 135 :
-                      lastCompletedLesson === 'queue-lesson-4' ? 120 : 
-                      110
-                  }
+                  xpEarned={110}
                 />
               )}
             </>
           )}
-          {activeTab === 'about' && <AboutScreen />}
+          {activeTab === 'leaderboard' && <LeaderboardScreen onSignIn={() => setIsAuthModalOpen(true)} />}
           {activeTab === 'profile' && (
-             <ProfileScreen 
-                xp={progress.xp} 
-                completedLessonsCount={completedLessonsCount}
-                onSignIn={() => setIsAuthModalOpen(true)}
-             />
+             <>
+               {profileScreen === 'main' && (
+                 <ProfileScreen 
+                    xp={progress.xp} 
+                    completedLessonsCount={completedLessonsCount}
+                    onSignIn={() => setIsAuthModalOpen(true)}
+                    onSettings={() => setProfileScreen('settings')}
+                    onEditProfile={() => setProfileScreen('edit')}
+                 />
+               )}
+               {profileScreen === 'settings' && (
+                 <SettingsScreen
+                   onBack={() => setProfileScreen('main')}
+                 />
+               )}
+               {profileScreen === 'edit' && (
+                 <EditProfileScreen
+                   onBack={() => setProfileScreen('main')}
+                 />
+               )}
+             </>
+          )}
+          {activeTab === 'about' && (
+            <div className="min-h-screen bg-white">
+              <AboutScreen />
+            </div>
           )}
         </div>
 
         {/* Mobile Tabs - Bottom */}
         {showMobileNav && (
           <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#E5E5E5] z-10 pb-safe">
-            <div className="grid grid-cols-3 gap-2 p-1.5">
+            <div className="grid grid-cols-4 gap-1 p-1.5">
               <button
                 onClick={() => setActiveTab('learn')}
-                className={`flex flex-col items-center gap-0.5 py-2 rounded-xl font-bold transition-all ${
+                className={`flex flex-col items-center gap-1 py-2.5 rounded-xl font-bold transition-all ${
                   activeTab === 'learn'
-                    ? 'bg-[#D7FFB8] text-[#58CC02]'
+                    ? 'bg-[#DBEAFE] text-[#288CFF]'
                     : 'bg-transparent text-[#777]'
                 }`}
               >
-                <BookOpen className="w-5 h-5" strokeWidth={2.5} />
-                <span className="text-[10px] uppercase tracking-wide">Learn</span>
+                <BookOpen className="w-6 h-6" strokeWidth={2.5} />
+                <span className="text-[9px] uppercase tracking-wide">Lessons</span>
               </button>
               <button
-                onClick={() => setActiveTab('about')}
-                className={`flex flex-col items-center gap-0.5 py-2 rounded-xl font-bold transition-all ${
-                  activeTab === 'about'
-                    ? 'bg-[#D7FFB8] text-[#58CC02]'
+                onClick={() => setActiveTab('leaderboard')}
+                className={`flex flex-col items-center gap-1 py-2.5 rounded-xl font-bold transition-all ${
+                  activeTab === 'leaderboard'
+                    ? 'bg-[#DBEAFE] text-[#288CFF]'
                     : 'bg-transparent text-[#777]'
                 }`}
               >
-                <Info className="w-5 h-5" strokeWidth={2.5} />
-                <span className="text-[10px] uppercase tracking-wide">About</span>
+                <Trophy className="w-6 h-6" strokeWidth={2.5} />
+                <span className="text-[9px] uppercase tracking-wide">Board</span>
               </button>
               <button
                 onClick={() => setActiveTab('profile')}
-                className={`flex flex-col items-center gap-0.5 py-2 rounded-xl font-bold transition-all ${
+                className={`flex flex-col items-center gap-1 py-2.5 rounded-xl font-bold transition-all ${
                   activeTab === 'profile'
-                    ? 'bg-[#D7FFB8] text-[#58CC02]'
+                    ? 'bg-[#DBEAFE] text-[#288CFF]'
                     : 'bg-transparent text-[#777]'
                 }`}
               >
-                <UserIcon className="w-5 h-5" strokeWidth={2.5} />
-                <span className="text-[10px] uppercase tracking-wide">Profile</span>
+                <UserIcon className="w-6 h-6" strokeWidth={2.5} />
+                <span className="text-[9px] uppercase tracking-wide">Profile</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('about')}
+                className={`flex flex-col items-center gap-1 py-2.5 rounded-xl font-bold transition-all ${
+                  activeTab === 'about'
+                    ? 'bg-[#DBEAFE] text-[#288CFF]'
+                    : 'bg-transparent text-[#777]'
+                }`}
+              >
+                <Info className="w-6 h-6" strokeWidth={2.5} />
+                <span className="text-[9px] uppercase tracking-wide">About</span>
               </button>
             </div>
           </div>

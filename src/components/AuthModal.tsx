@@ -90,6 +90,11 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
         
         if (signInError) throw signInError;
 
+        // Give the database trigger a moment to create the user_profiles row
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        console.log('Signup successful! User profile should be created by database trigger.');
+        
       } else {
         // Login
         const { error } = await supabase.auth.signInWithPassword({
@@ -200,7 +205,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-[#E5E5E5] focus:border-[#58CC02] focus:outline-none transition-colors font-bold text-[#4B4B4B]"
+                            className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-[#E5E5E5] focus:border-[#288CFF] focus:outline-none transition-colors font-bold text-[#4B4B4B]"
                             />
                         </div>
                     </div>
@@ -212,7 +217,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full h-12 bg-[#58CC02] text-white rounded-xl font-bold uppercase tracking-wider shadow-[0_4px_0_#46A302] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#46A302] transition-all flex items-center justify-center gap-2"
+                        className="w-full h-12 bg-[#288CFF] text-white rounded-xl font-bold uppercase tracking-wider shadow-[0_4px_0_#46A302] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#46A302] transition-all flex items-center justify-center gap-2"
                     >
                         {loading && <Loader2 className="w-5 h-5 animate-spin" />}
                         Send Reset Link
@@ -233,7 +238,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required={view === 'signup'}
-                        className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-[#E5E5E5] focus:border-[#58CC02] focus:outline-none transition-colors font-bold text-[#4B4B4B]"
+                        className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-[#E5E5E5] focus:border-[#288CFF] focus:outline-none transition-colors font-bold text-[#4B4B4B]"
                     />
                     </div>
                 </div>
@@ -248,7 +253,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-[#E5E5E5] focus:border-[#58CC02] focus:outline-none transition-colors font-bold text-[#4B4B4B]"
+                    className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-[#E5E5E5] focus:border-[#288CFF] focus:outline-none transition-colors font-bold text-[#4B4B4B]"
                     />
                 </div>
                 </div>
@@ -265,7 +270,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                         className={`w-full h-12 pl-12 pr-12 rounded-xl border-2 focus:outline-none transition-colors font-bold text-[#4B4B4B] ${
                             error && error.toLowerCase().includes('password') 
                                 ? 'border-[#FF4B4B] bg-[#FFF4F4]' 
-                                : 'border-[#E5E5E5] focus:border-[#58CC02]'
+                                : 'border-[#E5E5E5] focus:border-[#288CFF]'
                         }`}
                       />
                       <button
@@ -319,7 +324,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                 className={`w-full h-12 rounded-xl font-bold uppercase tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.1)] transition-all flex items-center justify-center gap-2 ${
                     loading || (view === 'signup' && !isPasswordValid)
                         ? 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-not-allowed'
-                        : 'bg-[#58CC02] text-white shadow-[0_4px_0_#46A302] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#46A302]'
+                        : 'bg-[#288CFF] text-white shadow-[0_4px_0_#2563EB] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#46A302]'
                 }`}
                 >
                 {loading && <Loader2 className="w-5 h-5 animate-spin" />}

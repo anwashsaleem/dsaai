@@ -334,7 +334,7 @@ export function CircularQueueLesson4({ onNavigate, currentProgress, onProgressUp
             onClick={handleComplete}
             className={`w-full h-14 rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.1)] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_rgba(0,0,0,0.1)] transition-all flex items-center justify-center gap-3 ${
                canComplete 
-               ? 'bg-[#58CC02] text-white shadow-[0_4px_0_#46A302] active:shadow-[0_2px_0_#46A302]' 
+               ? 'bg-[#288CFF] text-white shadow-[0_4px_0_#2563EB] active:shadow-[0_2px_0_#2563EB]' 
                : 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-default'
             }`}
           >

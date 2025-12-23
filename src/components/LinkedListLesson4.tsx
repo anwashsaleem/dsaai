@@ -178,18 +178,18 @@ export function LinkedListLesson4({ onNavigate, currentProgress, onProgressUpdat
             
             <div className="flex flex-col gap-6">
               {/* Visualization Area */}
-              <div className={`rounded-2xl border-2 p-4 min-h-[260px] flex items-center justify-center overflow-hidden relative transition-colors ${
+              <div className={`rounded-2xl border-2 p-4 h-[280px] md:h-[260px] flex items-center justify-start overflow-x-auto relative transition-colors ${
                   isDeleteMode ? 'bg-[#FFF4F4] border-[#FF4B4B] border-dashed' : 'bg-[#F7F7F7] border-[#E5E5E5]'
               }`}>
                   
                   {isDeleteMode && (
-                      <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-[#FF4B4B] text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse z-30 shadow-sm">
+                      <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-[#FF4B4B] text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse z-30 shadow-sm whitespace-nowrap">
                           Tap a node to delete
                       </div>
                   )}
 
                   {/* Nodes Container */}
-                  <div className="flex items-center justify-center flex-wrap gap-y-12 pt-4">
+                  <div className="flex items-center flex-nowrap gap-2 pt-4 w-max mx-auto px-4">
                      <AnimatePresence mode='popLayout'>
                         {/* HEAD Label */}
                         <motion.div 
@@ -389,7 +389,7 @@ export function LinkedListLesson4({ onNavigate, currentProgress, onProgressUpdat
         <div className="mt-4">
            {completedTasks.length < tasks.length && (
              <div className="mb-4 bg-[#F7F7F7] p-4 rounded-xl border-2 border-[#E5E5E5]">
-               <h3 className="font-bold text-[#AFAFAF] text-xs uppercase tracking-wide mb-3">Your Mission</h3>
+               <h3 className="font-bold text-[#AFAFAF] text-xs uppercase tracking-wide mb-3">Your Task</h3>
                <div className="space-y-3">
                  {tasks.map(task => {
                    const isCompleted = completedTasks.includes(task.id);
@@ -412,7 +412,7 @@ export function LinkedListLesson4({ onNavigate, currentProgress, onProgressUpdat
             disabled={completedTasks.length < tasks.length}
             className={`w-full h-14 rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.1)] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_rgba(0,0,0,0.1)] transition-all flex items-center justify-center gap-3 ${
                completedTasks.length >= tasks.length 
-               ? 'bg-[#58CC02] text-white shadow-[0_4px_0_#46A302] active:shadow-[0_2px_0_#46A302] cursor-pointer' 
+               ? 'bg-[#288CFF] text-white shadow-[0_4px_0_#2563EB] active:shadow-[0_2px_0_#2563EB] cursor-pointer' 
                : 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-default'
             }`}
           >

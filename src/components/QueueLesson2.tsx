@@ -120,7 +120,7 @@ export function QueueLesson2({ onNavigate, currentProgress, onProgressUpdate }: 
         <div className="mt-6">
           <button
             onClick={handleContinue}
-            className="w-full h-14 bg-[#58CC02] text-white rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_#46A302] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#46A302] transition-all flex items-center justify-center gap-3"
+            className="w-full h-14 bg-[#288CFF] text-white rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_#2563EB] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#2563EB] transition-all flex items-center justify-center gap-3"
           >
             Continue
             <ArrowRight className="w-5 h-5" strokeWidth={2.5} />

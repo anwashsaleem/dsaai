@@ -156,7 +156,7 @@ export function LessonCompletionScreen({ onClaimXP, xpEarned }: LessonCompletion
       >
         <button
           onClick={onClaimXP}
-          className="w-full h-14 bg-[#FFC800] text-white rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_#E0B000] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#E0B000] transition-all"
+          className="w-full h-14 bg-[#ffc800] text-white rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_#e0b000] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#e0b000] transition-all"
         >
           Claim XP
         </button>

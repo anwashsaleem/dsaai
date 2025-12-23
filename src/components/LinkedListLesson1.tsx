@@ -80,8 +80,8 @@ export function LinkedListLesson1({ onNavigate, currentProgress, onProgressUpdat
               {/* Visual Preview */}
               <div>
                 <h3 className="mb-2 text-[#4B4B4B] text-lg font-bold">Visual Representation</h3>
-                <div className="bg-[#F7F7F7] rounded-xl border-2 border-[#E5E5E5] p-6 py-10 flex items-center justify-center overflow-x-auto">
-                    <div className="flex items-center gap-1 min-w-max">
+                <div className="bg-[#F7F7F7] rounded-xl border-2 border-[#E5E5E5] p-6 py-10 flex items-center overflow-x-auto">
+                    <div className="flex items-center gap-1 min-w-max mx-auto">
                         {/* Head Label */}
                         <div className="flex flex-col items-center mr-2">
                             <span className="text-[#AFAFAF] text-[10px] font-bold uppercase mb-1">Head</span>
@@ -125,7 +125,7 @@ export function LinkedListLesson1({ onNavigate, currentProgress, onProgressUpdat
         <div className="mt-6">
           <button
             onClick={handleContinue}
-            className="w-full h-14 bg-[#58CC02] text-white rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_#46A302] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#46A302] transition-all flex items-center justify-center gap-3"
+            className="w-full h-14 bg-[#288CFF] text-white rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_#2563EB] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#2563EB] transition-all flex items-center justify-center gap-3"
           >
             Continue
             <ArrowRight className="w-5 h-5" strokeWidth={2.5} />

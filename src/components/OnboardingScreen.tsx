@@ -17,7 +17,7 @@ export function OnboardingScreen({ onStart }: OnboardingScreenProps) {
           transition={{ delay: 0.3 }}
           className="text-left mb-12"
         >
-          <h1 className="text-[#58CC02] text-5xl font-extrabold mb-3 tracking-tight">Dsaai</h1>
+          <h1 className="text-[#288CFF] text-5xl font-extrabold mb-3 tracking-tight">dsaai</h1>
           <p className="text-[#777] text-xl font-medium">Visualize, Interact, and Learn</p>
         </motion.div>
 
@@ -32,12 +32,12 @@ export function OnboardingScreen({ onStart }: OnboardingScreenProps) {
             <motion.div 
               animate={{ scale: [1, 1.1, 1] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="w-16 h-16 bg-[#D7FFB8] rounded-2xl flex items-center justify-center border-2 border-[#58CC02]"
+              className="w-16 h-16 bg-[#DBEAFE] rounded-2xl flex items-center justify-center border-2 border-[#2563EB]"
             >
-              <BookOpen className="w-8 h-8 text-[#58CC02]" strokeWidth={2.5} />
+              <BookOpen className="w-8 h-8 text-[#2563EB]" strokeWidth={2.5} />
             </motion.div>
             <div>
-              <h3 className="text-[#4B4B4B] font-bold text-lg">Interactive Lessons</h3>
+              <h3 className="text-[#111827] font-bold text-lg">Interactive Lessons</h3>
               <p className="text-[#777]">Learn by doing, not just reading</p>
             </div>
           </div>
@@ -51,8 +51,8 @@ export function OnboardingScreen({ onStart }: OnboardingScreenProps) {
               <Zap className="w-8 h-8 text-[#1CB0F6]" strokeWidth={2.5} />
             </motion.div>
             <div>
-              <h3 className="text-[#4B4B4B] font-bold text-lg">Visual Learning</h3>
-              <p className="text-[#777]">See how data structures work</p>
+              <h3 className="text-[#111827] font-bold text-lg">Visual Learning</h3>
+              <p className="text-[#777]">See how data structures & algorithm work</p>
             </div>
           </div>
 
@@ -65,7 +65,7 @@ export function OnboardingScreen({ onStart }: OnboardingScreenProps) {
               <Target className="w-8 h-8 text-[#CE82FF]" strokeWidth={2.5} />
             </motion.div>
             <div>
-              <h3 className="text-[#4B4B4B] font-bold text-lg">Track Progress</h3>
+              <h3 className="text-[#111827] font-bold text-lg">Track Progress</h3>
               <p className="text-[#777]">Master concepts step by step</p>
             </div>
           </div>
@@ -77,13 +77,20 @@ export function OnboardingScreen({ onStart }: OnboardingScreenProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7 }}
-        className="w-full max-w-md mx-auto pb-6"
+        className="w-full max-w-md mx-auto pb-6 space-y-3"
       >
         <button
           onClick={onStart}
-          className="w-full h-14 bg-[#58CC02] text-white rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_#46A302] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#46A302] transition-all"
+          className="w-full h-14 bg-[#288CFF] text-white rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_#2563EB] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#2563EB] transition-all"
         >
           Start Learning
+        </button>
+        
+        <button
+          onClick={onStart}
+          className="w-full h-12 bg-transparent text-[#111827] rounded-2xl font-bold text-base border-2 border-[#E5E5E5] hover:border-[#288CFF] hover:text-[#288CFF] active:scale-95 transition-all"
+        >
+          Continue as Guest
         </button>
       </motion.div>
     </div>

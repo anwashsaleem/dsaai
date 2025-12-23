@@ -1,7 +1,7 @@
 
-  # Interactive Data Structures Tool
+  # dsaai
 
-  This is a code bundle for Interactive Data Structures Tool. The original project is available at https://www.figma.com/design/XLhLDLkPUECXEIJin09MKI/Interactive-Data-Structures-Tool.
+  This is a code bundle for dsaai. The original project is available at https://www.figma.com/design/XLhLDLkPUECXEIJin09MKI/dsaai.
 
   ## Running the code
 

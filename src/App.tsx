@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { OnboardingScreen } from './components/OnboardingScreen';
 import { MainApp } from './components/MainApp';
 import { AuthProvider } from './contexts/AuthContext';
+import { Toaster } from './components/ui/sonner';
 
 export default function App() {
   const [hasOnboarded, setHasOnboarded] = useState(false);
@@ -13,6 +14,7 @@ export default function App() {
   return (
     <AuthProvider>
       <MainApp />
+      <Toaster />
     </AuthProvider>
   );
 }
