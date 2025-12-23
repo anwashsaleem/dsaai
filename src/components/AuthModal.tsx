@@ -182,8 +182,8 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
           {view === 'forgot-password' ? (
               resetSent ? (
                   <div className="text-center space-y-4">
-                      <div className="w-16 h-16 bg-[#D7FFB8] rounded-full flex items-center justify-center mx-auto mb-4">
-                          <Mail className="w-8 h-8 text-[#58CC02]" />
+                      <div className="w-16 h-16 bg-[#D4E8FF] rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Mail className="w-8 h-8 text-[#288CFF]" />
                       </div>
                       <p className="text-[#4B4B4B] font-bold">Check your email</p>
                       <p className="text-[#777] text-sm">We've sent you a password reset link.</p>
@@ -217,7 +217,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full h-12 bg-[#288CFF] text-white rounded-xl font-bold uppercase tracking-wider shadow-[0_4px_0_#46A302] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#46A302] transition-all flex items-center justify-center gap-2"
+                        className="w-full h-12 bg-[#288CFF] text-white rounded-xl font-bold uppercase tracking-wider shadow-[0_4px_0_#2563EB] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#2563EB] transition-all flex items-center justify-center gap-2"
                     >
                         {loading && <Loader2 className="w-5 h-5 animate-spin" />}
                         Send Reset Link

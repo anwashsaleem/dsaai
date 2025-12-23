@@ -32,9 +32,9 @@ export function OnboardingScreen({ onStart }: OnboardingScreenProps) {
             <motion.div 
               animate={{ scale: [1, 1.1, 1] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="w-16 h-16 bg-[#DBEAFE] rounded-2xl flex items-center justify-center border-2 border-[#2563EB]"
+              className="w-16 h-16 bg-[#DEF5CC] rounded-2xl flex items-center justify-center border-2 border-[#58CC02]"
             >
-              <BookOpen className="w-8 h-8 text-[#2563EB]" strokeWidth={2.5} />
+              <BookOpen className="w-8 h-8 text-[#58CC02]" strokeWidth={2.5} />
             </motion.div>
             <div>
               <h3 className="text-[#111827] font-bold text-lg">Interactive Lessons</h3>
@@ -60,9 +60,9 @@ export function OnboardingScreen({ onStart }: OnboardingScreenProps) {
             <motion.div 
               animate={{ y: [0, -5, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="w-16 h-16 bg-[#FFE8FF] rounded-2xl flex items-center justify-center border-2 border-[#CE82FF]"
+              className="w-16 h-16 bg-[#FFF4CC] rounded-2xl flex items-center justify-center border-2 border-[#FFC800]"
             >
-              <Target className="w-8 h-8 text-[#CE82FF]" strokeWidth={2.5} />
+              <Target className="w-8 h-8 text-[#FFC800]" strokeWidth={2.5} />
             </motion.div>
             <div>
               <h3 className="text-[#111827] font-bold text-lg">Track Progress</h3>
@@ -88,7 +88,7 @@ export function OnboardingScreen({ onStart }: OnboardingScreenProps) {
         
         <button
           onClick={onStart}
-          className="w-full h-12 bg-transparent text-[#111827] rounded-2xl font-bold text-base border-2 border-[#E5E5E5] hover:border-[#288CFF] hover:text-[#288CFF] active:scale-95 transition-all"
+          className="w-full h-12 bg-transparent text-[#1cb0f6] rounded-2xl font-bold text-base border-2 border-[#1cb0f6] hover:border-[#288CFF] hover:text-[#288CFF] active:scale-95 transition-all"
         >
           Continue as Guest
         </button>
