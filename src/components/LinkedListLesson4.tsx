@@ -239,7 +239,14 @@ export function LinkedListLesson4({ onNavigate, currentProgress, onProgressUpdat
                                             color: isDeleteMode ? '#FF4B4B' : '#4B4B4B'
                                         }}
                                     >
-                                        {isDeleteMode ? <Trash2 className="w-5 h-5" /> : node.value}
+                                        {isDeleteMode ? (
+                                            <div className="flex flex-col items-center justify-center">
+                                                <Trash2 className="w-4 h-4" />
+                                                <span className="text-[10px] mt-0.5">{node.value}</span>
+                                            </div>
+                                        ) : (
+                                            node.value
+                                        )}
                                     </div>
                                     <div 
                                         className="w-8 h-12 flex items-center justify-center transition-colors" 

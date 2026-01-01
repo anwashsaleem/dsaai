@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, Mail, Lock, User, Loader2, ArrowLeft, Eye, EyeOff, CheckCircle2, AlertCircle } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
 import { projectId, publicAnonKey } from '../utils/supabase/info';
+import { haptics } from '../utils/haptics';
+import { DEFAULT_AVATAR } from '../utils/avatars';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -38,9 +40,8 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
         }
 
         // Use server-side signup to bypass email confirmation
-        // Encode the name for the URL to avoid issues with special characters
-        const safeName = encodeURIComponent(name);
-        const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${safeName}`;
+        // Use the default custom avatar from our avatar set
+        const avatarUrl = DEFAULT_AVATAR;
         
         const endpoint = `https://${projectId}.supabase.co/functions/v1/make-server-2ba06582/signup`;
         
@@ -94,6 +95,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
         await new Promise(resolve => setTimeout(resolve, 1000));
         
         console.log('Signup successful! User profile should be created by database trigger.');
+        haptics.success();
         
       } else {
         // Login
@@ -110,11 +112,13 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
             }
             throw error;
         }
+        haptics.success();
       }
       onSuccess();
       onClose();
     } catch (err: any) {
       console.error("Auth Error:", err);
+      haptics.error();
       setError(err.message || "An unexpected error occurred.");
     } finally {
       setLoading(false);
@@ -146,12 +150,12 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
-        className="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl"
+        className="bg-card dark:bg-card rounded-3xl w-full max-w-md overflow-hidden shadow-2xl"
       >
         <div className="p-6 relative">
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-[#AFAFAF] hover:bg-[#F7F7F7] rounded-full transition-colors"
+            className="absolute top-4 right-4 p-2 text-muted-foreground hover:bg-hover-background dark:hover:bg-hover-background rounded-full transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
@@ -161,15 +165,15 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
             {view === 'forgot-password' && (
                 <button 
                     onClick={() => setView('login')}
-                    className="absolute top-4 left-4 p-2 text-[#AFAFAF] hover:bg-[#F7F7F7] rounded-full transition-colors"
+                    className="absolute top-4 left-4 p-2 text-muted-foreground hover:bg-hover-background dark:hover:bg-hover-background rounded-full transition-colors"
                 >
                     <ArrowLeft className="w-6 h-6" />
                 </button>
             )}
-            <h2 className="text-2xl font-bold text-[#4B4B4B] mb-2">
+            <h2 className="text-2xl font-bold text-text-primary dark:text-text-primary mb-2">
               {view === 'signup' ? 'Create Account' : view === 'forgot-password' ? 'Reset Password' : 'Welcome Back'}
             </h2>
-            <p className="text-[#777]">
+            <p className="text-text-secondary dark:text-text-secondary">
               {view === 'signup' 
                 ? 'Start your learning journey today' 
                 : view === 'forgot-password' 
@@ -182,14 +186,14 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
           {view === 'forgot-password' ? (
               resetSent ? (
                   <div className="text-center space-y-4">
-                      <div className="w-16 h-16 bg-[#D4E8FF] rounded-full flex items-center justify-center mx-auto mb-4">
-                          <Mail className="w-8 h-8 text-[#288CFF]" />
+                      <div className="w-16 h-16 bg-info-light dark:bg-info-light rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Mail className="w-8 h-8 text-primary" />
                       </div>
-                      <p className="text-[#4B4B4B] font-bold">Check your email</p>
-                      <p className="text-[#777] text-sm">We've sent you a password reset link.</p>
+                      <p className="text-text-primary dark:text-text-primary font-bold">Check your email</p>
+                      <p className="text-text-secondary dark:text-text-secondary text-sm">We've sent you a password reset link.</p>
                       <button 
                         onClick={() => setView('login')}
-                        className="text-[#1CB0F6] font-bold text-sm hover:underline mt-4"
+                        className="text-secondary font-bold text-sm hover:underline mt-4"
                       >
                           Back to Log In
                       </button>
@@ -198,26 +202,26 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                 <form onSubmit={handleForgotPassword} className="space-y-4">
                     <div className="space-y-1">
                         <div className="relative">
-                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#AFAFAF]" />
+                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                             <input
                             type="email"
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-[#E5E5E5] focus:border-[#288CFF] focus:outline-none transition-colors font-bold text-[#4B4B4B]"
+                            className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-border dark:border-border bg-input-background dark:bg-input-background focus:border-primary focus:outline-none transition-colors font-bold text-text-primary dark:text-text-primary"
                             />
                         </div>
                     </div>
                     {error && (
-                        <div className="text-[#FF4B4B] text-sm font-bold text-center bg-[#FFF4F4] p-2 rounded-lg border border-[#FF4B4B]">
+                        <div className="text-destructive text-sm font-bold text-center bg-error-light dark:bg-error-light p-2 rounded-lg border border-destructive">
                             {error}
                         </div>
                     )}
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full h-12 bg-[#288CFF] text-white rounded-xl font-bold uppercase tracking-wider shadow-[0_4px_0_#2563EB] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#2563EB] transition-all flex items-center justify-center gap-2"
+                        className="w-full h-12 bg-primary text-primary-foreground rounded-xl font-bold uppercase tracking-wider shadow-[0_4px_0] shadow-primary-shadow hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0] active:shadow-primary-shadow transition-all flex items-center justify-center gap-2"
                     >
                         {loading && <Loader2 className="w-5 h-5 animate-spin" />}
                         Send Reset Link
@@ -231,14 +235,14 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                 {view === 'signup' && (
                 <div className="space-y-1">
                     <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#AFAFAF]" />
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <input
                         type="text"
                         placeholder="Full Name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required={view === 'signup'}
-                        className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-[#E5E5E5] focus:border-[#288CFF] focus:outline-none transition-colors font-bold text-[#4B4B4B]"
+                        className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-border dark:border-border bg-input-background dark:bg-input-background focus:border-primary focus:outline-none transition-colors font-bold text-text-primary dark:text-text-primary"
                     />
                     </div>
                 </div>
@@ -246,37 +250,37 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
 
                 <div className="space-y-1">
                 <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#AFAFAF]" />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <input
                     type="email"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-[#E5E5E5] focus:border-[#288CFF] focus:outline-none transition-colors font-bold text-[#4B4B4B]"
+                    className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-border dark:border-border bg-input-background dark:bg-input-background focus:border-primary focus:outline-none transition-colors font-bold text-text-primary dark:text-text-primary"
                     />
                 </div>
                 </div>
 
                 <div className="space-y-1">
                   <div className="relative">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#AFAFAF]" />
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                       <input
                         type={showPassword ? "text" : "password"}
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        className={`w-full h-12 pl-12 pr-12 rounded-xl border-2 focus:outline-none transition-colors font-bold text-[#4B4B4B] ${
+                        className={`w-full h-12 pl-12 pr-12 rounded-xl border-2 focus:outline-none transition-colors font-bold ${
                             error && error.toLowerCase().includes('password') 
-                                ? 'border-[#FF4B4B] bg-[#FFF4F4]' 
-                                : 'border-[#E5E5E5] focus:border-[#288CFF]'
+                                ? 'border-destructive bg-error-light dark:bg-error-light text-text-primary dark:text-text-primary' 
+                                : 'border-border dark:border-border bg-input-background dark:bg-input-background focus:border-primary text-text-primary dark:text-text-primary'
                         }`}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-[#AFAFAF] hover:text-[#777] transition-colors"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-text-secondary transition-colors"
                       >
                         {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                       </button>
@@ -287,10 +291,10 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                       <div className="pt-2 pl-1">
                           <div className={`flex items-center gap-2 text-xs font-bold transition-colors ${
                               password.length === 0 
-                                  ? 'text-[#AFAFAF]' 
+                                  ? 'text-muted-foreground' 
                                   : isLengthValid 
-                                      ? 'text-[#58CC02]' 
-                                      : 'text-[#FF4B4B]'
+                                      ? 'text-success' 
+                                      : 'text-destructive'
                           }`}>
                               {isLengthValid ? <CheckCircle2 className="w-3 h-3" /> : <div className="w-3 h-3 rounded-full border-2 border-current" />}
                               At least 6 characters
@@ -304,7 +308,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                         <button 
                             type="button"
                             onClick={() => setView('forgot-password')}
-                            className="text-[#1CB0F6] font-bold text-xs hover:underline"
+                            className="text-secondary font-bold text-xs hover:underline"
                         >
                             Forgot Password?
                         </button>
@@ -312,7 +316,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                 )}
 
                 {error && (
-                <div className="flex items-start gap-2 text-[#FF4B4B] text-sm font-bold bg-[#FFF4F4] p-3 rounded-xl border border-[#FF4B4B]">
+                <div className="flex items-start gap-2 text-destructive text-sm font-bold bg-error-light dark:bg-error-light p-3 rounded-xl border border-destructive">
                     <AlertCircle className="w-5 h-5 flex-shrink-0" />
                     <span>{error}</span>
                 </div>
@@ -321,10 +325,10 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                 <button
                 type="submit"
                 disabled={loading || (view === 'signup' && !isPasswordValid)}
-                className={`w-full h-12 rounded-xl font-bold uppercase tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.1)] transition-all flex items-center justify-center gap-2 ${
+                className={`w-full h-12 rounded-xl font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${
                     loading || (view === 'signup' && !isPasswordValid)
-                        ? 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-not-allowed'
-                        : 'bg-[#288CFF] text-white shadow-[0_4px_0_#2563EB] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#46A302]'
+                        ? 'bg-muted dark:bg-muted text-muted-foreground shadow-none cursor-not-allowed'
+                        : 'bg-primary text-primary-foreground shadow-[0_4px_0] shadow-primary-shadow hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0] active:shadow-primary-shadow'
                 }`}
                 >
                 {loading && <Loader2 className="w-5 h-5 animate-spin" />}
@@ -340,7 +344,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                     setPassword('');
                     setEmail('');
                 }}
-                className="text-[#1CB0F6] font-bold text-sm hover:underline uppercase tracking-wide"
+                className="text-secondary font-bold text-sm hover:underline uppercase tracking-wide"
                 >
                 {view === 'login' ? 'New here? Create Account' : 'Already have an account? Log In'}
                 </button>

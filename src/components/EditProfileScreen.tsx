@@ -2,24 +2,14 @@ import { motion } from 'motion/react';
 import { ArrowLeft, User, AtSign, CheckCircle } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { projectId, publicAnonKey } from '../utils/supabase/info';
+import { PREDEFINED_AVATARS } from '../utils/avatars';
 import { supabase } from '../utils/supabaseClient';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 interface EditProfileScreenProps {
   onBack: () => void;
 }
-
-const PREDEFINED_AVATARS = [
-  'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix',
-  'https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka',
-  'https://api.dicebear.com/7.x/avataaars/svg?seed=Willow',
-  'https://api.dicebear.com/7.x/avataaars/svg?seed=Trouble',
-  'https://api.dicebear.com/7.x/avataaars/svg?seed=Scooter',
-  'https://api.dicebear.com/7.x/avataaars/svg?seed=Max',
-  'https://api.dicebear.com/7.x/avataaars/svg?seed=Missy',
-  'https://api.dicebear.com/7.x/avataaars/svg?seed=Charlie',
-  'https://api.dicebear.com/7.x/avataaars/svg?seed=Luna',
-];
 
 export function EditProfileScreen({ onBack }: EditProfileScreenProps) {
   const { user, updateUserProfile } = useAuth();
@@ -182,26 +172,26 @@ export function EditProfileScreen({ onBack }: EditProfileScreenProps) {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background dark:bg-background">
       {/* Header */}
-      <div className="sticky top-0 z-50 bg-white border-b-2 border-[#E5E5E5] px-6 py-4">
+      <div className="sticky top-0 z-50 bg-card dark:bg-card border-b-2 border-border dark:border-border px-6 py-4">
         <div className="max-w-2xl mx-auto w-full flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
               onClick={onBack}
-              className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777] hover:bg-[#E5E5E5] transition-all rounded-xl"
+              className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-hover-background dark:bg-hover-background border-2 border-border dark:border-border text-text-secondary dark:text-text-secondary hover:bg-muted dark:hover:bg-muted transition-all rounded-xl"
             >
               <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
             </button>
-            <h1 className="text-xl font-extrabold text-[#4B4B4B]">Edit Profile</h1>
+            <h1 className="text-xl font-extrabold text-text-primary dark:text-text-primary">Edit Profile</h1>
           </div>
           <button
             onClick={handleSave}
             disabled={saving || !!usernameError || checkingUsername}
             className={`px-5 py-2 rounded-xl font-bold text-sm transition-all ${
               saving || usernameError || checkingUsername
-                ? 'bg-[#E5E5E5] text-[#AFAFAF] cursor-not-allowed'
-                : 'bg-[#288CFF] text-white shadow-[0_4px_0_#2563EB] active:translate-y-[2px] active:shadow-none'
+                ? 'bg-muted dark:bg-muted text-muted-foreground cursor-not-allowed'
+                : 'bg-primary text-primary-foreground shadow-[0_4px_0] shadow-primary-shadow active:translate-y-[2px] active:shadow-[0_2px_0] active:shadow-primary-shadow'
             }`}
           >
             {saving ? 'Saving...' : 'Save'}
@@ -217,8 +207,8 @@ export function EditProfileScreen({ onBack }: EditProfileScreenProps) {
           className="space-y-6"
         >
           {/* Avatar Selection */}
-          <div className="bg-white rounded-2xl border-2 border-[#E5E5E5] p-5">
-            <h2 className="font-bold text-[#4B4B4B] mb-4 text-sm uppercase tracking-wide">
+          <div className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border p-5">
+            <h2 className="font-bold text-text-primary dark:text-text-primary mb-4 text-sm uppercase tracking-wide">
               Choose Avatar
             </h2>
 
@@ -233,14 +223,14 @@ export function EditProfileScreen({ onBack }: EditProfileScreenProps) {
                   }}
                   className={`relative w-full aspect-square rounded-xl overflow-hidden border-2 transition-all ${
                     selectedAvatar === avatar && !customAvatarUrl
-                      ? 'border-[#288CFF] ring-2 ring-[#288CFF] ring-offset-2'
-                      : 'border-[#E5E5E5] hover:border-[#1CB0F6]'
+                      ? 'border-primary ring-2 ring-primary ring-offset-2 dark:ring-offset-background'
+                      : 'border-border dark:border-border hover:border-secondary'
                   }`}
                 >
                   <img src={avatar} alt={`Avatar ${index + 1}`} className="w-full h-full object-cover" />
                   {selectedAvatar === avatar && !customAvatarUrl && (
-                    <div className="absolute inset-0 bg-[#288CFF]/20 flex items-center justify-center">
-                      <CheckCircle className="w-6 h-6 text-[#288CFF]" />
+                    <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                      <CheckCircle className="w-6 h-6 text-primary" />
                     </div>
                   )}
                 </button>
@@ -249,7 +239,7 @@ export function EditProfileScreen({ onBack }: EditProfileScreenProps) {
 
             {/* Custom Avatar URL */}
             <div>
-              <label className="block text-xs font-bold text-[#777] mb-2 uppercase tracking-wide">
+              <label className="block text-xs font-bold text-text-secondary dark:text-text-secondary mb-2 uppercase tracking-wide">
                 Or use custom URL
               </label>
               <input
@@ -262,10 +252,10 @@ export function EditProfileScreen({ onBack }: EditProfileScreenProps) {
                   }
                 }}
                 placeholder="https://example.com/avatar.jpg"
-                className="w-full h-12 px-4 rounded-xl border-2 border-[#E5E5E5] focus:border-[#1CB0F6] focus:outline-none transition-colors"
+                className="w-full h-12 px-4 rounded-xl border-2 border-border dark:border-border bg-input-background dark:bg-input-background text-text-primary dark:text-text-primary focus:border-secondary focus:outline-none transition-colors"
               />
               {customAvatarUrl && (
-                <div className="mt-3 w-20 h-20 rounded-xl overflow-hidden border-2 border-[#288CFF] ring-2 ring-[#288CFF] ring-offset-2">
+                <div className="mt-3 w-20 h-20 rounded-xl overflow-hidden border-2 border-primary ring-2 ring-primary ring-offset-2 dark:ring-offset-background">
                   <img
                     src={customAvatarUrl}
                     alt="Custom avatar"
@@ -280,54 +270,54 @@ export function EditProfileScreen({ onBack }: EditProfileScreenProps) {
           </div>
 
           {/* Name Field */}
-          <div className="bg-white rounded-2xl border-2 border-[#E5E5E5] p-5">
-            <h2 className="font-bold text-[#4B4B4B] mb-4 text-sm uppercase tracking-wide">Name</h2>
+          <div className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border p-5">
+            <h2 className="font-bold text-text-primary dark:text-text-primary mb-4 text-sm uppercase tracking-wide">Name</h2>
             <div className="relative">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#AFAFAF]" />
+              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your display name"
-                className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-[#E5E5E5] focus:border-[#1CB0F6] focus:outline-none transition-colors font-bold"
+                className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-border dark:border-border bg-input-background dark:bg-input-background text-text-primary dark:text-text-primary focus:border-secondary focus:outline-none transition-colors font-bold"
               />
             </div>
-            <p className="text-xs text-[#777] mt-2">This can be changed anytime</p>
+            <p className="text-xs text-text-secondary dark:text-text-secondary mt-2">This can be changed anytime</p>
           </div>
 
           {/* Username Field */}
-          <div className="bg-white rounded-2xl border-2 border-[#E5E5E5] p-5">
-            <h2 className="font-bold text-[#4B4B4B] mb-4 text-sm uppercase tracking-wide">
+          <div className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border p-5">
+            <h2 className="font-bold text-text-primary dark:text-text-primary mb-4 text-sm uppercase tracking-wide">
               Username (Unique)
             </h2>
             <div className="relative">
-              <AtSign className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#AFAFAF]" />
+              <AtSign className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <input
                 type="text"
                 value={username}
                 onChange={(e) => handleUsernameChange(e.target.value)}
                 placeholder="your_username"
-                className={`w-full h-12 pl-12 pr-4 rounded-xl border-2 focus:outline-none transition-colors font-bold ${
+                className={`w-full h-12 pl-12 pr-4 rounded-xl border-2 focus:outline-none transition-colors font-bold bg-input-background dark:bg-input-background text-text-primary dark:text-text-primary ${
                   usernameError
-                    ? 'border-[#FF4B4B] focus:border-[#FF4B4B]'
-                    : 'border-[#E5E5E5] focus:border-[#1CB0F6]'
+                    ? 'border-destructive focus:border-destructive'
+                    : 'border-border dark:border-border focus:border-secondary'
                 }`}
               />
             </div>
             {checkingUsername && (
-              <p className="text-xs text-[#1CB0F6] mt-2 flex items-center gap-1">
+              <p className="text-xs text-secondary mt-2 flex items-center gap-1">
                 <span className="animate-spin">⏳</span> Checking availability...
               </p>
             )}
             {usernameError && (
-              <p className="text-xs text-[#FF4B4B] mt-2 font-bold">⚠️ {usernameError}</p>
+              <p className="text-xs text-destructive mt-2 font-bold">⚠️ {usernameError}</p>
             )}
             {!usernameError && username.length >= 3 && !checkingUsername && (
-              <p className="text-xs text-[#58CC02] mt-2 font-bold flex items-center gap-1">
+              <p className="text-xs text-success mt-2 font-bold flex items-center gap-1">
                 <CheckCircle className="w-3 h-3" /> Username available
               </p>
             )}
-            <p className="text-xs text-[#777] mt-2">
+            <p className="text-xs text-text-secondary dark:text-text-secondary mt-2">
               Used for leaderboard. Only letters, numbers, and underscores.
             </p>
           </div>

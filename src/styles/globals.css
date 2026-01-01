@@ -4,36 +4,70 @@
 
 :root {
   --font-size: 16px;
+  
+  /* Base colors */
   --background: #ffffff;
   --foreground: #111827;
   --card: #ffffff;
   --card-foreground: #111827;
   --popover: #ffffff;
   --popover-foreground: #111827;
+  
+  /* Brand colors */
   --primary: #288CFF;
   --primary-foreground: #ffffff;
+  --primary-hover: #1a7ae8;
+  --primary-shadow: #2563EB;
   --secondary: #1CB0F6;
   --secondary-foreground: #ffffff;
+  --secondary-hover: #0D9FE8;
+  
+  /* UI colors */
   --muted: #E5E5E5;
   --muted-foreground: #AFAFAF;
   --accent: #FFC800;
   --accent-foreground: #ffffff;
-  --destructive: #FF4B4B;
+  --destructive: #FF4D4D;
   --destructive-foreground: #ffffff;
+  --destructive-hover: #CC0000;
+  
+  /* Interactive elements */
   --border: #E5E5E5;
   --input: transparent;
   --input-background: #F7F7F7;
   --switch-background: #cbced4;
+  --hover-background: #F7F7F7;
+  --active-background: #DDF4FF;
+  
+  /* Text colors */
+  --text-primary: #4B4B4B;
+  --text-secondary: #777777;
+  --text-muted: #AFAFAF;
+  
+  /* Semantic colors */
+  --success: #58CC02;
+  --success-light: #DEF5CC;
+  --warning: #FFC800;
+  --warning-light: #FFF4CC;
+  --info: #1CB0F6;
+  --info-light: #DDF4FF;
+  --error: #FF4D4D;
+  --error-light: #FFF4F4;
+  
+  /* Weights */
   --font-weight-bold: 800;
   --font-weight-medium: 700;
   --font-weight-normal: 600;
+  
   --ring: #288CFF;
   --chart-1: #288CFF;
   --chart-2: #1CB0F6;
   --chart-3: #FFC800;
-  --chart-4: #FF4B4B;
+  --chart-4: #FF4D4D;
   --chart-5: #CE82FF;
   --radius: 1rem;
+  
+  /* Sidebar */
   --sidebar: #ffffff;
   --sidebar-foreground: #111827;
   --sidebar-primary: #288CFF;
@@ -45,41 +79,76 @@
 }
 
 .dark {
+  /* Base colors */
   --background: #111827;
   --foreground: #ffffff;
-  --card: #2A2A2A;
+  --card: #111827;
   --card-foreground: #ffffff;
-  --popover: #2A2A2A;
+  --popover: #111827;
   --popover-foreground: #ffffff;
-  --primary: ##2563EB;
+  
+  /* Brand colors */
+  --primary: #288CFF;
   --primary-foreground: #ffffff;
+  --primary-hover: #3a9bff;
+  --primary-shadow: #2563EB;
   --secondary: #1CB0F6;
   --secondary-foreground: #ffffff;
-  --muted: #3A3A3A;
-  --muted-foreground: #AFAFAF;
+  --secondary-hover: #3dc0ff;
+  
+  /* UI colors */
+  --muted: #374151;
+  --muted-foreground: #9CA3AF;
   --accent: #FFC800;
-  --accent-foreground: #ffffff;
-  --destructive: #FF4B4B;
+  --accent-foreground: #111827;
+  --destructive: #FF4D4D;
   --destructive-foreground: #ffffff;
-  --border: #3A3A3A;
-  --input: #3A3A3A;
-  --ring: #2563EB;
+  --destructive-hover: #ff6b6b;
+  
+  /* Interactive elements */
+  --border: #374151;
+  --input: #374151;
+  --input-background: #374151;
+  --switch-background: #4B5563;
+  --hover-background: #374151;
+  --active-background: #1e3a52;
+  
+  /* Text colors */
+  --text-primary: #ffffff;
+  --text-secondary: #D1D5DB;
+  --text-muted: #9CA3AF;
+  
+  /* Semantic colors */
+  --success: #58CC02;
+  --success-light: #1e3a1e;
+  --warning: #FFC800;
+  --warning-light: #3a3420;
+  --info: #1CB0F6;
+  --info-light: #1e3a52;
+  --error: #FF4D4D;
+  --error-light: #3a1e1e;
+  
+  /* Weights */
   --font-weight-bold: 800;
   --font-weight-medium: 700;
   --font-weight-normal: 600;
-  --chart-1: ##2563EB;
+  
+  --ring: #288CFF;
+  --chart-1: #288CFF;
   --chart-2: #1CB0F6;
   --chart-3: #FFC800;
-  --chart-4: #FF4B4B;
+  --chart-4: #FF4D4D;
   --chart-5: #CE82FF;
-  --sidebar: #2A2A2A;
+  
+  /* Sidebar */
+  --sidebar: #111827;
   --sidebar-foreground: #ffffff;
-  --sidebar-primary: ##2563EB;
+  --sidebar-primary: #288CFF;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #3A3A3A;
+  --sidebar-accent: #374151;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #3A3A3A;
-  --sidebar-ring: #2563EB;
+  --sidebar-border: #374151;
+  --sidebar-ring: #288CFF;
 }
 
 @theme inline {
@@ -91,6 +160,7 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-shadow: var(--primary-shadow);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -99,6 +169,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-hover: var(--destructive-hover);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-input-background: var(--input-background);
@@ -122,8 +193,23 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   
+  /* Additional semantic colors */
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-hover-background: var(--hover-background);
+  --color-active-background: var(--active-background);
+  --color-success: var(--success);
+  --color-success-light: var(--success-light);
+  --color-warning: var(--warning);
+  --color-warning-light: var(--warning-light);
+  --color-info: var(--info);
+  --color-info-light: var(--info-light);
+  --color-error: var(--error);
+  --color-error-light: var(--error-light);
+  
   /* Duolingo Brand Colors */
-  --color-duo-green: ##2563EB;
+  --color-duo-green: #2563EB;
   --color-duo-green-hover: #288CFF;
   --color-duo-blue: #1CB0F6;
   --color-duo-blue-hover: #0D9FE8;
@@ -241,4 +327,20 @@ html {
   background: #E5E5E5;
   border-bottom-color: #AFAFAF;
   cursor: not-allowed;
+}
+
+/* Subtle fade-in animation for logo */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out;
 }

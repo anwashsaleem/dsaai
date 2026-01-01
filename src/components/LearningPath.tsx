@@ -2,6 +2,22 @@ import { motion } from 'motion/react';
 import { Layers, GitBranch, Network, Lock, Star, Award, LayoutList, RotateCw, Zap, ArrowUpDown, ArrowDownUp, ArrowUp, BarChart3, Shuffle, Grid3x3, BoxSelect, SplitSquareHorizontal, Binary, BookOpen } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import { TopBar } from './TopBar';
+import {
+  BinaryTreeIcon,
+  BinarySearchTreeIcon,
+  MWayTreeIcon,
+  MWaySearchTreeIcon,
+  BubbleSortIcon,
+  SelectionSortIcon,
+  InsertionSortIcon,
+  HeapSortIcon,
+  RadixSortIcon,
+  ShellSortIcon,
+  BucketSortIcon,
+  MergeSortIcon,
+  QuickSortIcon,
+  BinarySearchIcon
+} from './LessonIcons';
 
 type LearningScreen = 'path' | 'stack-lesson-1' | 'stack-lesson-2' | 'stack-lesson-3' | 'stack-lesson-4' | 'queue-lesson';
 
@@ -16,9 +32,11 @@ interface LearningPathProps {
   completedLessons?: number;
   totalLessons?: number;
   justClaimed?: boolean;
+  onGuestLessonClick?: () => void;
+  isGuest?: boolean;
 }
 
-export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circularCompleted, priorityCompleted, linkedListCompleted, totalXP, completedLessons, totalLessons = 19, justClaimed }: LearningPathProps) {
+export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circularCompleted, priorityCompleted, linkedListCompleted, totalXP, completedLessons, totalLessons = 19, justClaimed, onGuestLessonClick, isGuest = false }: LearningPathProps) {
   const [displayedXP, setDisplayedXP] = useState(justClaimed ? (totalXP ? totalXP - 110 : 0) : (totalXP || 0));
   const [displayedLessons, setDisplayedLessons] = useState(justClaimed ? (completedLessons ? completedLessons - 1 : 0) : (completedLessons || 0));
 
@@ -94,7 +112,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         id: 'binary-tree',
         title: 'Binary Tree',
         description: 'Hierarchical structure',
-        icon: Network,
+        icon: BinaryTreeIcon,
         color: '#2E8B57', // Forest Green
         colorLight: '#F0FDF4',
         shadowColor: '#15803D',
@@ -107,7 +125,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         id: 'binary-search-tree',
         title: 'Binary Search Tree',
         description: 'Sorted hierarchical data',
-        icon: Network,
+        icon: BinarySearchTreeIcon,
         color: '#6E5EFF', // Blue Violet
         colorLight: '#EEF2FF',
         shadowColor: '#4F46E5',
@@ -120,7 +138,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         id: 'm-way-tree',
         title: 'M Way Tree',
         description: 'Multi-branch tree structure',
-        icon: Network,
+        icon: MWayTreeIcon,
         color: '#008B8B', // Dark Cyan
         colorLight: '#ECFEFF',
         shadowColor: '#0891B2',
@@ -133,7 +151,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         id: 'm-way-search-tree',
         title: 'M Way Search Tree',
         description: 'Sorted multi-branch tree',
-        icon: Network,
+        icon: MWaySearchTreeIcon,
         color: '#FF7A00', // Dark Orange
         colorLight: '#FFF7ED',
         shadowColor: '#C2410C',
@@ -149,7 +167,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         id: 'bubble-sort',
         title: 'Bubble Sort',
         description: 'Simple comparison-based sorting',
-        icon: ArrowUpDown,
+        icon: BubbleSortIcon,
         color: '#FF6FAE', // Light Pink
         colorLight: '#FDF2F8',
         shadowColor: '#DB2777',
@@ -162,7 +180,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         id: 'selection-sort',
         title: 'Selection Sort',
         description: 'In-place comparison sorting',
-        icon: ArrowDownUp,
+        icon: SelectionSortIcon,
         color: '#FFD60A', // Golden Yellow
         colorLight: '#FEFCE8',
         shadowColor: '#CA8A04',
@@ -175,7 +193,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         id: 'insertion-sort',
         title: 'Insertion Sort',
         description: 'Builds sorted array gradually',
-        icon: ArrowUp,
+        icon: InsertionSortIcon,
         color: '#4682B4', // Steel Blue
         colorLight: '#F0F9FF',
         shadowColor: '#0284C7',
@@ -188,7 +206,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         id: 'heap-sort',
         title: 'Heap Sort',
         description: 'Heap-based sorting algorithm',
-        icon: BarChart3,
+        icon: HeapSortIcon,
         color: '#C0392B', // Brick Red
         colorLight: '#FEF2F2',
         shadowColor: '#B91C1C',
@@ -201,7 +219,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         id: 'radix-sort',
         title: 'Radix Sort',
         description: 'Non-comparative integer sorting',
-        icon: Grid3x3,
+        icon: RadixSortIcon,
         color: '#98FF98', // Mint Green
         colorLight: '#F0FDF4',
         shadowColor: '#16A34A',
@@ -214,7 +232,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         id: 'shell-sort',
         title: 'Shell Sort',
         description: 'Gap-based insertion sort',
-        icon: Shuffle,
+        icon: ShellSortIcon,
         color: '#B57EDC', // Lavender
         colorLight: '#F3E8FF',
         shadowColor: '#9333EA',
@@ -227,7 +245,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         id: 'bucket-sort',
         title: 'Bucket Sort',
         description: 'Distribution-based sorting',
-        icon: BoxSelect,
+        icon: BucketSortIcon,
         color: '#40E0D0', // Turquoise
         colorLight: '#F0FDFA',
         shadowColor: '#0D9488',
@@ -240,7 +258,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         id: 'merge-sort',
         title: 'Merge Sort',
         description: 'Divide and conquer sorting',
-        icon: SplitSquareHorizontal,
+        icon: MergeSortIcon,
         color: '#4B0082', // Indigo
         colorLight: '#EEF2FF',
         shadowColor: '#4338CA',
@@ -253,7 +271,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         id: 'quick-sort',
         title: 'Quick Sort',
         description: 'Pivot-based sorting',
-        icon: Zap,
+        icon: QuickSortIcon,
         color: '#DC143C', // Crimson
         colorLight: '#FEF2F2',
         shadowColor: '#BE123C',
@@ -266,7 +284,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         id: 'binary-search',
         title: 'Binary Search',
         description: 'Divide and conquer search',
-        icon: Binary,
+        icon: BinarySearchIcon,
         color: '#001F54', // Navy
         colorLight: '#EFF6FF',
         shadowColor: '#1E40AF',
@@ -384,12 +402,12 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
       shadowClass = '';
     } else if (isComingSoon) {
       // Coming soon: grey/black and white
-      cardStyles = { backgroundColor: '#F0F0F0', borderColor: '#D0D0D0' };
+      cardStyles = { backgroundColor: '#374151', borderColor: '#4B5563' };
       borderClass = 'border-2';
-      iconBgColor = '#8E8E8E';
+      iconBgColor = '#4B5563';
       iconColorClass = 'text-white';
-      textColorClass = 'text-[#8E8E8E]';
-      descColorClass = 'text-[#AFAFAF]';
+      textColorClass = 'text-[#8E8E8E] dark:text-[#9CA3AF]';
+      descColorClass = 'text-[#AFAFAF] dark:text-[#6B7280]';
       hoverClass = '';
       cursorClass = 'cursor-not-allowed';
       shadowClass = '';
@@ -410,7 +428,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
           onClick={() => handleLessonClick(lesson.id, isComingSoon)}
           disabled={isComingSoon}
           style={cardStyles}
-          className={`w-full text-left p-5 rounded-2xl bg-white ${borderClass} ${hoverClass} ${cursorClass} transition-all duration-300`}
+          className={`w-full text-left p-5 rounded-2xl ${isComingSoon ? 'dark:bg-[#374151]' : 'bg-card dark:bg-card'} ${borderClass} ${hoverClass} ${cursorClass} transition-all duration-300`}
         >
           <div className="flex items-center gap-4">
             {/* Icon */}
@@ -428,7 +446,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
             {/* Content */}
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between mb-1">
-                <h3 className={`${textColorClass} transition-colors duration-300`}>
+                <h3 className={`${isCompleted ? 'text-white' : isNext ? 'text-text-primary dark:text-text-primary' : textColorClass} transition-colors duration-300`}>
                   {lesson.title}
                 </h3>
                 <motion.div 
@@ -438,19 +456,19 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
                     isCompleted 
                       ? 'bg-white/20 border-2 border-white/40' 
                       : isComingSoon
-                      ? 'bg-[#E5E5E5] border-2 border-[#D0D0D0]'
-                      : 'bg-[#FFF4CC] border-2 border-[#FFC800]'
+                      ? 'bg-muted dark:bg-muted border-2 border-border dark:border-border'
+                      : 'bg-warning-light dark:bg-warning-light border-2 border-accent'
                   }`}
                 >
-                  <Star className={`w-3.5 h-3.5 ${isCompleted ? 'text-white fill-white' : isComingSoon ? 'text-[#AFAFAF] fill-[#AFAFAF]' : 'text-[#FFC800] fill-[#FFC800]'}`} />
-                  <span className={`text-xs ${isCompleted ? 'text-white' : isComingSoon ? 'text-[#AFAFAF]' : 'text-[#4B4B4B]'}`}>{lesson.xp} XP</span>
+                  <Star className={`w-3.5 h-3.5 ${isCompleted ? 'text-white fill-white' : isComingSoon ? 'text-muted-foreground dark:text-muted-foreground fill-muted-foreground dark:fill-muted-foreground' : 'text-accent fill-accent'}`} />
+                  <span className={`text-xs ${isCompleted ? 'text-white' : isComingSoon ? 'text-muted-foreground dark:text-muted-foreground' : 'text-text-primary dark:text-text-primary'}`}>{lesson.xp} XP</span>
                 </motion.div>
               </div>
-              <p className={`text-sm ${descColorClass} transition-colors duration-300`}>
+              <p className={`text-sm ${isCompleted ? 'text-white/90' : isNext ? 'text-text-secondary dark:text-text-secondary' : descColorClass} transition-colors duration-300`}>
                 {lesson.description}
               </p>
               {isComingSoon && (
-                <p className="text-xs text-[#AFAFAF] mt-1">Coming Soon</p>
+                <p className="text-xs text-muted-foreground dark:text-muted-foreground mt-1">Coming Soon</p>
               )}
             </div>
           </div>
@@ -460,7 +478,7 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background dark:bg-background">
       <TopBar 
         title="Lessons" 
         subLine="Explore all topics in DSAAI" 
@@ -471,11 +489,11 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
       <div className="max-w-3xl mx-auto px-6">
         
         {/* Sticky Progress Overview */}
-        <div className="sticky top-[94px] z-10 bg-white pt-6 pb-4 border-b-2 border-transparent">
+        <div className="sticky top-[94px] z-10 bg-background dark:bg-background pt-6 pb-4 border-b-2 border-transparent">
           <div className="grid grid-cols-2 gap-4">
               {/* Total XP - Yellow */}
-              <div className="bg-white border-2 border-[#E5E5E5] rounded-2xl p-4 flex flex-col justify-between h-full">
-                <h3 className="text-[#AFAFAF] text-xs font-bold uppercase tracking-wider mb-2">Total XP</h3>
+              <div className="bg-card dark:bg-card border-2 border-border dark:border-border rounded-2xl p-4 flex flex-col justify-between h-full">
+                <h3 className="text-muted-foreground dark:text-muted-foreground text-xs font-bold uppercase tracking-wider mb-2">Total XP</h3>
                 <div className="flex items-center gap-2">
                   <motion.div
                     animate={justClaimed ? { 
@@ -485,10 +503,10 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
                     } : {}}
                     transition={{ duration: 1.5, ease: "easeInOut" }}
                   >
-                    <Star className="w-6 h-6 text-[#FFC800] fill-[#FFC800]" />
+                    <Star className="w-6 h-6 text-accent fill-accent" />
                   </motion.div>
                   <motion.span 
-                    className="text-2xl font-bold text-[#4B4B4B]"
+                    className="text-2xl font-bold text-text-primary dark:text-text-primary"
                   >
                     {displayedXP}
                   </motion.span>
@@ -496,11 +514,11 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
               </div>
 
               {/* Lessons - Blue */}
-              <div className="bg-white border-2 border-[#E5E5E5] rounded-2xl p-4 flex flex-col justify-between h-full">
-                <h3 className="text-[#AFAFAF] text-xs font-bold uppercase tracking-wider mb-2">Lessons</h3>
+              <div className="bg-card dark:bg-card border-2 border-border dark:border-border rounded-2xl p-4 flex flex-col justify-between h-full">
+                <h3 className="text-muted-foreground dark:text-muted-foreground text-xs font-bold uppercase tracking-wider mb-2">Lessons</h3>
                 <div className="flex items-center gap-2">
                   <motion.div 
-                    className="w-6 h-6 rounded-full bg-[#1CB0F6] flex items-center justify-center"
+                    className="w-6 h-6 rounded-full bg-secondary flex items-center justify-center"
                     animate={justClaimed ? { 
                       scale: [1, 1.4, 0.8, 1.1, 1]
                     } : {}}
@@ -508,17 +526,17 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
                   >
                     <Award className="w-3.5 h-3.5 text-white" strokeWidth={3} />
                   </motion.div>
-                  <span className="text-2xl font-bold text-[#4B4B4B]">
+                  <span className="text-2xl font-bold text-text-primary dark:text-text-primary">
                     <motion.span>
                       {displayedLessons}
                     </motion.span> 
-                    <span className="text-[#AFAFAF] text-lg">/ {totalLessons}</span>
+                    <span className="text-muted-foreground dark:text-muted-foreground text-lg">/ {totalLessons}</span>
                   </span>
                 </div>
               </div>
           </div>
           {/* Divider */}
-          <div className="w-full h-0.5 bg-[#E5E5E5] mt-6" />
+          <div className="w-full h-0.5 bg-border dark:bg-border mt-6" />
         </div>
 
         {/* Lesson Cards */}

@@ -29,14 +29,20 @@ import { SettingsScreen } from './SettingsScreen';
 import { EditProfileScreen } from './EditProfileScreen';
 import { AuthModal } from './AuthModal';
 import { useAuth } from '../contexts/AuthContext';
-import { AnimatePresence } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { TopBar } from './TopBar';
+import FullLogo from '../imports/FullLogo';
+import IconLogo from '../imports/IconLogo';
 
 type Tab = 'learn' | 'leaderboard' | 'profile' | 'about';
 type ProfileScreen = 'main' | 'settings' | 'edit';
 type LearningScreen = 'path' | 'stack-lesson-1' | 'stack-lesson-2' | 'stack-lesson-3' | 'stack-lesson-4' | 'queue-lesson-1' | 'queue-lesson-2' | 'queue-lesson-3' | 'queue-lesson-4' | 'circular-lesson-1' | 'circular-lesson-2' | 'circular-lesson-3' | 'circular-lesson-4' | 'priority-lesson-1' | 'priority-lesson-2' | 'priority-lesson-3' | 'priority-lesson-4' | 'linked-list-lesson-1' | 'linked-list-lesson-2' | 'linked-list-lesson-3' | 'linked-list-lesson-4' | 'completion';
 
-export function MainApp() {
+interface MainAppProps {
+  isGuestMode?: boolean;
+}
+
+export function MainApp({ isGuestMode = false }: MainAppProps) {
   const { user, progress, updateProgress, loading } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>('learn');
   const [profileScreen, setProfileScreen] = useState<ProfileScreen>('main');
@@ -140,24 +146,30 @@ export function MainApp() {
 
   if (loading) {
       return (
-          <div className="min-h-screen bg-white flex items-center justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#288CFF]"></div>
+          <div className="min-h-screen bg-background dark:bg-background flex items-center justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
           </div>
       );
   }
 
   return (
-    <div className="min-h-screen bg-white flex">
+    <div className="min-h-screen bg-white dark:bg-[#111827] flex">
       {/* Desktop Sidebar - Sticky and Collapsible */}
       {!isLessonMode && (
         <div 
-          className={`hidden md:flex flex-col border-r-2 border-[#E5E5E5] bg-white h-screen sticky top-0 transition-all duration-300 ${
+          className={`hidden md:flex flex-col border-r-2 border-[#E5E5E5] dark:border-[#374151] bg-white dark:bg-[#111827] h-screen sticky top-0 transition-all duration-300 ${
             isSidebarCollapsed ? 'w-20' : 'w-64'
           }`}
         >
           <div className="p-5 flex items-center justify-between">
-            {!isSidebarCollapsed && (
-              <h2 className="text-2xl font-extrabold text-[#288CFF] tracking-tight">dsaai</h2>
+            {!isSidebarCollapsed ? (
+              <div className="w-28">
+                <FullLogo />
+              </div>
+            ) : (
+              <div className="w-8 h-8 mx-auto mb-2">
+                <IconLogo />
+              </div>
             )}
             <button 
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
@@ -172,8 +184,8 @@ export function MainApp() {
               onClick={() => setActiveTab('learn')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all ${
                 activeTab === 'learn'
-                  ? 'bg-[#DDF4FF] text-[#1CB0F6] border-2 border-[#1CB0F6]'
-                  : 'text-[#777] hover:bg-[#F7F7F7] border-2 border-transparent'
+                  ? 'bg-info-light dark:bg-active-background text-secondary border-2 border-secondary'
+                  : 'text-text-secondary dark:text-text-secondary hover:bg-hover-background dark:hover:bg-hover-background border-2 border-transparent'
               } ${isSidebarCollapsed ? 'justify-center px-2' : ''}`}
             >
               <BookOpen className="w-6 h-6" strokeWidth={2.5} />
@@ -183,8 +195,8 @@ export function MainApp() {
               onClick={() => setActiveTab('leaderboard')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all ${
                 activeTab === 'leaderboard'
-                  ? 'bg-[#DDF4FF] text-[#1CB0F6] border-2 border-[#1CB0F6]'
-                  : 'text-[#777] hover:bg-[#F7F7F7] border-2 border-transparent'
+                  ? 'bg-info-light dark:bg-active-background text-secondary border-2 border-secondary'
+                  : 'text-text-secondary dark:text-text-secondary hover:bg-hover-background dark:hover:bg-hover-background border-2 border-transparent'
               } ${isSidebarCollapsed ? 'justify-center px-2' : ''}`}
             >
               <Trophy className="w-6 h-6" strokeWidth={2.5} />
@@ -194,8 +206,8 @@ export function MainApp() {
               onClick={() => setActiveTab('profile')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all ${
                 activeTab === 'profile'
-                  ? 'bg-[#DDF4FF] text-[#1CB0F6] border-2 border-[#1CB0F6]'
-                  : 'text-[#777] hover:bg-[#F7F7F7] border-2 border-transparent'
+                  ? 'bg-info-light dark:bg-active-background text-secondary border-2 border-secondary'
+                  : 'text-text-secondary dark:text-text-secondary hover:bg-hover-background dark:hover:bg-hover-background border-2 border-transparent'
               } ${isSidebarCollapsed ? 'justify-center px-2' : ''}`}
             >
               <UserIcon className="w-6 h-6" strokeWidth={2.5} />
@@ -205,8 +217,8 @@ export function MainApp() {
               onClick={() => setActiveTab('about')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all ${
                 activeTab === 'about'
-                  ? 'bg-[#DDF4FF] text-[#1CB0F6] border-2 border-[#1CB0F6]'
-                  : 'text-[#777] hover:bg-[#F7F7F7] border-2 border-transparent'
+                  ? 'bg-info-light dark:bg-active-background text-secondary border-2 border-secondary'
+                  : 'text-text-secondary dark:text-text-secondary hover:bg-hover-background dark:hover:bg-hover-background border-2 border-transparent'
               } ${isSidebarCollapsed ? 'justify-center px-2' : ''}`}
             >
               <Info className="w-6 h-6" strokeWidth={2.5} />
@@ -216,10 +228,10 @@ export function MainApp() {
 
           {/* User Profile Mini-View in Sidebar */}
           {!user && !isSidebarCollapsed && (
-             <div className="p-4 border-t-2 border-[#E5E5E5]">
+             <div className="p-4 border-t-2 border-border dark:border-border">
                  <button 
                     onClick={() => setIsAuthModalOpen(true)}
-                    className="w-full py-3 bg-[#288CFF] text-white rounded-xl font-bold shadow-[0_4px_0_#2563EB] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all uppercase tracking-wider text-sm"
+                    className="w-full py-3 bg-primary text-primary-foreground rounded-xl font-bold shadow-[0_4px_0] shadow-primary-shadow dark:shadow-primary-shadow hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all uppercase tracking-wider text-sm"
                  >
                      Sign In
                  </button>
@@ -429,22 +441,20 @@ export function MainApp() {
              </>
           )}
           {activeTab === 'about' && (
-            <div className="min-h-screen bg-white">
-              <AboutScreen />
-            </div>
+            <AboutScreen />
           )}
         </div>
 
         {/* Mobile Tabs - Bottom */}
         {showMobileNav && (
-          <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#E5E5E5] z-10 pb-safe">
+          <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-card border-t-2 border-border dark:border-border z-10 pb-safe">
             <div className="grid grid-cols-4 gap-1 p-1.5">
               <button
                 onClick={() => setActiveTab('learn')}
                 className={`flex flex-col items-center gap-1 py-2.5 rounded-xl font-bold transition-all ${
                   activeTab === 'learn'
-                    ? 'bg-[#DBEAFE] text-[#288CFF]'
-                    : 'bg-transparent text-[#777]'
+                    ? 'bg-info-light dark:bg-active-background text-secondary'
+                    : 'bg-transparent text-text-secondary dark:text-text-secondary'
                 }`}
               >
                 <BookOpen className="w-6 h-6" strokeWidth={2.5} />
@@ -454,8 +464,8 @@ export function MainApp() {
                 onClick={() => setActiveTab('leaderboard')}
                 className={`flex flex-col items-center gap-1 py-2.5 rounded-xl font-bold transition-all ${
                   activeTab === 'leaderboard'
-                    ? 'bg-[#DBEAFE] text-[#288CFF]'
-                    : 'bg-transparent text-[#777]'
+                    ? 'bg-info-light dark:bg-active-background text-secondary'
+                    : 'bg-transparent text-text-secondary dark:text-text-secondary'
                 }`}
               >
                 <Trophy className="w-6 h-6" strokeWidth={2.5} />
@@ -465,8 +475,8 @@ export function MainApp() {
                 onClick={() => setActiveTab('profile')}
                 className={`flex flex-col items-center gap-1 py-2.5 rounded-xl font-bold transition-all ${
                   activeTab === 'profile'
-                    ? 'bg-[#DBEAFE] text-[#288CFF]'
-                    : 'bg-transparent text-[#777]'
+                    ? 'bg-info-light dark:bg-active-background text-secondary'
+                    : 'bg-transparent text-text-secondary dark:text-text-secondary'
                 }`}
               >
                 <UserIcon className="w-6 h-6" strokeWidth={2.5} />
@@ -476,8 +486,8 @@ export function MainApp() {
                 onClick={() => setActiveTab('about')}
                 className={`flex flex-col items-center gap-1 py-2.5 rounded-xl font-bold transition-all ${
                   activeTab === 'about'
-                    ? 'bg-[#DBEAFE] text-[#288CFF]'
-                    : 'bg-transparent text-[#777]'
+                    ? 'bg-info-light dark:bg-active-background text-secondary'
+                    : 'bg-transparent text-text-secondary dark:text-text-secondary'
                 }`}
               >
                 <Info className="w-6 h-6" strokeWidth={2.5} />

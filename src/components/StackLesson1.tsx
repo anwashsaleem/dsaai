@@ -20,9 +20,9 @@ export function StackLesson1({ onNavigate, currentProgress, onProgressUpdate }: 
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-background">
       {/* Fixed Top Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b-2 border-[#E5E5E5] px-6 py-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-card dark:bg-card border-b-2 border-border dark:border-border px-6 py-4">
         <div className="max-w-3xl mx-auto w-full flex items-center gap-4">
           <button
             onClick={() => onNavigate('path')}
@@ -46,7 +46,7 @@ export function StackLesson1({ onNavigate, currentProgress, onProgressUpdate }: 
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-2xl border-2 border-[#E5E5E5] overflow-hidden"
+            className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border overflow-hidden"
           >
             {/* Header */}
             <div className="bg-[#58CC02] p-5 text-white relative overflow-hidden">
@@ -73,16 +73,16 @@ export function StackLesson1({ onNavigate, currentProgress, onProgressUpdate }: 
             <div className="p-5">
               {/* Definition */}
               <div className="mb-6">
-                <h2 className="mb-2 text-[#4B4B4B] text-2xl font-bold">What is a Stack?</h2>
-                <p className="text-[#777] leading-relaxed text-base">
-                  Stack is a linear data structure that follows <span className="text-[#58CC02] font-bold">Last In First Out</span> (LIFO) principle. 
+                <h2 className="mb-2 text-text-primary dark:text-text-primary text-2xl font-bold">What is a Stack?</h2>
+                <p className="text-text-secondary dark:text-text-secondary leading-relaxed text-base">
+                  Stack is a linear data structure that follows <span className="text-success font-bold">Last In First Out</span> (LIFO) principle. 
                   Think of it like a stack of plates - you can only add or remove plates from the top.
                 </p>
               </div>
 
               {/* Visual Preview */}
               <div>
-                <h3 className="mb-2 text-[#4B4B4B] text-lg font-bold">Visual Representation</h3>
+                <h3 className="mb-2 text-text-primary dark:text-text-primary text-lg font-bold">Visual Representation</h3>
                 <StackAnimation />
               </div>
             </div>
