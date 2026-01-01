@@ -1,23 +1,19 @@
 /**
  * Centralized avatar configuration for the Dsaai app
  * 
- * Custom avatars are stored in /assets/avatars/ as 1.png through 10.png
- * Upload your PNG files to GitHub in that folder.
+ * Avatars are loaded directly from GitHub repository
  */
 
-// Import all custom avatar images
-// Note: Replace these imports with actual image files once uploaded to GitHub
-// The images should be named 1.png, 2.png, 3.png, etc. in /assets/avatars/
+// Base URL for avatars from GitHub raw content
+const GITHUB_AVATAR_BASE = 'https://raw.githubusercontent.com/anwashsaleem/dsaai/main/src/assets/avatars';
 
-// For now, we'll use a dynamic approach that will work once images are uploaded
+// Avatar configuration
 export const AVATAR_COUNT = 10;
 
-// Generate avatar URLs - these will work once you upload the images to GitHub
-// In a production environment with a build system, you'd import them directly
+// Predefined avatars - loading from GitHub repository
 export const PREDEFINED_AVATARS = Array.from({ length: AVATAR_COUNT }, (_, i) => {
   const avatarNumber = i + 1;
-  // This path will work once images are uploaded to the assets folder
-  return `/assets/avatars/${avatarNumber}.png`;
+  return `${GITHUB_AVATAR_BASE}/${avatarNumber}.png`;
 });
 
 // Default avatar (will be avatar #1)
@@ -31,5 +27,5 @@ export function getRandomAvatar(): string {
 
 // Helper function to validate if a URL is one of our predefined avatars
 export function isPredefinedAvatar(url: string): boolean {
-  return PREDEFINED_AVATARS.includes(url);
+  return PREDEFINED_AVATARS.some(avatar => url.includes(avatar) || avatar.includes(url));
 }
