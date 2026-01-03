@@ -1,7 +1,7 @@
 # Database Architecture - Single Source of Truth
 
 ## Overview
-The app now uses **ONLY** the `user_profiles` table in Supabase. KV store has been completely removed.
+The app useS `user_profiles` table in Supabase.
 
 ## Database Schema
 
@@ -69,78 +69,7 @@ The app now uses **ONLY** the `user_profiles` table in Supabase. KV store has be
 5. Server deletes auth user
 6. User is logged out
 
-## API Endpoints
 
-### GET /make-server-2ba06582/progress
-**Auth:** Required (Bearer token)
-**Returns:** `{ xp: number, completedLessons: {...} }`
-**Purpose:** Fetch user progress from user_profiles table
-
-### POST /make-server-2ba06582/progress
-**Auth:** Required (Bearer token)
-**Body:** `{ xp: number, completedLessons: {...} }`
-**Returns:** `{ success: true, data: {...} }`
-**Purpose:** Update user progress in user_profiles table
-
-### POST /make-server-2ba06582/signup
-**Auth:** None
-**Body:** `{ email, password, full_name?, avatar_url? }`
-**Returns:** `{ success: true, user: {...} }`
-**Purpose:** Create auth user and user_profiles row
-
-### POST /make-server-2ba06582/delete-account
-**Auth:** Required (Bearer token)
-**Body:** `{ username: string }`
-**Returns:** `{ success: true }` or `{ error: string }`
-**Purpose:** Verify username and delete account
-
-## Frontend State Management
-
-### AuthContext
-- Fetches progress on login
-- Stores progress in React state (optimistic updates)
-- Syncs to database on every update
-- Single source of truth for XP and completed lessons
-
-### Components
-- **Profile**: Reads XP from AuthContext
-- **Leaderboard**: Reads XP from user_profiles table directly
-- **Learning Path**: Reads XP and completed lessons from AuthContext
-- **Settings**: Reads username from user_profiles for delete confirmation
-
-## Consistency Guarantees
-
-1. **XP is always from user_profiles.xp**
-   - No duplicate storage
-   - No sync issues
-   - Profile, Leaderboard, and Learn all show same value
-
-2. **Completed lessons from user_profiles.completed_lessons**
-   - Stored as JSONB
-   - Updated atomically with XP
-   - No stale data
-
-3. **Account deletion is atomic**
-   - Username verification prevents accidents
-   - Both profile and auth deleted together
-   - User logged out immediately
-
-## Migration Steps
-
-1. Run `/SUPABASE_MIGRATION.sql` to add `completed_lessons` column
-2. Deploy updated Edge Function (removes KV store logic)
-3. Existing users will have profiles auto-created on next login
-4. XP values will be initialized to 0 (users may need to re-complete lessons)
-
-## Benefits of Single Source
-
-✅ **No sync issues** - One table, one truth
-✅ **Simpler debugging** - Check user_profiles table only
-✅ **Better performance** - No KV store latency
-✅ **Atomic updates** - XP and lessons update together
-✅ **Real-time leaderboard** - Direct query, no stale data
-✅ **Easier backups** - Standard Postgres backups work
-✅ **Better analytics** - SQL queries on structured data
 
 ## Common Operations
 
