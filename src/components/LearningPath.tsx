@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
-import { Layers, GitBranch, Network, Lock, Star, Award, LayoutList, RotateCw, Zap, ArrowUpDown, ArrowDownUp, ArrowUp, BarChart3, Shuffle, Grid3x3, BoxSelect, SplitSquareHorizontal, Binary, BookOpen } from 'lucide-react';
-import { useState, useEffect, useMemo } from 'react';
+import { BookOpen, Star, ChevronRight, Layers, LayoutList, RotateCw, GitBranch, Lock, Award } from 'lucide-react';
 import { TopBar } from './TopBar';
+import { useMemo, useEffect, useState } from 'react';
 import {
   BinaryTreeIcon,
   BinarySearchTreeIcon,
@@ -32,13 +32,42 @@ interface LearningPathProps {
   completedLessons?: number;
   totalLessons?: number;
   justClaimed?: boolean;
+  lastEarnedXP?: number;
   onGuestLessonClick?: () => void;
   isGuest?: boolean;
 }
 
-export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circularCompleted, priorityCompleted, linkedListCompleted, totalXP, completedLessons, totalLessons = 19, justClaimed, onGuestLessonClick, isGuest = false }: LearningPathProps) {
-  const [displayedXP, setDisplayedXP] = useState(justClaimed ? (totalXP ? totalXP - 110 : 0) : (totalXP || 0));
+export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circularCompleted, priorityCompleted, linkedListCompleted, totalXP, completedLessons, totalLessons = 19, justClaimed, lastEarnedXP = 110, onGuestLessonClick, isGuest = false }: LearningPathProps) {
+  const [displayedXP, setDisplayedXP] = useState(justClaimed ? (totalXP ? totalXP - lastEarnedXP : 0) : (totalXP || 0));
   const [displayedLessons, setDisplayedLessons] = useState(justClaimed ? (completedLessons ? completedLessons - 1 : 0) : (completedLessons || 0));
+  const [isDeveloperMode, setIsDeveloperMode] = useState(false);
+
+  // Load developer mode state
+  useEffect(() => {
+    const devMode = localStorage.getItem('developerMode') === 'true';
+    setIsDeveloperMode(devMode);
+    
+    // Listen for developer mode changes
+    const handleStorageChange = () => {
+      const newDevMode = localStorage.getItem('developerMode') === 'true';
+      setIsDeveloperMode(newDevMode);
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also listen for custom event for same-window updates
+    const handleDevModeChange = () => {
+      const newDevMode = localStorage.getItem('developerMode') === 'true';
+      setIsDeveloperMode(newDevMode);
+    };
+    
+    window.addEventListener('developerModeChanged', handleDevModeChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('developerModeChanged', handleDevModeChange);
+    };
+  }, []);
 
   // Dynamic lessons array based on completion status
   const lessons = useMemo(() => {
@@ -353,8 +382,8 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
     }
   }, [justClaimed, completedLessons]);
 
-  const handleLessonClick = (lessonId: string, comingSoon: boolean) => {
-      if (comingSoon) return;
+  const handleLessonClick = (lessonId: string, comingSoon: boolean, isLocked: boolean) => {
+      if (comingSoon || isLocked) return;
       
       if (lessonId === 'stack') {
           onNavigate('stack-lesson-1');
@@ -374,6 +403,9 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
     const isCompleted = lesson.completed;
     const isNext = lesson.id === nextLessonId;
     const isComingSoon = lesson.comingSoon;
+    
+    // All lessons are now unlocked for everyone - removed developer mode restriction
+    const isLocked = false; // Everyone can access all lessons
 
     // Determine visual state
     let cardStyles: React.CSSProperties = {};
@@ -401,13 +433,13 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
       borderClass = '';
       shadowClass = '';
     } else if (isComingSoon) {
-      // Coming soon: grey/black and white
-      cardStyles = { backgroundColor: '#374151', borderColor: '#4B5563' };
-      borderClass = 'border-2';
-      iconBgColor = '#4B5563';
-      iconColorClass = 'text-white';
-      textColorClass = 'text-[#8E8E8E] dark:text-[#9CA3AF]';
-      descColorClass = 'text-[#AFAFAF] dark:text-[#6B7280]';
+      // Coming soon: grayscale - light gray in light mode, darker in dark mode
+      cardStyles = { backgroundColor: '', borderColor: '' }; // Use Tailwind classes instead
+      borderClass = 'border-2 border-border dark:border-border bg-hover-background dark:bg-[#374151]';
+      iconBgColor = '#E5E5E5'; // Light gray for light mode
+      iconColorClass = 'text-[#9CA3AF] dark:text-white';
+      textColorClass = 'text-[#9CA3AF] dark:text-[#9CA3AF]';
+      descColorClass = 'text-[#BFBFBF] dark:text-[#6B7280]';
       hoverClass = '';
       cursorClass = 'cursor-not-allowed';
       shadowClass = '';
@@ -425,8 +457,8 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
         transition={{ delay: 0.1 + index * 0.05 }}
       >
         <button
-          onClick={() => handleLessonClick(lesson.id, isComingSoon)}
-          disabled={isComingSoon}
+          onClick={() => handleLessonClick(lesson.id, isComingSoon, isLocked)}
+          disabled={isComingSoon || isLocked}
           style={cardStyles}
           className={`w-full text-left p-5 rounded-2xl ${isComingSoon ? 'dark:bg-[#374151]' : 'bg-card dark:bg-card'} ${borderClass} ${hoverClass} ${cursorClass} transition-all duration-300`}
         >
@@ -469,6 +501,9 @@ export function LearningPath({ onNavigate, stackCompleted, queueCompleted, circu
               </p>
               {isComingSoon && (
                 <p className="text-xs text-muted-foreground dark:text-muted-foreground mt-1">Coming Soon</p>
+              )}
+              {isLocked && (
+                <p className="text-xs text-muted-foreground dark:text-muted-foreground mt-1">Locked</p>
               )}
             </div>
           </div>

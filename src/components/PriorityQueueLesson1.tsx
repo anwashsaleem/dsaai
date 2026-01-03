@@ -19,13 +19,13 @@ export function PriorityQueueLesson1({ onNavigate, currentProgress, onProgressUp
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-background">
       {/* Fixed Top Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b-2 border-[#E5E5E5] px-6 py-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-card dark:bg-card border-b-2 border-border dark:border-border px-6 py-4">
         <div className="max-w-3xl mx-auto w-full flex items-center gap-4">
           <button
             onClick={() => onNavigate('path')}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777] hover:bg-[#E5E5E5] transition-all rounded-xl"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-hover-background dark:bg-hover-background border-2 border-border dark:border-border text-text-secondary dark:text-text-secondary hover:bg-border dark:hover:bg-border transition-all rounded-xl"
           >
             <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
           </button>
@@ -45,7 +45,7 @@ export function PriorityQueueLesson1({ onNavigate, currentProgress, onProgressUp
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-2xl border-2 border-[#E5E5E5] mb-6 overflow-hidden"
+            className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border mb-6 overflow-hidden"
           >
             {/* Header */}
             <div className="bg-[#FF9600] p-5 text-white relative overflow-hidden">
@@ -69,17 +69,17 @@ export function PriorityQueueLesson1({ onNavigate, currentProgress, onProgressUp
             </div>
 
             <div className="p-6 space-y-4">
-              <p className="text-[#4B4B4B] text-lg leading-relaxed">
+              <p className="text-text-primary dark:text-text-primary text-lg leading-relaxed">
                 In a regular queue, it's "First Come, First Served." But in a <strong>Priority Queue</strong>, the "Most Important" gets served first!
               </p>
               
-              <div className="bg-[#FFE8CC] p-4 rounded-xl border-2 border-[#FF9600]">
+              <div className="bg-[#FFE8CC] dark:bg-[#4A3520] p-4 rounded-xl border-2 border-[#FF9600] dark:border-[#FF9600]">
                 <p className="text-[#E07700] font-bold text-center">
                   "VIPs to the front!"
                 </p>
               </div>
 
-              <p className="text-[#4B4B4B] text-lg leading-relaxed">
+              <p className="text-text-primary dark:text-text-primary text-lg leading-relaxed">
                 Elements are assigned a priority value. Elements with higher priority are dequeued before elements with lower priority, regardless of when they arrived.
               </p>
             </div>
@@ -90,16 +90,16 @@ export function PriorityQueueLesson1({ onNavigate, currentProgress, onProgressUp
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="bg-white rounded-2xl border-2 border-[#E5E5E5] p-8 flex flex-col items-center justify-center min-h-[240px]"
+            className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border p-8 flex flex-col items-center justify-center min-h-[240px]"
           >
              <div className="flex flex-col items-center gap-8">
                 <div className="flex items-end gap-4">
                   {/* Normal People Waiting */}
                   <div className="flex gap-2 opacity-50">
-                      <div className="w-12 h-16 bg-[#E5E5E5] rounded-t-lg rounded-b-md border-2 border-[#CECECE] flex items-center justify-center">
+                      <div className="w-12 h-16 bg-border dark:bg-border rounded-t-lg rounded-b-md border-2 border-border dark:border-border flex items-center justify-center">
                          <span className="text-xl">😐</span>
                       </div>
-                      <div className="w-12 h-16 bg-[#E5E5E5] rounded-t-lg rounded-b-md border-2 border-[#CECECE] flex items-center justify-center">
+                      <div className="w-12 h-16 bg-border dark:bg-border rounded-t-lg rounded-b-md border-2 border-border dark:border-border flex items-center justify-center">
                          <span className="text-xl">😐</span>
                       </div>
                   </div>
@@ -120,7 +120,7 @@ export function PriorityQueueLesson1({ onNavigate, currentProgress, onProgressUp
                 </div>
                 
                 <div className="text-center">
-                   <p className="text-[#AFAFAF] text-xs font-bold uppercase">High Priority skips the line</p>
+                   <p className="text-text-secondary dark:text-text-secondary text-xs font-bold uppercase">High Priority skips the line</p>
                 </div>
              </div>
           </motion.div>

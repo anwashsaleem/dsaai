@@ -19,13 +19,13 @@ export function QueueLesson2({ onNavigate, currentProgress, onProgressUpdate }: 
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-background">
       {/* Fixed Top Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b-2 border-[#E5E5E5] px-6 py-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-card dark:bg-card border-b-2 border-border dark:border-border px-6 py-4">
         <div className="max-w-3xl mx-auto w-full flex items-center gap-4">
           <button
             onClick={() => onNavigate('queue-lesson-1')}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777] hover:bg-[#E5E5E5] transition-all rounded-xl"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-hover-background dark:bg-hover-background border-2 border-border dark:border-border text-text-secondary dark:text-text-secondary hover:bg-border dark:hover:bg-border transition-all rounded-xl"
           >
             <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
           </button>
@@ -43,19 +43,19 @@ export function QueueLesson2({ onNavigate, currentProgress, onProgressUpdate }: 
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-2xl border-2 border-[#E5E5E5] p-5"
+            className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border p-5"
           >
-            <h2 className="mb-4 text-[#4B4B4B] text-xl font-bold">Real World Example</h2>
+            <h2 className="mb-4 text-text-primary dark:text-text-primary text-xl font-bold">Real World Example</h2>
             
             <div className="flex flex-col gap-6">
               {/* Ticket Counter Visual */}
-              <div className="bg-[#F7F7F7] rounded-2xl border-2 border-[#E5E5E5] p-6 flex flex-col items-center">
+              <div className="bg-hover-background dark:bg-hover-background rounded-2xl border-2 border-border dark:border-border p-6 flex flex-col items-center">
                  <div className="w-full flex justify-between items-end h-32 relative">
                     
                     {/* Ticket Counter */}
-                    <div className="absolute left-0 top-0 bottom-0 w-24 bg-white border-2 border-[#E5E5E5] rounded-xl flex flex-col items-center justify-center shadow-sm z-20">
+                    <div className="absolute left-0 top-0 bottom-0 w-24 bg-card dark:bg-card border-2 border-border dark:border-border rounded-xl flex flex-col items-center justify-center shadow-sm z-20">
                        <Ticket className="w-8 h-8 text-[#1CB0F6] mb-2" />
-                       <span className="text-[10px] font-bold text-[#AFAFAF] uppercase text-center leading-tight">Ticket<br/>Counter</span>
+                       <span className="text-[10px] font-bold text-text-secondary dark:text-text-secondary uppercase text-center leading-tight">Ticket<br/>Counter</span>
                     </div>
 
                     {/* People in Queue */}
@@ -86,7 +86,7 @@ export function QueueLesson2({ onNavigate, currentProgress, onProgressUpdate }: 
                  </div>
                  
                  <div className="mt-4 text-center">
-                    <p className="text-[#4B4B4B] font-medium text-sm">
+                    <p className="text-text-primary dark:text-text-primary font-medium text-sm">
                        Just like a ticket line: <br/>
                        New people join at the <strong>Back</strong> (Rear). <br/>
                        People get tickets from the <strong>Front</strong>.
@@ -97,19 +97,19 @@ export function QueueLesson2({ onNavigate, currentProgress, onProgressUpdate }: 
               {/* Analogy Text */}
               <div className="space-y-4">
                  <div className="flex gap-4 items-start">
-                    <div className="w-10 h-10 rounded-xl bg-[#DDF4FF] flex items-center justify-center flex-shrink-0 text-[#1CB0F6]">
+                    <div className="w-10 h-10 rounded-xl bg-[#DDF4FF] dark:bg-[#1A3A4A] flex items-center justify-center flex-shrink-0 text-[#1CB0F6]">
                        <span className="font-bold text-lg">1</span>
                     </div>
-                    <p className="text-[#777] text-sm leading-relaxed pt-1">
-                       When you join a line, you don't cut in front. You stand at the end. This is called <strong className="text-[#4B4B4B]">Enqueue</strong>.
+                    <p className="text-text-secondary dark:text-text-secondary text-sm leading-relaxed pt-1">
+                       When you join a line, you don't cut in front. You stand at the end. This is called <strong className="text-text-primary dark:text-text-primary">Enqueue</strong>.
                     </p>
                  </div>
                  <div className="flex gap-4 items-start">
-                    <div className="w-10 h-10 rounded-xl bg-[#DDF4FF] flex items-center justify-center flex-shrink-0 text-[#1CB0F6]">
+                    <div className="w-10 h-10 rounded-xl bg-[#DDF4FF] dark:bg-[#1A3A4A] flex items-center justify-center flex-shrink-0 text-[#1CB0F6]">
                        <span className="font-bold text-lg">2</span>
                     </div>
-                    <p className="text-[#777] text-sm leading-relaxed pt-1">
-                       The person at the front leaves the line after being served. This is called <strong className="text-[#4B4B4B]">Dequeue</strong>.
+                    <p className="text-text-secondary dark:text-text-secondary text-sm leading-relaxed pt-1">
+                       The person at the front leaves the line after being served. This is called <strong className="text-text-primary dark:text-text-primary">Dequeue</strong>.
                     </p>
                  </div>
               </div>

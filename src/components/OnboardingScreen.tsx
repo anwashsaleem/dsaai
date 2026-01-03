@@ -95,15 +95,15 @@ export function OnboardingScreen({ onStart, onGuestMode }: OnboardingScreenProps
       {/* Desktop Layout - Split Screen */}
       <div className="hidden md:flex min-h-screen">
         {/* Left Side - Hero */}
-        <div className="flex-1 flex flex-col justify-center items-center p-12 lg:p-24 bg-background dark:bg-background">
-          <div className="max-w-xl w-full">
+        <div className="flex-1 flex flex-col justify-center items-center p-12 lg:p-20 bg-background dark:bg-background">
+          <div className="max-w-lg w-full">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, type: "spring" }}
-              className="mb-6"
+              className="mb-8"
             >
-              <div className="w-full max-w-[400px]">
+              <div className="w-full max-w-[180px]">
                 <FullLogo />
               </div>
             </motion.div>
@@ -112,81 +112,121 @@ export function OnboardingScreen({ onStart, onGuestMode }: OnboardingScreenProps
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-4xl lg:text-5xl font-extrabold text-text-primary dark:text-text-primary mb-4 tracking-tight"
+              className="text-3xl lg:text-4xl font-extrabold text-text-primary dark:text-text-primary mb-4 tracking-tight"
             >
-              Visualize, Interact, and Learn
+              Master Data Structures & Algorithms
             </motion.h1>
             
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="text-xl text-text-secondary dark:text-text-secondary mb-12 max-w-lg font-medium"
+              className="text-lg text-text-secondary dark:text-text-secondary mb-10 font-medium"
             >
-              The best way to master Data Structures and Algorithms through interactive visualizations and gamified lessons.
+              Learn through interactive visualizations and gamified lessons.
             </motion.p>
             
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="flex gap-4 w-full max-w-md"
+              className="space-y-3 w-full max-w-md"
             >
               <button
                 onClick={onStart}
-                className="flex-1 h-14 bg-primary text-primary-foreground rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0] shadow-primary-shadow dark:shadow-primary-shadow hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0] active:shadow-primary-shadow transition-all"
+                className="w-full h-14 bg-primary text-primary-foreground rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0] shadow-primary-shadow dark:shadow-primary-shadow hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0] active:shadow-primary-shadow transition-all"
               >
-                Start Learning
+                Get Started
               </button>
               <button
                 onClick={onGuestMode}
-                className="flex-1 h-14 bg-card dark:bg-card text-primary rounded-2xl font-bold text-lg uppercase tracking-wider border-2 border-border dark:border-border hover:bg-hover-background dark:hover:bg-hover-background hover:border-primary active:scale-95 transition-all"
+                className="w-full h-12 bg-transparent text-primary rounded-2xl font-bold text-base border-2 border-border dark:border-border hover:border-primary active:scale-95 transition-all"
               >
-                Guest Mode
+                Continue as Guest
               </button>
             </motion.div>
           </div>
         </div>
 
         {/* Right Side - Features / Visuals */}
-        <div className="flex-1 bg-hover-background dark:bg-hover-background flex flex-col justify-center p-12 lg:p-24 border-l-2 border-border dark:border-border">
-          <div className="max-w-md mx-auto space-y-6">
-            <div className="bg-card dark:bg-card p-6 rounded-3xl border-2 border-border dark:border-border shadow-sm hover:shadow-md transition-all cursor-default">
-              <div className="flex items-center gap-6">
-                <div className="w-20 h-20 bg-success-light dark:bg-success-light rounded-2xl flex items-center justify-center border-2 border-success flex-shrink-0">
-                  <BookOpen className="w-10 h-10 text-success" strokeWidth={2.5} />
-                </div>
+        <div className="flex-1 bg-hover-background dark:bg-hover-background flex flex-col justify-center p-12 lg:p-20">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="max-w-md mx-auto space-y-5"
+          >
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.8 }}
+              className="bg-card dark:bg-card p-5 rounded-3xl border-2 border-border dark:border-border"
+            >
+              <div className="flex items-center gap-5">
+                <motion.div 
+                  animate={{ 
+                    scale: [1, 1.05, 1],
+                  }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0 }}
+                  className="w-16 h-16 bg-success-light dark:bg-success-light rounded-2xl flex items-center justify-center border-2 border-success flex-shrink-0"
+                >
+                  <BookOpen className="w-8 h-8 text-success" strokeWidth={2.5} />
+                </motion.div>
                 <div>
-                  <h3 className="text-text-primary dark:text-text-primary font-bold text-xl mb-1">Interactive Lessons</h3>
-                  <p className="text-text-secondary dark:text-text-secondary font-medium">Learn by doing with step-by-step interactive guides.</p>
+                  <h3 className="text-text-primary dark:text-text-primary font-bold text-lg mb-1">Interactive Lessons</h3>
+                  <p className="text-text-secondary dark:text-text-secondary text-sm">Learn by doing, not just reading</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="bg-card dark:bg-card p-6 rounded-3xl border-2 border-border dark:border-border shadow-sm hover:shadow-md transition-all cursor-default">
-              <div className="flex items-center gap-6">
-                <div className="w-20 h-20 bg-info-light dark:bg-info-light rounded-2xl flex items-center justify-center border-2 border-secondary flex-shrink-0">
-                  <Zap className="w-10 h-10 text-secondary" strokeWidth={2.5} />
-                </div>
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.9 }}
+              className="bg-card dark:bg-card p-5 rounded-3xl border-2 border-border dark:border-border"
+            >
+              <div className="flex items-center gap-5">
+                <motion.div 
+                  animate={{ 
+                    scale: [1, 1.05, 1],
+                    rotate: [0, 5, -5, 0],
+                  }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                  className="w-16 h-16 bg-info-light dark:bg-info-light rounded-2xl flex items-center justify-center border-2 border-secondary flex-shrink-0"
+                >
+                  <Zap className="w-8 h-8 text-secondary" strokeWidth={2.5} />
+                </motion.div>
                 <div>
-                  <h3 className="text-text-primary dark:text-text-primary font-bold text-xl mb-1">Visual Learning</h3>
-                  <p className="text-text-secondary dark:text-text-secondary font-medium">Watch algorithms come to life with real-time animations.</p>
+                  <h3 className="text-text-primary dark:text-text-primary font-bold text-lg mb-1">Visual Learning</h3>
+                  <p className="text-text-secondary dark:text-text-secondary text-sm">See how algorithms work in real-time</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="bg-card dark:bg-card p-6 rounded-3xl border-2 border-border dark:border-border shadow-sm hover:shadow-md transition-all cursor-default">
-              <div className="flex items-center gap-6">
-                <div className="w-20 h-20 bg-warning-light dark:bg-warning-light rounded-2xl flex items-center justify-center border-2 border-accent flex-shrink-0">
-                  <Target className="w-10 h-10 text-accent" strokeWidth={2.5} />
-                </div>
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.0 }}
+              className="bg-card dark:bg-card p-5 rounded-3xl border-2 border-border dark:border-border"
+            >
+              <div className="flex items-center gap-5">
+                <motion.div 
+                  animate={{ 
+                    scale: [1, 1.05, 1],
+                    y: [0, -5, 0],
+                  }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="w-16 h-16 bg-warning-light dark:bg-warning-light rounded-2xl flex items-center justify-center border-2 border-accent flex-shrink-0"
+                >
+                  <Target className="w-8 h-8 text-accent" strokeWidth={2.5} />
+                </motion.div>
                 <div>
-                  <h3 className="text-text-primary dark:text-text-primary font-bold text-xl mb-1">Track Progress</h3>
-                  <p className="text-text-secondary dark:text-text-secondary font-medium">Earn XP, climb the leaderboard, and master every topic.</p>
+                  <h3 className="text-text-primary dark:text-text-primary font-bold text-lg mb-1">Track Progress</h3>
+                  <p className="text-text-secondary dark:text-text-secondary text-sm">Earn XP and climb the leaderboard</p>
                 </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </div>

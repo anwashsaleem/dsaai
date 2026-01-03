@@ -62,10 +62,20 @@ export function MainApp({ isGuestMode = false }: MainAppProps) {
   const [justClaimed, setJustClaimed] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [lastCompletedLesson, setLastCompletedLesson] = useState<LearningScreen | null>(null);
+  const [currentLessonXP, setCurrentLessonXP] = useState(110);
   
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const TOTAL_LESSONS = 19;
+  
+  // XP mapping for each lesson
+  const LESSON_XP_MAP: Record<string, number> = {
+    'stack': 110,
+    'queue': 120,
+    'circular': 135,
+    'priority': 145,
+    'linkedList': 170,
+  };
 
   // Logic to determine if we are in "Lesson Mode" (Full screen, no sidebar)
   const isLessonMode = activeTab === 'learn' && learningScreen !== 'path' && learningScreen !== 'completion';
@@ -101,6 +111,20 @@ export function MainApp({ isGuestMode = false }: MainAppProps) {
 
   const handleLessonComplete = () => {
     setLastCompletedLesson(learningScreen);
+    
+    // Set the correct XP based on which lesson is being completed
+    if (learningScreen.includes('stack')) {
+      setCurrentLessonXP(LESSON_XP_MAP['stack']);
+    } else if (learningScreen.includes('queue') && learningScreen.includes('circular')) {
+      setCurrentLessonXP(LESSON_XP_MAP['circular']);
+    } else if (learningScreen.includes('queue') && learningScreen.includes('priority')) {
+      setCurrentLessonXP(LESSON_XP_MAP['priority']);
+    } else if (learningScreen.includes('queue')) {
+      setCurrentLessonXP(LESSON_XP_MAP['queue']);
+    } else if (learningScreen.includes('linked-list')) {
+      setCurrentLessonXP(LESSON_XP_MAP['linkedList']);
+    }
+    
     setLearningScreen('completion');
   };
 
@@ -162,13 +186,9 @@ export function MainApp({ isGuestMode = false }: MainAppProps) {
           }`}
         >
           <div className="p-5 flex items-center justify-between">
-            {!isSidebarCollapsed ? (
+            {!isSidebarCollapsed && (
               <div className="w-28">
                 <FullLogo />
-              </div>
-            ) : (
-              <div className="w-8 h-8 mx-auto mb-2">
-                <IconLogo />
               </div>
             )}
             <button 
@@ -261,6 +281,7 @@ export function MainApp({ isGuestMode = false }: MainAppProps) {
                   completedLessons={completedLessonsCount}
                   totalLessons={TOTAL_LESSONS}
                   justClaimed={justClaimed}
+                  lastEarnedXP={currentLessonXP}
                 />
               )}
               {learningScreen === 'stack-lesson-1' && (
@@ -411,7 +432,7 @@ export function MainApp({ isGuestMode = false }: MainAppProps) {
               {learningScreen === 'completion' && (
                 <LessonCompletionScreen 
                   onClaimXP={handleClaimXP}
-                  xpEarned={110}
+                  xpEarned={currentLessonXP}
                 />
               )}
             </>

@@ -45,6 +45,8 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
         
         const endpoint = `https://${projectId}.supabase.co/functions/v1/make-server-2ba06582/signup`;
         
+        console.log('Attempting signup with endpoint:', endpoint);
+        
         let res;
         try {
             res = await fetch(endpoint, {
@@ -60,16 +62,20 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                     avatar_url: avatarUrl
                 })
             });
-        } catch (netErr) {
-            throw new Error("Network error. Please check your connection.");
+        } catch (netErr: any) {
+            console.error('Network error during signup:', netErr);
+            throw new Error(`Network error: ${netErr.message || 'Please check your connection'}`);
         }
 
         let data;
         try {
             data = await res.json();
         } catch (parseErr) {
+            console.error('Failed to parse server response:', parseErr);
             throw new Error("Server response invalid. Please try again later.");
         }
+        
+        console.log('Signup response:', { ok: res.ok, status: res.status, data });
         
         if (!res.ok) {
             const errorMessage = data.error || 'Signup failed';

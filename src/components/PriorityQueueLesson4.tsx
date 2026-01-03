@@ -115,19 +115,19 @@ export function PriorityQueueLesson4({ onNavigate, currentProgress, onProgressUp
   const nextTask = TASKS[taskIndex];
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-background">
       {/* Fixed Top Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b-2 border-[#E5E5E5] px-6 py-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-card dark:bg-card border-b-2 border-border dark:border-border px-6 py-4">
         <div className="max-w-3xl mx-auto w-full flex items-center gap-4">
           <button
             onClick={() => onNavigate('priority-lesson-3')}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777] hover:bg-[#E5E5E5] transition-all rounded-xl"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-hover-background dark:bg-hover-background border-2 border-border dark:border-border text-text-secondary dark:text-text-secondary hover:bg-border dark:hover:bg-border transition-all rounded-xl"
           >
             <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
           </button>
           <ProgressBar 
             currentProgress={currentProgress}
-            currentXP={Math.round(145 * currentProgress / 100)} 
+            currentXP={Math.round(145 * currentProgress / 100)}
             totalXP={145}
           />
         </div>
@@ -139,16 +139,16 @@ export function PriorityQueueLesson4({ onNavigate, currentProgress, onProgressUp
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-2xl border-2 border-[#E5E5E5] p-5"
+            className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border p-5"
           >
-            <h2 className="mb-4 text-[#4B4B4B] text-xl font-bold">Interactive Priority Queue</h2>
+            <h2 className="mb-4 text-text-primary dark:text-text-primary text-xl font-bold">Interactive Priority Queue</h2>
             
             <div className="flex flex-col gap-6">
               {/* Queue Visualization (Fixed Height List) */}
-              <div className="bg-[#F7F7F7] rounded-2xl border-2 border-[#E5E5E5] p-4 flex flex-col relative">
+              <div className="bg-hover-background dark:bg-hover-background rounded-2xl border-2 border-border dark:border-border p-4 flex flex-col relative">
                  
                  {/* Header Labels */}
-                 <div className="flex justify-between text-[10px] font-bold text-[#AFAFAF] uppercase tracking-wide px-2 mb-2 pl-12">
+                 <div className="flex justify-between text-[10px] font-bold text-text-secondary dark:text-text-secondary uppercase tracking-wide px-2 mb-2 pl-12">
                     <span className="w-8 text-center">Index</span>
                     <span className="flex-1 pl-4">Task Queue</span>
                     <span className="w-16 text-center">Priority</span>
@@ -199,13 +199,13 @@ export function PriorityQueueLesson4({ onNavigate, currentProgress, onProgressUp
 
                                 {/* Index Number */}
                                 <div className="w-8 flex items-center justify-center pl-8">
-                                    <span className="text-[#AFAFAF] font-mono font-bold text-sm">{slotIndex}</span>
+                                    <span className="text-text-secondary dark:text-text-secondary font-mono font-bold text-sm">{slotIndex}</span>
                                 </div>
 
                                 {/* Task Slot */}
                                 <div className="flex-1 h-full relative">
                                     {/* Empty Slot Placeholder */}
-                                    <div className="absolute inset-0 rounded-xl border-2 border-dashed border-[#E5E5E5] bg-white/50" />
+                                    <div className="absolute inset-0 rounded-xl border-2 border-dashed border-border dark:border-border bg-card/50 dark:bg-card/50" />
 
                                     {/* Animated Task Card */}
                                     <AnimatePresence mode='popLayout'>
@@ -217,7 +217,7 @@ export function PriorityQueueLesson4({ onNavigate, currentProgress, onProgressUp
                                                 animate={{ opacity: 1, scale: 1, x: 0 }}
                                                 exit={{ opacity: 0, scale: 0.8, x: 20 }}
                                                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                                                className="absolute inset-0 p-2 rounded-xl border-2 shadow-sm flex items-center justify-between bg-white overflow-hidden z-10"
+                                                className="absolute inset-0 p-2 rounded-xl border-2 shadow-sm flex items-center justify-between bg-card dark:bg-card overflow-hidden z-10"
                                                 style={{ borderColor: task.color }}
                                             >
                                                 {/* Priority Background Strip */}
@@ -234,7 +234,7 @@ export function PriorityQueueLesson4({ onNavigate, currentProgress, onProgressUp
                                                         {task.icon && <task.icon className="w-4 h-4" style={{ color: task.color }} />}
                                                     </div>
                                                     <div className="min-w-0">
-                                                        <div className="font-bold text-[#4B4B4B] text-xs truncate">{task.title}</div>
+                                                        <div className="font-bold text-text-primary dark:text-text-primary text-xs truncate">{task.title}</div>
                                                         <div 
                                                           className="text-[9px] font-bold uppercase truncate"
                                                           style={{ color: task.color }}
@@ -258,7 +258,7 @@ export function PriorityQueueLesson4({ onNavigate, currentProgress, onProgressUp
                                                 initial={{ opacity: 0, scale: 0 }}
                                                 animate={{ opacity: 1, scale: 1 }}
                                                 exit={{ opacity: 0, scale: 0 }}
-                                                className="w-8 h-8 rounded-full flex items-center justify-center border-2 font-bold text-sm bg-white"
+                                                className="w-8 h-8 rounded-full flex items-center justify-center border-2 font-bold text-sm bg-card dark:bg-card"
                                                 style={{ borderColor: task.color, color: task.color }}
                                             >
                                                 {task.priority}
@@ -273,9 +273,9 @@ export function PriorityQueueLesson4({ onNavigate, currentProgress, onProgressUp
               </div>
 
               {/* Controls */}
-              <div className="bg-[#F7F7F7] p-3 rounded-xl border-2 border-[#E5E5E5]">
+              <div className="bg-hover-background dark:bg-hover-background p-3 rounded-xl border-2 border-border dark:border-border">
                  <div className="flex justify-between items-center mb-3">
-                    <span className="text-xs font-bold uppercase text-[#777]">
+                    <span className="text-xs font-bold uppercase text-text-secondary dark:text-text-secondary">
                         Next Task: <span style={{ color: nextTask.color }}>{nextTask.title} (P{nextTask.priority})</span>
                     </span>
                  </div>
@@ -286,7 +286,7 @@ export function PriorityQueueLesson4({ onNavigate, currentProgress, onProgressUp
                       disabled={queue.length + frontIndex >= MAX_CAPACITY}
                       className={`h-12 rounded-xl font-bold text-sm shadow-[0_4px_0_rgba(0,0,0,0.1)] active:translate-y-[2px] active:shadow-none transition-all ${
                           queue.length + frontIndex >= MAX_CAPACITY
-                          ? 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-not-allowed'
+                          ? 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none cursor-not-allowed'
                           : 'bg-[#FF9600] text-white shadow-[0_4px_0_#E07700]'
                       }`}
                     >
@@ -297,7 +297,7 @@ export function PriorityQueueLesson4({ onNavigate, currentProgress, onProgressUp
                       disabled={queue.length === 0}
                       className={`h-12 rounded-xl font-bold text-sm shadow-[0_4px_0_rgba(0,0,0,0.1)] active:translate-y-[2px] active:shadow-none transition-all ${
                           queue.length === 0
-                          ? 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-not-allowed'
+                          ? 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none cursor-not-allowed'
                           : 'bg-[#58CC02] text-white shadow-[0_4px_0_#46A302]'
                       }`}
                     >
@@ -318,8 +318,8 @@ export function PriorityQueueLesson4({ onNavigate, currentProgress, onProgressUp
 
         {/* Quick Explainer */}
         <div className="mt-4 mb-2 px-1">
-          <h4 className="font-bold text-[#AFAFAF] mb-2 text-xs uppercase tracking-wide">Explanation:</h4>
-          <p className="text-sm text-[#4B4B4B] text-left leading-relaxed">
+          <h4 className="font-bold text-text-secondary dark:text-text-secondary mb-2 text-xs uppercase tracking-wide">Explanation:</h4>
+          <p className="text-sm text-text-primary dark:text-text-primary text-left leading-relaxed">
             {explanation}
           </p>
         </div>
@@ -328,15 +328,15 @@ export function PriorityQueueLesson4({ onNavigate, currentProgress, onProgressUp
         <div className="mt-4 space-y-4">
            {(!canComplete) && (
              <div className="px-1">
-               <h4 className="font-bold text-[#AFAFAF] mb-2 text-xs uppercase tracking-wide">Remaining Tasks:</h4>
+               <h4 className="font-bold text-text-secondary dark:text-text-secondary mb-2 text-xs uppercase tracking-wide">Remaining Tasks:</h4>
                <div className="flex flex-wrap gap-2 text-xs font-bold">
                  {enqueueCount < TARGET_ENQUEUE && (
-                   <span className="px-2 py-1 bg-[#F7F7F7] text-[#4B4B4B] rounded-lg border border-[#E5E5E5]">
+                   <span className="px-2 py-1 bg-hover-background dark:bg-hover-background text-text-primary dark:text-text-primary rounded-lg border border-border dark:border-border">
                      Enqueue {TARGET_ENQUEUE - enqueueCount}x
                    </span>
                  )}
                  {dequeueCount < TARGET_DEQUEUE && (
-                    <span className="px-2 py-1 bg-[#F7F7F7] text-[#4B4B4B] rounded-lg border border-[#E5E5E5]">
+                    <span className="px-2 py-1 bg-hover-background dark:bg-hover-background text-text-primary dark:text-text-primary rounded-lg border border-border dark:border-border">
                      Dequeue {TARGET_DEQUEUE - dequeueCount}x
                    </span>
                  )}
@@ -348,8 +348,8 @@ export function PriorityQueueLesson4({ onNavigate, currentProgress, onProgressUp
             onClick={handleComplete}
             className={`w-full h-14 rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.1)] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_rgba(0,0,0,0.1)] transition-all flex items-center justify-center gap-3 ${
                canComplete 
-               ? 'bg-[#288CFF] text-white shadow-[0_4px_0_#288CFF] active:shadow-[0_2px_0_#288CFF]' 
-               : 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-default'
+               ? 'bg-[#288CFF] text-white shadow-[0_4px_0_#2563EB] active:shadow-[0_2px_0_#2563EB]' 
+               : 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none cursor-default'
             }`}
           >
             Complete Lesson

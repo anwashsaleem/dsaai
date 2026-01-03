@@ -19,76 +19,107 @@ export function LinkedListLesson3({ onNavigate, currentProgress, onProgressUpdat
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b-2 border-[#E5E5E5] px-6 py-4">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-background">
+      {/* Fixed Top Bar */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-card dark:bg-card border-b-2 border-border dark:border-border px-6 py-4">
         <div className="max-w-3xl mx-auto w-full flex items-center gap-4">
           <button
             onClick={() => onNavigate('linked-list-lesson-2')}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777] hover:bg-[#E5E5E5] transition-all rounded-xl"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-hover-background dark:bg-hover-background border-2 border-border dark:border-border text-text-secondary dark:text-text-secondary hover:bg-border dark:hover:bg-border transition-all rounded-xl"
           >
             <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
           </button>
           <ProgressBar 
             currentProgress={currentProgress}
-            currentXP={Math.round(150 * currentProgress / 100)} 
-            totalXP={150}
+            currentXP={Math.round(170 * currentProgress / 100)}
+            totalXP={170}
           />
         </div>
       </div>
 
       <div className="flex-1 flex flex-col p-6 max-w-3xl mx-auto w-full pt-24 pb-6">
+        {/* Scrollable Content Area */}
         <div className="flex-1">
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-2xl border-2 border-[#E5E5E5] p-6"
+            className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border p-6"
           >
-            <h2 className="mb-6 text-[#4B4B4B] text-2xl font-bold">Key Operations</h2>
+            <h2 className="mb-4 text-text-primary dark:text-text-primary text-xl font-bold">Linked List Operations</h2>
             
-            <div className="grid gap-6">
-              {/* Insertion */}
-              <div className="space-y-3">
-                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#DDF4FF] flex items-center justify-center text-[#1CB0F6]">
-                       <Plus className="w-5 h-5" />
-                    </div>
-                    <h3 className="font-bold text-[#4B4B4B]">Insertion</h3>
-                 </div>
-                 <div className="bg-[#F7F7F7] rounded-xl border-2 border-[#E5E5E5] p-4 text-sm text-[#777] space-y-2">
-                    <p><strong className="text-[#4B4B4B]">At Head:</strong> Create new node -&gt; Point it to Head -&gt; Update Head.</p>
-                    <p><strong className="text-[#4B4B4B]">At Tail:</strong> Traverse to end -&gt; Point last node to new node.</p>
-                 </div>
-              </div>
-
-              {/* Deletion */}
-              <div className="space-y-3">
-                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#FFE8E8] flex items-center justify-center text-[#FF4B4B]">
-                       <Trash2 className="w-5 h-5" />
-                    </div>
-                    <h3 className="font-bold text-[#4B4B4B]">Deletion</h3>
-                 </div>
-                 <div className="bg-[#F7F7F7] rounded-xl border-2 border-[#E5E5E5] p-4 text-sm text-[#777] space-y-2">
-                    <p><strong className="text-[#4B4B4B]">Delete Head:</strong> Move Head pointer to the next node.</p>
-                    <p><strong className="text-[#4B4B4B]">Delete Value:</strong> Find node -&gt; Change previous node's pointer to skip it.</p>
-                 </div>
-              </div>
-
-              {/* Diagrams - Conceptual Only */}
-               <div className="mt-4 p-4 border-2 border-[#CE82FF] bg-[#F4DEFF] rounded-xl">
-                  <h4 className="font-bold text-[#B565E8] text-sm uppercase mb-2 text-center">Pointer Magic</h4>
-                  <div className="flex items-center justify-center gap-2">
-                     <div className="w-8 h-8 border-2 border-[#CE82FF] bg-white rounded flex items-center justify-center text-xs font-bold">A</div>
-                     <ArrowRight className="w-4 h-4 text-[#CE82FF]" />
-                     <div className="w-8 h-8 border-2 border-dashed border-[#CE82FF] bg-white/50 rounded flex items-center justify-center text-xs text-[#CE82FF] font-bold">X</div>
-                     <ArrowRight className="w-4 h-4 text-[#CE82FF]" />
-                     <div className="w-8 h-8 border-2 border-[#CE82FF] bg-white rounded flex items-center justify-center text-xs font-bold">B</div>
+            <div className="flex flex-col gap-4">
+              
+              {/* Insert Card */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="p-5 bg-[#D7FFB8] dark:bg-[#2D4A1F] rounded-2xl border-2 border-[#58CC02] dark:border-[#58CC02]"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-10 h-10 bg-[#58CC02] rounded-lg flex items-center justify-center">
+                    <Plus className="w-6 h-6 text-white" strokeWidth={2.5} />
                   </div>
-                  <p className="text-center text-xs text-[#B565E8] mt-2 font-bold">
-                     "To delete X, just point A directly to B!"
-                  </p>
-               </div>
+                  <h3 className="text-[#46A302] text-xl font-bold">Insert Node</h3>
+                </div>
+                <p className="text-text-primary dark:text-text-primary text-base mb-2">
+                    Create a new node, point it to the next node, update the previous node's pointer.
+                </p>
+                <div className="bg-card/60 dark:bg-card/60 p-2 rounded-lg font-mono text-sm text-[#46A302] font-bold">
+                    newNode.next = current.next
+                </div>
+              </motion.div>
+
+              {/* Delete Card */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+                className="p-5 bg-[#FFE8E8] dark:bg-[#4A2020] rounded-2xl border-2 border-[#FF4B4B] dark:border-[#FF4B4B]"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-10 h-10 bg-[#FF4B4B] rounded-lg flex items-center justify-center">
+                    <Trash2 className="w-6 h-6 text-white" strokeWidth={2.5} />
+                  </div>
+                  <h3 className="text-[#D93535] text-xl font-bold">Delete Node</h3>
+                </div>
+                <p className="text-text-primary dark:text-text-primary text-base mb-2">
+                    Update the previous node's pointer to skip the current node, effectively deleting it.
+                </p>
+                <div className="bg-card/60 dark:bg-card/60 p-2 rounded-lg font-mono text-sm text-[#D93535] font-bold">
+                    prev.next = current.next
+                </div>
+              </motion.div>
+
+              {/* Traversal Card */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 }}
+                className="p-5 bg-[#DDF4FF] dark:bg-[#1A3A4A] rounded-2xl border-2 border-[#1CB0F6] dark:border-[#1CB0F6]"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-10 h-10 bg-[#1CB0F6] rounded-lg flex items-center justify-center">
+                    <ArrowRight className="w-6 h-6 text-white" strokeWidth={2.5} />
+                  </div>
+                  <h3 className="text-[#0D9FE8] text-xl font-bold">Traverse</h3>
+                </div>
+                <p className="text-text-primary dark:text-text-primary text-base mb-2">
+                    Visit each node by following the "next" pointer until you reach null.
+                </p>
+                <div className="bg-card/60 dark:bg-card/60 p-2 rounded-lg font-mono text-sm text-[#0D9FE8] font-bold">
+                    while (current != null) {'{...}'}
+                </div>
+              </motion.div>
+
+              {/* Info Box */}
+              <div className="mt-2 bg-hover-background dark:bg-hover-background p-4 rounded-xl border border-border dark:border-border flex flex-col gap-1 items-start text-left">
+                 <strong className="text-text-primary dark:text-text-primary text-sm uppercase tracking-wide">Key Point</strong>
+                 <p className="text-text-secondary dark:text-text-secondary text-sm leading-relaxed">
+                    Unlike arrays, Linked Lists don't need contiguous memory. Nodes can be scattered anywhere, connected by pointers!
+                 </p>
+              </div>
             </div>
           </motion.div>
         </div>

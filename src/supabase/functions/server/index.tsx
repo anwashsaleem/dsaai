@@ -11,6 +11,36 @@ app.use('*', logger(console.log));
 // Log startup to verify deployment
 console.log("🚀 Edge Function v2.2.0 Loaded - Using user_profiles table (No KV)");
 
+const supabaseUrl = Deno.env.get("SUPABASE_URL");
+const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
+const supabaseServiceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+// Create storage bucket on startup
+(async () => {
+  try {
+    if (supabaseUrl && supabaseServiceRoleKey) {
+      const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey);
+      const bucketName = 'make-2ba06582-avatars';
+      
+      const { data: buckets } = await supabaseAdmin.storage.listBuckets();
+      const bucketExists = buckets?.some(bucket => bucket.name === bucketName);
+      
+      if (!bucketExists) {
+        await supabaseAdmin.storage.createBucket(bucketName, {
+          public: false,
+          fileSizeLimit: 5242880, // 5MB
+          allowedMimeTypes: ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp']
+        });
+        console.log(`✅ Created storage bucket: ${bucketName}`);
+      } else {
+        console.log(`✅ Storage bucket already exists: ${bucketName}`);
+      }
+    }
+  } catch (err) {
+    console.error('⚠️ Failed to create storage bucket:', err);
+  }
+})();
+
 // Enable CORS for all routes and methods
 app.use(
   "/*",
@@ -23,20 +53,22 @@ app.use(
   }),
 );
 
-const supabaseUrl = Deno.env.get("SUPABASE_URL");
-const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
-const supabaseServiceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-
 // XP Calculation - Single source of truth
-const XP_PER_LESSON = 110;
+const LESSON_XP_MAP = {
+  stack: 110,
+  queue: 120,
+  circular: 135,
+  priority: 145,
+  linkedList: 170
+};
 
 function calculateXp(completedLessons: any): number {
   return (
-    (completedLessons.stack ? XP_PER_LESSON : 0) +
-    (completedLessons.queue ? XP_PER_LESSON : 0) +
-    (completedLessons.circular ? XP_PER_LESSON : 0) +
-    (completedLessons.priority ? XP_PER_LESSON : 0) +
-    (completedLessons.linkedList ? XP_PER_LESSON : 0)
+    (completedLessons.stack ? LESSON_XP_MAP.stack : 0) +
+    (completedLessons.queue ? LESSON_XP_MAP.queue : 0) +
+    (completedLessons.circular ? LESSON_XP_MAP.circular : 0) +
+    (completedLessons.priority ? LESSON_XP_MAP.priority : 0) +
+    (completedLessons.linkedList ? LESSON_XP_MAP.linkedList : 0)
   );
 }
 
@@ -112,9 +144,10 @@ app.post("/make-server-2ba06582/signup", async (c) => {
     // Create user profile in database table with completed_lessons field
     if (data.user) {
       try {
+        // Use UPSERT to handle cases where profile already exists
         const { error: profileError } = await supabaseAdmin
           .from('user_profiles')
-          .insert({
+          .upsert({
             user_id: data.user.id,
             email: email,
             name: full_name || email.split('@')[0],
@@ -129,20 +162,33 @@ app.post("/make-server-2ba06582/signup", async (c) => {
               priority: false,
               linkedList: false
             },
-            created_at: new Date().toISOString(),
             updated_at: new Date().toISOString()
+          }, {
+            onConflict: 'user_id',
+            ignoreDuplicates: false
           });
 
         if (profileError) {
           console.error("Failed to create user profile:", profileError);
-          // If profile creation fails, delete the auth user to maintain consistency
-          await supabaseAdmin.auth.admin.deleteUser(data.user.id);
-          return c.json({ error: "Failed to create user profile" }, 500);
+          
+          // If it's not a duplicate error, delete the auth user to maintain consistency
+          if (profileError.code !== '23505') {
+            await supabaseAdmin.auth.admin.deleteUser(data.user.id);
+          }
+          
+          return c.json({ error: "Failed to create user profile: " + profileError.message }, 500);
         }
-      } catch (profileErr) {
+        
+        console.log(`✅ User profile created/updated for user: ${data.user.id}`);
+      } catch (profileErr: any) {
         console.error("Exception while creating profile:", profileErr);
-        await supabaseAdmin.auth.admin.deleteUser(data.user.id);
-        return c.json({ error: "Failed to create user profile" }, 500);
+        
+        // Only delete auth user if it's not a duplicate error
+        if (profileErr.code !== '23505') {
+          await supabaseAdmin.auth.admin.deleteUser(data.user.id);
+        }
+        
+        return c.json({ error: "Failed to create user profile: " + (profileErr.message || String(profileErr)) }, 500);
       }
     }
 
@@ -407,6 +453,128 @@ app.post("/make-server-2ba06582/delete-account", async (c) => {
   } catch (error) {
     console.error("Error deleting account:", error);
     return c.json({ error: "Internal Server Error" }, 500);
+  }
+});
+
+// Upload Avatar - Handle image upload and return signed URL
+app.post("/make-server-2ba06582/upload-avatar", async (c) => {
+  const user = await getUser(c);
+  if (!user) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  if (!supabaseUrl || !supabaseServiceRoleKey) {
+    return c.json({ error: "Server configuration error" }, 500);
+  }
+
+  try {
+    const body = await c.req.json();
+    const { imageData, fileName } = body;
+
+    if (!imageData || !fileName) {
+      return c.json({ error: "Image data and file name are required" }, 400);
+    }
+
+    // Validate file type
+    const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'];
+    const fileExtension = fileName.split('.').pop()?.toLowerCase();
+    const mimeType = fileExtension === 'png' ? 'image/png' :
+                    fileExtension === 'jpg' || fileExtension === 'jpeg' ? 'image/jpeg' :
+                    fileExtension === 'gif' ? 'image/gif' :
+                    fileExtension === 'webp' ? 'image/webp' : null;
+
+    if (!mimeType || !validTypes.includes(mimeType)) {
+      return c.json({ error: "Invalid file type. Only PNG, JPG, JPEG, GIF, and WebP are allowed." }, 400);
+    }
+
+    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey);
+    const bucketName = 'make-2ba06582-avatars';
+
+    // Convert base64 to blob
+    const base64Data = imageData.split(',')[1];
+    const binaryData = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+
+    // Create unique file name
+    const timestamp = Date.now();
+    const uniqueFileName = `${user.id}/${timestamp}-${fileName}`;
+
+    // Upload to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+      .from(bucketName)
+      .upload(uniqueFileName, binaryData, {
+        contentType: mimeType,
+        upsert: true
+      });
+
+    if (uploadError) {
+      console.error("Upload error:", uploadError);
+      return c.json({ error: "Failed to upload image: " + uploadError.message }, 500);
+    }
+
+    // Generate signed URL (valid for 10 years)
+    const { data: signedUrlData, error: signedUrlError } = await supabaseAdmin.storage
+      .from(bucketName)
+      .createSignedUrl(uniqueFileName, 315360000); // 10 years in seconds
+
+    if (signedUrlError || !signedUrlData) {
+      console.error("Signed URL error:", signedUrlError);
+      return c.json({ error: "Failed to generate signed URL" }, 500);
+    }
+
+    console.log(`Avatar uploaded for user ${user.id}: ${uniqueFileName}`);
+    return c.json({ 
+      success: true, 
+      url: signedUrlData.signedUrl,
+      fileName: uniqueFileName 
+    });
+  } catch (error: any) {
+    console.error("Error uploading avatar:", error);
+    return c.json({ error: "Internal Server Error: " + (error.message || String(error)) }, 500);
+  }
+});
+
+// Delete Avatar - Remove uploaded avatar from storage
+app.post("/make-server-2ba06582/delete-avatar", async (c) => {
+  const user = await getUser(c);
+  if (!user) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  if (!supabaseUrl || !supabaseServiceRoleKey) {
+    return c.json({ error: "Server configuration error" }, 500);
+  }
+
+  try {
+    const body = await c.req.json();
+    const { filePath } = body;
+
+    if (!filePath) {
+      return c.json({ error: "File path is required" }, 400);
+    }
+
+    // Ensure user can only delete their own files
+    if (!filePath.startsWith(`${user.id}/`)) {
+      return c.json({ error: "Unauthorized to delete this file" }, 403);
+    }
+
+    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey);
+    const bucketName = 'make-2ba06582-avatars';
+
+    // Delete from Supabase Storage
+    const { error: deleteError } = await supabaseAdmin.storage
+      .from(bucketName)
+      .remove([filePath]);
+
+    if (deleteError) {
+      console.error("Delete error:", deleteError);
+      return c.json({ error: "Failed to delete image: " + deleteError.message }, 500);
+    }
+
+    console.log(`Avatar deleted for user ${user.id}: ${filePath}`);
+    return c.json({ success: true });
+  } catch (error: any) {
+    console.error("Error deleting avatar:", error);
+    return c.json({ error: "Internal Server Error: " + (error.message || String(error)) }, 500);
   }
 });
 

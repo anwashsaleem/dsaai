@@ -1,8 +1,68 @@
 import { motion } from 'motion/react';
 import { Info, Code, Sparkles, Mail, Github, Database, PenTool, Layout } from 'lucide-react';
 import { TopBar } from './TopBar';
+import { useState, useEffect, useRef } from 'react';
+import { toast } from 'sonner';
 
 export function AboutScreen() {
+  const [tapCount, setTapCount] = useState(0);
+  const [isDeveloperMode, setIsDeveloperMode] = useState(false);
+  const resetTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    // Load developer mode state from localStorage
+    const devMode = localStorage.getItem('developerMode') === 'true';
+    setIsDeveloperMode(devMode);
+  }, []);
+
+  const handleDeveloperBoxTap = () => {
+    // Clear any existing reset timer
+    if (resetTimerRef.current) {
+      clearTimeout(resetTimerRef.current);
+    }
+
+    const newCount = tapCount + 1;
+    setTapCount(newCount);
+
+    // Show countdown messages starting from tap 3
+    if (newCount === 3) {
+      toast('5 taps away from developer mode', { duration: 1500 });
+    } else if (newCount === 4) {
+      toast('4 taps away from developer mode', { duration: 1500 });
+    } else if (newCount === 5) {
+      toast('3 taps away from developer mode', { duration: 1500 });
+    } else if (newCount === 6) {
+      toast('2 taps away from developer mode', { duration: 1500 });
+    } else if (newCount === 7) {
+      toast('1 tap away from developer mode', { duration: 1500 });
+    } else if (newCount === 8) {
+      if (!isDeveloperMode) {
+        setIsDeveloperMode(true);
+        localStorage.setItem('developerMode', 'true');
+        window.dispatchEvent(new Event('developerModeChanged'));
+        toast.success("You're now a developer! All lessons unlocked 🚀", { duration: 3000 });
+        
+        // Vibrate on unlock
+        if (navigator.vibrate) {
+          navigator.vibrate([200, 100, 200]);
+        }
+      } else {
+        // Toggle off developer mode
+        setIsDeveloperMode(false);
+        localStorage.setItem('developerMode', 'false');
+        window.dispatchEvent(new Event('developerModeChanged'));
+        toast('Developer mode disabled', { duration: 2000 });
+      }
+      setTapCount(0);
+      return; // Don't set reset timer if we reached 8
+    }
+
+    // Reset counter after 2 seconds of inactivity
+    resetTimerRef.current = window.setTimeout(() => {
+      setTapCount(0);
+    }, 2000);
+  };
+
   return (
     <div className="min-h-screen bg-background dark:bg-background">
       <TopBar
@@ -80,13 +140,19 @@ export function AboutScreen() {
             <h2 className="text-xl font-bold text-muted-foreground dark:text-muted-foreground uppercase tracking-wider pl-1">The Developer</h2>
             
             <div className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border overflow-hidden">
-              <div className="p-6 border-b-2 border-border dark:border-border">
+              <div 
+                className="p-6 border-b-2 border-border dark:border-border cursor-pointer select-none active:bg-muted dark:active:bg-muted transition-colors"
+                onClick={handleDeveloperBoxTap}
+              >
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 bg-hover-background dark:bg-hover-background rounded-xl flex items-center justify-center border-2 border-border dark:border-border">
-                    <span className="text-2xl">👨‍💻</span>
+                    <span className="text-2xl">{isDeveloperMode ? '🚀' : '👨‍💻'}</span>
                   </div>
                   <div>
-                    <h3 className="font-bold text-xl text-text-primary dark:text-text-primary">Anwash</h3>
+                    <h3 className="font-bold text-xl text-text-primary dark:text-text-primary flex items-center gap-2">
+                      Anwash
+                      {isDeveloperMode && <span className="text-sm text-success">• Developer</span>}
+                    </h3>
                     <div className="flex flex-col text-sm text-text-secondary dark:text-text-secondary mt-1">
                       <span>F23-0318, The University of Haripur</span>
                     </div>

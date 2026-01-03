@@ -19,13 +19,13 @@ export function CircularQueueLesson1({ onNavigate, currentProgress, onProgressUp
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-background">
       {/* Fixed Top Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b-2 border-[#E5E5E5] px-6 py-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-card dark:bg-card border-b-2 border-border dark:border-border px-6 py-4">
         <div className="max-w-3xl mx-auto w-full flex items-center gap-4">
           <button
             onClick={() => onNavigate('path')}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777] hover:bg-[#E5E5E5] transition-all rounded-xl"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-hover-background dark:bg-hover-background border-2 border-border dark:border-border text-text-secondary dark:text-text-secondary hover:bg-border dark:hover:bg-border transition-all rounded-xl"
           >
             <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
           </button>
@@ -45,7 +45,7 @@ export function CircularQueueLesson1({ onNavigate, currentProgress, onProgressUp
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-2xl border-2 border-[#E5E5E5] mb-6 overflow-hidden"
+            className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border mb-6 overflow-hidden"
           >
             {/* Header */}
             <div className="bg-[#9059FF] p-5 text-white relative overflow-hidden">
@@ -69,17 +69,17 @@ export function CircularQueueLesson1({ onNavigate, currentProgress, onProgressUp
             </div>
 
             <div className="p-6 space-y-4">
-              <p className="text-[#4B4B4B] text-lg leading-relaxed">
+              <p className="text-text-primary dark:text-text-primary text-lg leading-relaxed">
                 Imagine a queue that connects its end back to its start, forming a circle. This is a <strong>Circular Queue</strong> (or Ring Buffer).
               </p>
               
-              <div className="bg-[#F4DEFF] p-4 rounded-xl border-2 border-[#9059FF]">
+              <div className="bg-[#F4DEFF] dark:bg-[#3A2A50] p-4 rounded-xl border-2 border-[#9059FF] dark:border-[#9059FF]">
                 <p className="text-[#7E46E5] font-bold text-center">
                   "Waste not, want not!"
                 </p>
               </div>
 
-              <p className="text-[#4B4B4B] text-lg leading-relaxed">
+              <p className="text-text-primary dark:text-text-primary text-lg leading-relaxed">
                 Unlike a Linear Queue, where space is wasted as you dequeue items, a Circular Queue reuses the empty slots at the beginning. It's highly efficient!
               </p>
             </div>
@@ -90,11 +90,11 @@ export function CircularQueueLesson1({ onNavigate, currentProgress, onProgressUp
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="bg-white rounded-2xl border-2 border-[#E5E5E5] p-8 flex flex-col items-center justify-center min-h-[300px]"
+            className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border p-8 flex flex-col items-center justify-center min-h-[300px]"
           >
              <div className="relative w-64 h-64">
                 {/* Connecting Ring */}
-                <div className="absolute inset-0 rounded-full border-[12px] border-[#F4DEFF] border-dashed" />
+                <div className="absolute inset-0 rounded-full border-[12px] border-[#F4DEFF] dark:border-[#3A2A50] border-dashed" />
                 
                 {/* Slots */}
                 {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => {
@@ -109,7 +109,7 @@ export function CircularQueueLesson1({ onNavigate, currentProgress, onProgressUp
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ delay: 0.3 + i * 0.1 }}
-                      className="absolute w-12 h-12 bg-white border-2 border-[#CE82FF] rounded-full flex items-center justify-center shadow-sm z-10"
+                      className="absolute w-12 h-12 bg-card dark:bg-card border-2 border-[#CE82FF] dark:border-[#CE82FF] rounded-full flex items-center justify-center shadow-sm z-10"
                       style={{
                         left: `calc(50% + ${x}px - 24px)`,
                         top: `calc(50% + ${y}px - 24px)`,
@@ -124,7 +124,7 @@ export function CircularQueueLesson1({ onNavigate, currentProgress, onProgressUp
                 <div className="absolute inset-0 flex items-center justify-center">
                    <div className="text-center">
                       <span className="text-4xl">🔄</span>
-                      <p className="text-[#AFAFAF] text-xs font-bold uppercase mt-2">Ring Buffer</p>
+                      <p className="text-text-secondary dark:text-text-secondary text-xs font-bold uppercase mt-2">Ring Buffer</p>
                    </div>
                 </div>
              </div>

@@ -19,32 +19,33 @@ export function LinkedListLesson1({ onNavigate, currentProgress, onProgressUpdat
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-background">
       {/* Fixed Top Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b-2 border-[#E5E5E5] px-6 py-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-card dark:bg-card border-b-2 border-border dark:border-border px-6 py-4">
         <div className="max-w-3xl mx-auto w-full flex items-center gap-4">
           <button
             onClick={() => onNavigate('path')}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777] hover:bg-[#E5E5E5] transition-all rounded-xl"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-hover-background dark:bg-hover-background border-2 border-border dark:border-border text-text-secondary dark:text-text-secondary hover:bg-border dark:hover:bg-border transition-all rounded-xl"
           >
             <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
           </button>
           <ProgressBar 
-            currentProgress={currentProgress === 0 ? 3 : currentProgress}
-            currentXP={currentProgress === 0 ? 5 : Math.round(150 * currentProgress / 100)}
-            totalXP={150}
+            currentProgress={currentProgress}
+            currentXP={Math.round(170 * currentProgress / 100)} 
+            totalXP={170}
           />
         </div>
       </div>
 
       <div className="flex-1 flex flex-col p-6 max-w-3xl mx-auto w-full pt-24 pb-6">
+        {/* Scrollable Content Area */}
         <div className="flex-1">
-          {/* Lesson Card */}
+          {/* Content Card */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-2xl border-2 border-[#E5E5E5] overflow-hidden"
+            className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border mb-6 overflow-hidden"
           >
             {/* Header */}
             <div className="bg-[#CE82FF] p-5 text-white relative overflow-hidden">
@@ -71,32 +72,32 @@ export function LinkedListLesson1({ onNavigate, currentProgress, onProgressUpdat
             <div className="p-5">
               {/* Definition */}
               <div className="mb-6">
-                <h2 className="mb-2 text-[#4B4B4B] text-2xl font-bold">What is a Linked List?</h2>
-                <p className="text-[#777] leading-relaxed text-base">
+                <h2 className="mb-2 text-text-primary dark:text-text-primary text-2xl font-bold">What is a Linked List?</h2>
+                <p className="text-text-secondary dark:text-text-secondary leading-relaxed text-base">
                   A <span className="text-[#CE82FF] font-bold">Linked List</span> is a collection of nodes where each node contains a value and a pointer (reference) to the next node in the sequence.
                 </p>
               </div>
 
               {/* Visual Preview */}
               <div>
-                <h3 className="mb-2 text-[#4B4B4B] text-lg font-bold">Visual Representation</h3>
-                <div className="bg-[#F7F7F7] rounded-xl border-2 border-[#E5E5E5] p-6 py-10 flex items-center overflow-x-auto">
+                <h3 className="mb-2 text-text-primary dark:text-text-primary text-lg font-bold">Visual Representation</h3>
+                <div className="bg-hover-background dark:bg-hover-background rounded-xl border-2 border-border dark:border-border p-6 py-10 flex items-center overflow-x-auto">
                     <div className="flex items-center gap-1 min-w-max mx-auto">
                         {/* Head Label */}
                         <div className="flex flex-col items-center mr-2">
-                            <span className="text-[#AFAFAF] text-[10px] font-bold uppercase mb-1">Head</span>
-                            <div className="w-0.5 h-4 bg-[#AFAFAF]" />
+                            <span className="text-text-secondary dark:text-text-secondary text-[10px] font-bold uppercase mb-1">Head</span>
+                            <div className="w-0.5 h-4 bg-text-secondary dark:bg-text-secondary" />
                         </div>
 
                         {/* Nodes */}
                         {[10, 25, 40].map((val, idx) => (
                             <div key={idx} className="flex items-center">
                                 {/* Node Box */}
-                                <div className="flex border-2 border-[#CE82FF] rounded-lg bg-white overflow-hidden shadow-sm">
-                                    <div className="w-10 h-10 flex items-center justify-center font-bold text-[#4B4B4B] border-r border-[#CE82FF]">
+                                <div className="flex border-2 border-[#CE82FF] dark:border-[#CE82FF] rounded-lg bg-card dark:bg-card overflow-hidden shadow-sm">
+                                    <div className="w-10 h-10 flex items-center justify-center font-bold text-text-primary dark:text-text-primary border-r border-[#CE82FF] dark:border-[#CE82FF]">
                                         {val}
                                     </div>
-                                    <div className="w-8 h-10 bg-[#F4DEFF] flex items-center justify-center">
+                                    <div className="w-8 h-10 bg-[#F4DEFF] dark:bg-[#3A2A50] flex items-center justify-center">
                                         <div className="w-2 h-2 rounded-full bg-[#CE82FF]" />
                                     </div>
                                 </div>
@@ -108,12 +109,12 @@ export function LinkedListLesson1({ onNavigate, currentProgress, onProgressUpdat
                         ))}
 
                         {/* Null */}
-                        <div className="flex flex-col items-center justify-center w-12 h-10 border-2 border-dashed border-[#AFAFAF] rounded-lg bg-[#E5E5E5]">
-                            <span className="text-[10px] font-bold text-[#777] uppercase">Null</span>
+                        <div className="flex flex-col items-center justify-center w-12 h-10 border-2 border-dashed border-border dark:border-border rounded-lg bg-border dark:bg-border">
+                            <span className="text-[10px] font-bold text-text-secondary dark:text-text-secondary uppercase">Null</span>
                         </div>
                     </div>
                 </div>
-                <p className="text-xs text-[#AFAFAF] mt-3 font-bold text-center">
+                <p className="text-xs text-text-secondary dark:text-text-secondary mt-3 font-bold text-center">
                     Nodes are scattered in memory, connected by pointers.
                 </p>
               </div>

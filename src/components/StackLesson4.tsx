@@ -118,13 +118,13 @@ export function StackLesson4({ onNavigate, currentProgress, onProgressUpdate, on
   const canComplete = pushCount >= TARGET_PUSH && popCount >= TARGET_POP && peekCount >= TARGET_PEEK;
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-background">
       {/* Fixed Top Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b-2 border-[#E5E5E5] px-6 py-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-card dark:bg-card border-b-2 border-border dark:border-border px-6 py-4">
         <div className="max-w-3xl mx-auto w-full flex items-center gap-4">
           <button
             onClick={() => onNavigate('stack-lesson-3')}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777] hover:bg-[#E5E5E5] transition-all rounded-xl"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-hover-background dark:bg-hover-background border-2 border-border dark:border-border text-text-secondary dark:text-text-secondary hover:bg-border dark:hover:bg-border transition-all rounded-xl"
           >
             <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
           </button>
@@ -143,9 +143,9 @@ export function StackLesson4({ onNavigate, currentProgress, onProgressUpdate, on
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-2xl border-2 border-[#E5E5E5] p-5"
+            className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border p-5"
           >
-            <h2 className="mb-4 text-[#4B4B4B] text-xl font-bold">Interactive Stack</h2>
+            <h2 className="mb-4 text-text-primary dark:text-text-primary text-xl font-bold">Interactive Stack</h2>
             
             <div className="flex flex-col gap-4">
               {/* Stack Container Area */}
@@ -154,7 +154,7 @@ export function StackLesson4({ onNavigate, currentProgress, onProgressUpdate, on
                 <div className="flex flex-col-reverse pb-[22px] gap-2 items-center h-[240px] p-[0px]">
                    {[0, 1, 2, 3].map((index) => (
                      <div key={`idx-${index}`} className="h-12 w-full flex items-center justify-start relative">
-                        <span className={`font-bold font-mono text-lg transition-colors ${index <= topIndex ? 'text-[#58CC02]' : 'text-[#E5E5E5]'}`}>
+                        <span className={`font-bold font-mono text-lg transition-colors ${index <= topIndex ? 'text-[#58CC02]' : 'text-border dark:text-border'}`}>
                           [{index}]
                         </span>
                         {/* Top Indicator */}
@@ -171,10 +171,10 @@ export function StackLesson4({ onNavigate, currentProgress, onProgressUpdate, on
                 </div>
 
                 {/* Visual Stack */}
-                <div className="p-4 bg-[#F7F7F7] rounded-2xl border-2 border-[#E5E5E5] w-full shadow-sm relative min-h-[240px] flex flex-col justify-end items-center overflow-hidden">
+                <div className="p-4 bg-hover-background dark:bg-hover-background rounded-2xl border-2 border-border dark:border-border w-full shadow-sm relative min-h-[240px] flex flex-col justify-end items-center overflow-hidden">
                   
                   {/* Base */}
-                  <div className="w-full h-2 bg-[#E5E5E5] rounded-full mb-1" />
+                  <div className="w-full h-2 bg-border dark:bg-border rounded-full mb-1" />
                   
                   {/* Stack Items */}
                   <div className="absolute bottom-4 flex flex-col-reverse items-center gap-2 w-full px-8 pb-1">
@@ -232,7 +232,7 @@ export function StackLesson4({ onNavigate, currentProgress, onProgressUpdate, on
 
                   {/* Empty State */}
                   {stack.length === 0 && (
-                    <div className="absolute inset-0 flex items-center justify-center text-[#AFAFAF] font-medium pointer-events-none">
+                    <div className="absolute inset-0 flex items-center justify-center text-text-secondary dark:text-text-secondary font-medium pointer-events-none">
                        Stack is Empty
                     </div>
                   )}
@@ -242,8 +242,8 @@ export function StackLesson4({ onNavigate, currentProgress, onProgressUpdate, on
               {/* Combined Status & Message Bar */}
               <div className={`flex items-center justify-between p-3 rounded-xl border-2 transition-colors ${
                 isError 
-                  ? 'bg-[#FFF4F4] border-[#FF4B4B]' 
-                  : 'bg-[#DDF4FF] border-[#1CB0F6]'
+                  ? 'bg-[#FFF4F4] dark:bg-[#4A2020] border-[#FF4B4B]' 
+                  : 'bg-[#DDF4FF] dark:bg-[#1A3A4A] border-[#1CB0F6]'
               }`}>
                 <div className="flex flex-col">
                   <span className="text-[10px] font-bold uppercase tracking-wide opacity-60">
@@ -255,7 +255,7 @@ export function StackLesson4({ onNavigate, currentProgress, onProgressUpdate, on
                 </div>
                 <div className="text-right">
                   <span className="text-[10px] font-bold uppercase tracking-wide opacity-60">Top Index</span>
-                  <div className="font-bold text-[#4B4B4B] text-sm">
+                  <div className="font-bold text-text-primary dark:text-text-primary text-sm">
                     {topIndex === -1 ? '-1' : topIndex}
                   </div>
                 </div>
@@ -267,7 +267,7 @@ export function StackLesson4({ onNavigate, currentProgress, onProgressUpdate, on
                   onClick={handlePush}
                   className={`h-12 rounded-xl font-bold text-sm shadow-[0_4px_0_rgba(0,0,0,0.1)] transition-all active:translate-y-[2px] active:shadow-none ${
                     stack.length >= MAX_STACK_SIZE 
-                      ? 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none'
+                      ? 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none'
                       : 'bg-[#58CC02] text-white shadow-[0_4px_0_#46A302] hover:brightness-105 active:shadow-[0_2px_0_#46A302]'
                   }`}
                 >
@@ -277,7 +277,7 @@ export function StackLesson4({ onNavigate, currentProgress, onProgressUpdate, on
                   onClick={handlePop}
                   className={`h-12 rounded-xl font-bold text-sm shadow-[0_4px_0_rgba(0,0,0,0.1)] transition-all active:translate-y-[2px] active:shadow-none ${
                     stack.length === 0 
-                      ? 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none'
+                      ? 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none'
                       : 'bg-[#FF4B4B] text-white shadow-[0_4px_0_#CC3939] hover:brightness-105 active:shadow-[0_2px_0_#CC3939]'
                   }`}
                 >
@@ -287,7 +287,7 @@ export function StackLesson4({ onNavigate, currentProgress, onProgressUpdate, on
                   onClick={handlePeek}
                   className={`h-12 rounded-xl font-bold text-sm shadow-[0_4px_0_rgba(0,0,0,0.1)] transition-all active:translate-y-[2px] active:shadow-none ${
                     stack.length === 0 
-                      ? 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none'
+                      ? 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none'
                       : 'bg-[#1CB0F6] text-white shadow-[0_4px_0_#0D9FE8] hover:brightness-105 active:shadow-[0_2px_0_#0D9FE8]'
                   }`}
                 >
@@ -306,8 +306,8 @@ export function StackLesson4({ onNavigate, currentProgress, onProgressUpdate, on
 
         {/* Quick Explainer */}
         <div className="mt-4 mb-2 px-1">
-          <h4 className="font-bold text-[#AFAFAF] mb-2 text-xs uppercase tracking-wide">Explanation:</h4>
-          <p className="text-sm text-[#4B4B4B] text-left leading-relaxed">
+          <h4 className="font-bold text-text-secondary dark:text-text-secondary mb-2 text-xs uppercase tracking-wide">Explanation:</h4>
+          <p className="text-sm text-text-primary dark:text-text-primary text-left leading-relaxed">
             {explanation}
           </p>
         </div>
@@ -317,20 +317,20 @@ export function StackLesson4({ onNavigate, currentProgress, onProgressUpdate, on
            {/* Task Instructions */}
            {(!canComplete) && (
              <div className="px-1">
-               <h4 className="font-bold text-[#AFAFAF] mb-2 text-xs uppercase tracking-wide">Remaining Tasks:</h4>
+               <h4 className="font-bold text-text-secondary dark:text-text-secondary mb-2 text-xs uppercase tracking-wide">Remaining Tasks:</h4>
                <div className="flex flex-wrap gap-2 text-xs font-bold">
                  {pushCount < TARGET_PUSH && (
-                   <span className="px-2 py-1 bg-[#F7F7F7] text-[#4B4B4B] rounded-lg border border-[#E5E5E5]">
+                   <span className="px-2 py-1 bg-hover-background dark:bg-hover-background text-text-primary dark:text-text-primary rounded-lg border border-border dark:border-border">
                      Push {TARGET_PUSH - pushCount}x
                    </span>
                  )}
                  {peekCount < TARGET_PEEK && (
-                    <span className="px-2 py-1 bg-[#F7F7F7] text-[#4B4B4B] rounded-lg border border-[#E5E5E5]">
+                    <span className="px-2 py-1 bg-hover-background dark:bg-hover-background text-text-primary dark:text-text-primary rounded-lg border border-border dark:border-border">
                      Peek {TARGET_PEEK - peekCount}x
                    </span>
                  )}
                  {popCount < TARGET_POP && (
-                    <span className="px-2 py-1 bg-[#F7F7F7] text-[#4B4B4B] rounded-lg border border-[#E5E5E5]">
+                    <span className="px-2 py-1 bg-hover-background dark:bg-hover-background text-text-primary dark:text-text-primary rounded-lg border border-border dark:border-border">
                      Pop {TARGET_POP - popCount}x
                    </span>
                  )}
@@ -343,7 +343,7 @@ export function StackLesson4({ onNavigate, currentProgress, onProgressUpdate, on
             className={`w-full h-14 rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.1)] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_rgba(0,0,0,0.1)] transition-all flex items-center justify-center gap-3 ${
                canComplete 
                ? 'bg-[#288CFF] text-white shadow-[0_4px_0_#2563EB] active:shadow-[0_2px_0_#2563EB]' 
-               : 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-default'
+               : 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none cursor-default'
             }`}
           >
             Complete Lesson

@@ -74,7 +74,7 @@ export function LessonCompletionScreen({ onClaimXP, xpEarned }: LessonCompletion
   }, [xpEarned]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white overflow-hidden relative">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-background overflow-hidden relative">
       {/* Confetti Canvas - Absolute Positioned to cover this container only */}
       <canvas 
         ref={canvasRef}
@@ -112,7 +112,7 @@ export function LessonCompletionScreen({ onClaimXP, xpEarned }: LessonCompletion
                  repeat: Infinity, 
                  ease: "easeInOut" 
                }}
-               className="w-40 h-40 bg-[#FFC800] rounded-full flex items-center justify-center shadow-[0_8px_0_#E0B000]"
+               className="w-40 h-40 bg-[#FFC800] rounded-full flex items-center justify-center shadow-[0_8px_0] shadow-[#E0B000] dark:shadow-[#E0B000]"
             >
               <Award className="w-20 h-20 text-white" strokeWidth={2.5} />
             </motion.div>
@@ -135,12 +135,12 @@ export function LessonCompletionScreen({ onClaimXP, xpEarned }: LessonCompletion
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="bg-[#FFF4CC] border-2 border-[#FFC800] rounded-2xl p-4 flex flex-col items-center gap-1 shadow-sm"
+              className="bg-[#FFF4CC] dark:bg-[#3D3520] border-2 border-[#FFC800] dark:border-[#FFC800] rounded-2xl p-4 flex flex-col items-center gap-1 shadow-sm"
             >
-              <span className="text-xs font-bold text-[#DFA500] uppercase tracking-widest">Total XP</span>
+              <span className="text-xs font-bold text-[#DFA500] dark:text-[#FFC800] uppercase tracking-widest">Total XP</span>
               <div className="flex items-center gap-2">
                 <Star className="w-8 h-8 text-[#FFC800] fill-[#FFC800]" />
-                <span className="text-4xl font-extrabold text-[#4B4B4B]">{displayedXP}</span>
+                <span className="text-4xl font-extrabold text-[#4B4B4B] dark:text-text-primary">{displayedXP}</span>
               </div>
             </motion.div>
           </div>
@@ -156,7 +156,7 @@ export function LessonCompletionScreen({ onClaimXP, xpEarned }: LessonCompletion
       >
         <button
           onClick={onClaimXP}
-          className="w-full h-14 bg-[#ffc800] text-white rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_#e0b000] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_#e0b000] transition-all"
+          className="w-full h-14 bg-[#ffc800] text-white rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0] shadow-[#e0b000] dark:shadow-[#e0b000] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0] active:shadow-[#e0b000] transition-all"
         >
           Claim XP
         </button>

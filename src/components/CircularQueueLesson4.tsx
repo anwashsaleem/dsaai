@@ -139,19 +139,19 @@ export function CircularQueueLesson4({ onNavigate, currentProgress, onProgressUp
   const canComplete = enqueueCount >= TARGET_ENQUEUE && dequeueCount >= TARGET_DEQUEUE;
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-background">
       {/* Fixed Top Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b-2 border-[#E5E5E5] px-6 py-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-card dark:bg-card border-b-2 border-border dark:border-border px-6 py-4">
         <div className="max-w-3xl mx-auto w-full flex items-center gap-4">
           <button
             onClick={() => onNavigate('circular-lesson-3')}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777] hover:bg-[#E5E5E5] transition-all rounded-xl"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-hover-background dark:bg-hover-background border-2 border-border dark:border-border text-text-secondary dark:text-text-secondary hover:bg-border dark:hover:bg-border transition-all rounded-xl"
           >
             <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
           </button>
           <ProgressBar 
             currentProgress={currentProgress}
-            currentXP={Math.round(135 * currentProgress / 100)} 
+            currentXP={Math.round(135 * currentProgress / 100)}
             totalXP={135}
           />
         </div>
@@ -163,9 +163,9 @@ export function CircularQueueLesson4({ onNavigate, currentProgress, onProgressUp
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-2xl border-2 border-[#E5E5E5] p-5"
+            className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border p-5"
           >
-            <h2 className="mb-4 text-[#4B4B4B] text-xl font-bold">Interactive Circular Queue</h2>
+            <h2 className="mb-4 text-text-primary dark:text-text-primary text-xl font-bold">Interactive Circular Queue</h2>
             
             <div className="flex flex-col gap-6">
               {/* Circular Visualization */}
@@ -259,9 +259,9 @@ export function CircularQueueLesson4({ onNavigate, currentProgress, onProgressUp
               </div>
 
               {/* Controls */}
-              <div className="bg-[#F7F7F7] p-3 rounded-xl border-2 border-[#E5E5E5]">
+              <div className="bg-hover-background dark:bg-hover-background p-3 rounded-xl border-2 border-border dark:border-border">
                  <div className="flex justify-between items-center mb-3">
-                    <span className={`text-xs font-bold uppercase ${isError ? 'text-[#FF4B4B]' : 'text-[#777]'}`}>
+                    <span className={`text-xs font-bold uppercase ${isError ? 'text-[#FF4B4B]' : 'text-text-secondary dark:text-text-secondary'}`}>
                         {message}
                     </span>
                  </div>
@@ -272,7 +272,7 @@ export function CircularQueueLesson4({ onNavigate, currentProgress, onProgressUp
                       disabled={isFull}
                       className={`h-12 rounded-xl font-bold text-sm shadow-[0_4px_0_rgba(0,0,0,0.1)] active:translate-y-[2px] active:shadow-none transition-all ${
                           isFull 
-                          ? 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-not-allowed'
+                          ? 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none cursor-not-allowed'
                           : 'bg-[#CE82FF] text-white shadow-[0_4px_0_#B565E8]'
                       }`}
                     >
@@ -283,7 +283,7 @@ export function CircularQueueLesson4({ onNavigate, currentProgress, onProgressUp
                       disabled={isEmpty}
                       className={`h-12 rounded-xl font-bold text-sm shadow-[0_4px_0_rgba(0,0,0,0.1)] active:translate-y-[2px] active:shadow-none transition-all ${
                           isEmpty 
-                          ? 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-not-allowed'
+                          ? 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none cursor-not-allowed'
                           : 'bg-[#FF4B4B] text-white shadow-[0_4px_0_#CC3939]'
                       }`}
                     >
@@ -304,8 +304,8 @@ export function CircularQueueLesson4({ onNavigate, currentProgress, onProgressUp
 
         {/* Quick Explainer */}
         <div className="mt-4 mb-2 px-1">
-          <h4 className="font-bold text-[#AFAFAF] mb-2 text-xs uppercase tracking-wide">Explanation:</h4>
-          <p className="text-sm text-[#4B4B4B] text-left leading-relaxed">
+          <h4 className="font-bold text-text-secondary dark:text-text-secondary mb-2 text-xs uppercase tracking-wide">Explanation:</h4>
+          <p className="text-sm text-text-primary dark:text-text-primary text-left leading-relaxed">
             {explanation}
           </p>
         </div>
@@ -314,15 +314,15 @@ export function CircularQueueLesson4({ onNavigate, currentProgress, onProgressUp
         <div className="mt-4 space-y-4">
            {(!canComplete) && (
              <div className="px-1">
-               <h4 className="font-bold text-[#AFAFAF] mb-2 text-xs uppercase tracking-wide">Remaining Tasks:</h4>
+               <h4 className="font-bold text-text-secondary dark:text-text-secondary mb-2 text-xs uppercase tracking-wide">Remaining Tasks:</h4>
                <div className="flex flex-wrap gap-2 text-xs font-bold">
                  {enqueueCount < TARGET_ENQUEUE && (
-                   <span className="px-2 py-1 bg-[#F7F7F7] text-[#4B4B4B] rounded-lg border border-[#E5E5E5]">
+                   <span className="px-2 py-1 bg-hover-background dark:bg-hover-background text-text-primary dark:text-text-primary rounded-lg border border-border dark:border-border">
                      Enqueue {TARGET_ENQUEUE - enqueueCount}x
                    </span>
                  )}
                  {dequeueCount < TARGET_DEQUEUE && (
-                    <span className="px-2 py-1 bg-[#F7F7F7] text-[#4B4B4B] rounded-lg border border-[#E5E5E5]">
+                    <span className="px-2 py-1 bg-hover-background dark:bg-hover-background text-text-primary dark:text-text-primary rounded-lg border border-border dark:border-border">
                      Dequeue {TARGET_DEQUEUE - dequeueCount}x
                    </span>
                  )}
@@ -335,7 +335,7 @@ export function CircularQueueLesson4({ onNavigate, currentProgress, onProgressUp
             className={`w-full h-14 rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.1)] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_rgba(0,0,0,0.1)] transition-all flex items-center justify-center gap-3 ${
                canComplete 
                ? 'bg-[#288CFF] text-white shadow-[0_4px_0_#2563EB] active:shadow-[0_2px_0_#2563EB]' 
-               : 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-default'
+               : 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none cursor-default'
             }`}
           >
             Complete Lesson

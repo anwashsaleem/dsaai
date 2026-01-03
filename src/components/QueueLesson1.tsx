@@ -19,13 +19,13 @@ export function QueueLesson1({ onNavigate, currentProgress, onProgressUpdate }: 
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-background">
       {/* Fixed Top Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b-2 border-[#E5E5E5] px-6 py-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-card dark:bg-card border-b-2 border-border dark:border-border px-6 py-4">
         <div className="max-w-3xl mx-auto w-full flex items-center gap-4">
           <button
             onClick={() => onNavigate('path')}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777] hover:bg-[#E5E5E5] transition-all rounded-xl"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-hover-background dark:bg-hover-background border-2 border-border dark:border-border text-text-secondary dark:text-text-secondary hover:bg-border dark:hover:bg-border transition-all rounded-xl"
           >
             <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
           </button>
@@ -44,7 +44,7 @@ export function QueueLesson1({ onNavigate, currentProgress, onProgressUpdate }: 
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-2xl border-2 border-[#E5E5E5] overflow-hidden"
+            className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border overflow-hidden"
           >
             {/* Header */}
             <div className="bg-[#1CB0F6] p-5 text-white relative overflow-hidden">
@@ -71,8 +71,8 @@ export function QueueLesson1({ onNavigate, currentProgress, onProgressUpdate }: 
             <div className="p-5">
               {/* Definition */}
               <div className="mb-6">
-                <h2 className="mb-2 text-[#4B4B4B] text-2xl font-bold">What is a Queue?</h2>
-                <p className="text-[#777] leading-relaxed text-base">
+                <h2 className="mb-2 text-text-primary dark:text-text-primary text-2xl font-bold">What is a Queue?</h2>
+                <p className="text-text-secondary dark:text-text-secondary leading-relaxed text-base">
                   A Queue is a linear data structure that follows the <span className="text-[#1CB0F6] font-bold">First In First Out</span> (FIFO) principle.
                   It works just like a real-life queue or line. The first person to join the line is the first one to be served.
                 </p>
@@ -80,10 +80,10 @@ export function QueueLesson1({ onNavigate, currentProgress, onProgressUpdate }: 
 
               {/* Simple Visual */}
               <div>
-                <h3 className="mb-2 text-[#4B4B4B] text-lg font-bold">Visual Representation</h3>
-                <div className="bg-[#F7F7F7] rounded-xl border-2 border-[#E5E5E5] p-6 h-40 flex items-center justify-center relative overflow-hidden">
+                <h3 className="mb-2 text-text-primary dark:text-text-primary text-lg font-bold">Visual Representation</h3>
+                <div className="bg-hover-background dark:bg-hover-background rounded-xl border-2 border-border dark:border-border p-6 h-40 flex items-center justify-center relative overflow-hidden">
                    {/* Track */}
-                   <div className="absolute inset-x-4 h-0.5 bg-[#E5E5E5] border-t-2 border-dashed border-[#E5E5E5]" />
+                   <div className="absolute inset-x-4 h-0.5 bg-border dark:bg-border border-t-2 border-dashed border-border dark:border-border" />
                    
                    {/* Items */}
                    <div className="flex gap-4 relative z-10">
@@ -94,7 +94,7 @@ export function QueueLesson1({ onNavigate, currentProgress, onProgressUpdate }: 
                            }`}>
                               {i}
                            </div>
-                           <span className="text-[10px] text-[#AFAFAF] font-bold uppercase tracking-wide">
+                           <span className="text-[10px] text-text-secondary dark:text-text-secondary font-bold uppercase tracking-wide">
                               {i === 1 ? 'Front' : i === 3 ? 'Rear' : ''}
                            </span>
                         </div>

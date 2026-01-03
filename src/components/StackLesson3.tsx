@@ -19,13 +19,13 @@ export function StackLesson3({ onNavigate, currentProgress, onProgressUpdate }: 
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-background">
       {/* Fixed Top Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b-2 border-[#E5E5E5] px-6 py-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-card dark:bg-card border-b-2 border-border dark:border-border px-6 py-4">
         <div className="max-w-3xl mx-auto w-full flex items-center gap-4">
           <button
             onClick={() => onNavigate('stack-lesson-2')}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777] hover:bg-[#E5E5E5] transition-all rounded-xl"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-hover-background dark:bg-hover-background border-2 border-border dark:border-border text-text-secondary dark:text-text-secondary hover:bg-border dark:hover:bg-border transition-all rounded-xl"
           >
             <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
           </button>
@@ -45,7 +45,7 @@ export function StackLesson3({ onNavigate, currentProgress, onProgressUpdate }: 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white rounded-2xl border-2 border-[#E5E5E5] p-6"
+            className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border p-6"
           >
             {/* Key Operations */}
             <motion.div
@@ -53,13 +53,13 @@ export function StackLesson3({ onNavigate, currentProgress, onProgressUpdate }: 
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <h2 className="mb-4 text-[#4B4B4B] text-xl font-bold">Stack Operations</h2>
+              <h2 className="mb-4 text-text-primary dark:text-text-primary text-xl font-bold">Stack Operations</h2>
               <div className="space-y-4">
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="p-5 bg-[#D7FFB8] rounded-2xl border-2 border-[#58CC02]"
+                  className="p-5 bg-[#D7FFB8] dark:bg-[#2D4A1F] rounded-2xl border-2 border-[#58CC02] dark:border-[#58CC02]"
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-10 h-10 bg-[#58CC02] rounded-lg flex items-center justify-center">
@@ -67,14 +67,14 @@ export function StackLesson3({ onNavigate, currentProgress, onProgressUpdate }: 
                     </div>
                     <h3 className="text-[#58CC02] text-xl font-bold">Push</h3>
                   </div>
-                  <p className="text-[#4B4B4B] text-base">Add an element to the top of the stack</p>
+                  <p className="text-text-primary dark:text-text-primary text-base">Add an element to the top of the stack</p>
                 </motion.div>
 
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="p-5 bg-[#FFE8E8] rounded-2xl border-2 border-[#FF4B4B]"
+                  className="p-5 bg-[#FFE8E8] dark:bg-[#4A2020] rounded-2xl border-2 border-[#FF4B4B] dark:border-[#FF4B4B]"
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-10 h-10 bg-[#FF4B4B] rounded-lg flex items-center justify-center">
@@ -82,14 +82,14 @@ export function StackLesson3({ onNavigate, currentProgress, onProgressUpdate }: 
                     </div>
                     <h3 className="text-[#FF4B4B] text-xl font-bold">Pop</h3>
                   </div>
-                  <p className="text-[#4B4B4B] text-base">Remove the top element from the stack</p>
+                  <p className="text-text-primary dark:text-text-primary text-base">Remove the top element from the stack</p>
                 </motion.div>
 
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5 }}
-                  className="p-5 bg-[#DDF4FF] rounded-2xl border-2 border-[#1CB0F6]"
+                  className="p-5 bg-[#DDF4FF] dark:bg-[#1A3A4A] rounded-2xl border-2 border-[#1CB0F6] dark:border-[#1CB0F6]"
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-10 h-10 bg-[#1CB0F6] rounded-lg flex items-center justify-center">
@@ -97,7 +97,7 @@ export function StackLesson3({ onNavigate, currentProgress, onProgressUpdate }: 
                     </div>
                     <h3 className="text-[#1CB0F6] text-xl font-bold">Peek</h3>
                   </div>
-                  <p className="text-[#4B4B4B] text-base">View the top element without removing it</p>
+                  <p className="text-text-primary dark:text-text-primary text-base">View the top element without removing it</p>
                 </motion.div>
               </div>
             </motion.div>

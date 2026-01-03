@@ -12,9 +12,12 @@ interface SettingsScreenProps {
 
 export function SettingsScreen({ onBack }: SettingsScreenProps) {
   const { user, signOut, deleteAccount } = useAuth();
-  const [darkMode, setDarkMode] = useState(false);
-  const [hapticsEnabled, setHapticsEnabled] = useState(true);
-  const [leaderboardVisible, setLeaderboardVisible] = useState(true);
+  
+  // Initialize state from localStorage immediately to avoid wrong toggle state
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('darkMode') === 'true');
+  const [hapticsEnabled, setHapticsEnabled] = useState(() => localStorage.getItem('hapticsEnabled') !== 'false');
+  const [leaderboardVisible, setLeaderboardVisible] = useState(() => localStorage.getItem('leaderboardVisible') !== 'false');
+  
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleteUsername, setDeleteUsername] = useState('');
@@ -40,24 +43,6 @@ export function SettingsScreen({ onBack }: SettingsScreenProps) {
     
     fetchUserProfile();
   }, [user]);
-
-  // Load settings from localStorage and apply dark mode
-  useEffect(() => {
-    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-    const savedHaptics = localStorage.getItem('hapticsEnabled') !== 'false';
-    const savedLeaderboard = localStorage.getItem('leaderboardVisible') !== 'false';
-    
-    setDarkMode(savedDarkMode);
-    setHapticsEnabled(savedHaptics);
-    setLeaderboardVisible(savedLeaderboard);
-    
-    // Apply dark mode to document
-    if (savedDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, []);
 
   const handleDarkModeToggle = (enabled: boolean) => {
     setDarkMode(enabled);

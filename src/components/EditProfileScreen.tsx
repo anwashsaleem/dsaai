@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { ArrowLeft, User, AtSign, CheckCircle } from 'lucide-react';
+import { ArrowLeft, User, AtSign, CheckCircle, Upload, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { projectId, publicAnonKey } from '../utils/supabase/info';
@@ -17,15 +17,30 @@ export function EditProfileScreen({ onBack }: EditProfileScreenProps) {
   const [username, setUsername] = useState('');
   const [selectedAvatar, setSelectedAvatar] = useState('');
   const [customAvatarUrl, setCustomAvatarUrl] = useState('');
+  const [uploadedAvatarUrl, setUploadedAvatarUrl] = useState(''); // Track uploaded avatar separately
   const [saving, setSaving] = useState(false);
   const [usernameError, setUsernameError] = useState('');
   const [checkingUsername, setCheckingUsername] = useState(false);
+  const [customAvatarError, setCustomAvatarError] = useState(false);
+  const [customAvatarLoading, setCustomAvatarLoading] = useState(false);
+  const [uploadingFile, setUploadingFile] = useState(false);
 
   useEffect(() => {
     if (user) {
       setName(user.user_metadata?.full_name || user.email?.split('@')[0] || '');
       setUsername(user.user_metadata?.username || '');
-      setSelectedAvatar(user.user_metadata?.avatar_url || PREDEFINED_AVATARS[0]);
+      
+      const currentAvatar = user.user_metadata?.avatar_url || PREDEFINED_AVATARS[0];
+      
+      // Check if current avatar is a predefined one
+      if (PREDEFINED_AVATARS.includes(currentAvatar)) {
+        setSelectedAvatar(currentAvatar);
+        setUploadedAvatarUrl('');
+      } else {
+        // It's an uploaded/custom avatar
+        setSelectedAvatar('');
+        setUploadedAvatarUrl(currentAvatar);
+      }
     }
   }, [user]);
 
@@ -88,6 +103,172 @@ export function EditProfileScreen({ onBack }: EditProfileScreenProps) {
     }
   };
 
+  const validateImageUrl = (url: string): boolean => {
+    if (!url.trim()) return false;
+    
+    // Check if it's a valid URL
+    try {
+      new URL(url);
+    } catch {
+      return false;
+    }
+
+    // Check if it ends with common image extensions
+    const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.bmp', '.ico'];
+    const urlLower = url.toLowerCase();
+    const hasImageExtension = imageExtensions.some(ext => urlLower.includes(ext));
+    
+    // Also accept URLs that might be image URLs without extensions (like some CDN URLs)
+    const isLikelyImageUrl = urlLower.includes('image') || 
+                             urlLower.includes('avatar') || 
+                             urlLower.includes('photo') ||
+                             urlLower.includes('img') ||
+                             hasImageExtension;
+
+    return isLikelyImageUrl;
+  };
+
+  const handleCustomUrlChange = (url: string) => {
+    setCustomAvatarUrl(url);
+    setCustomAvatarError(false);
+    
+    if (url.trim()) {
+      setSelectedAvatar('');
+      setCustomAvatarLoading(true);
+      
+      // Validate image URL format
+      if (!validateImageUrl(url)) {
+        setCustomAvatarError(true);
+        setCustomAvatarLoading(false);
+      }
+    } else {
+      setCustomAvatarLoading(false);
+    }
+  };
+
+  const handleImageLoad = () => {
+    setCustomAvatarLoading(false);
+    setCustomAvatarError(false);
+  };
+
+  const handleImageError = () => {
+    setCustomAvatarLoading(false);
+    setCustomAvatarError(true);
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'];
+    if (!validTypes.includes(file.type)) {
+      toast.error('Please upload a PNG, JPG, JPEG, GIF, or WebP image');
+      return;
+    }
+
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image must be less than 5MB');
+      return;
+    }
+
+    setUploadingFile(true);
+    toast('Uploading image...', { duration: 2000 });
+
+    try {
+      // Get access token
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast.error('Please sign in to upload images');
+        return;
+      }
+
+      // Convert file to base64
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const imageData = e.target?.result as string;
+
+        try {
+          // Upload to server
+          const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-2ba06582/upload-avatar`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${session.access_token}`
+            },
+            body: JSON.stringify({
+              imageData,
+              fileName: file.name
+            })
+          });
+
+          const data = await response.json();
+
+          if (!response.ok || data.error) {
+            throw new Error(data.error || 'Failed to upload image');
+          }
+
+          // Set the uploaded image
+          setUploadedAvatarUrl(data.url);
+          setSelectedAvatar('');
+          setCustomAvatarUrl('');
+          setCustomAvatarError(false);
+          toast.success('Image uploaded successfully!');
+        } catch (error: any) {
+          console.error('Upload error:', error);
+          toast.error(error.message || 'Failed to upload image');
+        } finally {
+          setUploadingFile(false);
+        }
+      };
+
+      reader.onerror = () => {
+        toast.error('Failed to read image file');
+        setUploadingFile(false);
+      };
+
+      reader.readAsDataURL(file);
+    } catch (error: any) {
+      console.error('File upload error:', error);
+      toast.error('Failed to upload image');
+      setUploadingFile(false);
+    }
+  };
+
+  const handleRemoveUploadedAvatar = async () => {
+    if (!uploadedAvatarUrl) return;
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      // Extract the file path from the signed URL
+      const urlMatch = uploadedAvatarUrl.match(/make-2ba06582-avatars\/(.+?)\?/);
+      if (urlMatch && urlMatch[1]) {
+        const filePath = urlMatch[1];
+
+        // Delete from storage
+        await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-2ba06582/delete-avatar`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({ filePath })
+        });
+      }
+
+      // Clear uploaded avatar and select first predefined avatar
+      setUploadedAvatarUrl('');
+      setSelectedAvatar(PREDEFINED_AVATARS[0]);
+      toast.success('Uploaded image removed');
+    } catch (error) {
+      console.error('Error removing uploaded avatar:', error);
+      toast.error('Failed to remove image');
+    }
+  };
+
   const handleSave = async () => {
     if (!user) return;
 
@@ -110,7 +291,7 @@ export function EditProfileScreen({ onBack }: EditProfileScreenProps) {
     setSaving(true);
 
     try {
-      const avatarToSave = customAvatarUrl.trim() || selectedAvatar;
+      const avatarToSave = customAvatarUrl.trim() || selectedAvatar || uploadedAvatarUrl;
 
       // Update user metadata in Supabase Auth
       const { error: authError } = await supabase.auth.updateUser({
@@ -220,15 +401,16 @@ export function EditProfileScreen({ onBack }: EditProfileScreenProps) {
                   onClick={() => {
                     setSelectedAvatar(avatar);
                     setCustomAvatarUrl('');
+                    setUploadedAvatarUrl('');
                   }}
                   className={`relative w-full aspect-square rounded-xl overflow-hidden border-2 transition-all ${
-                    selectedAvatar === avatar && !customAvatarUrl
+                    selectedAvatar === avatar && !uploadedAvatarUrl
                       ? 'border-primary ring-2 ring-primary ring-offset-2 dark:ring-offset-background'
                       : 'border-border dark:border-border hover:border-secondary'
                   }`}
                 >
                   <img src={avatar} alt={`Avatar ${index + 1}`} className="w-full h-full object-cover" />
-                  {selectedAvatar === avatar && !customAvatarUrl && (
+                  {selectedAvatar === avatar && !uploadedAvatarUrl && (
                     <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
                       <CheckCircle className="w-6 h-6 text-primary" />
                     </div>
@@ -237,35 +419,70 @@ export function EditProfileScreen({ onBack }: EditProfileScreenProps) {
               ))}
             </div>
 
-            {/* Custom Avatar URL */}
+            {/* Uploaded Avatar Display */}
+            {uploadedAvatarUrl && (
+              <div className="mb-4 p-4 bg-hover-background dark:bg-hover-background rounded-xl border-2 border-primary">
+                <div className="flex items-center gap-4">
+                  <div className="relative w-16 h-16 rounded-xl overflow-hidden border-2 border-primary ring-2 ring-primary">
+                    <img src={uploadedAvatarUrl} alt="Uploaded avatar" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                      <CheckCircle className="w-6 h-6 text-primary" />
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-bold text-text-primary dark:text-text-primary text-sm">Your Uploaded Image</p>
+                    <p className="text-xs text-text-secondary dark:text-text-secondary">Currently selected</p>
+                  </div>
+                  <button
+                    onClick={handleRemoveUploadedAvatar}
+                    className="p-2 rounded-lg bg-destructive/10 hover:bg-destructive/20 text-destructive transition-colors"
+                    title="Remove uploaded image"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Upload Avatar */}
             <div>
               <label className="block text-xs font-bold text-text-secondary dark:text-text-secondary mb-2 uppercase tracking-wide">
-                Or use custom URL
+                Or upload an image
               </label>
-              <input
-                type="url"
-                value={customAvatarUrl}
-                onChange={(e) => {
-                  setCustomAvatarUrl(e.target.value);
-                  if (e.target.value.trim()) {
-                    setSelectedAvatar('');
-                  }
-                }}
-                placeholder="https://example.com/avatar.jpg"
-                className="w-full h-12 px-4 rounded-xl border-2 border-border dark:border-border bg-input-background dark:bg-input-background text-text-primary dark:text-text-primary focus:border-secondary focus:outline-none transition-colors"
-              />
-              {customAvatarUrl && (
-                <div className="mt-3 w-20 h-20 rounded-xl overflow-hidden border-2 border-primary ring-2 ring-primary ring-offset-2 dark:ring-offset-background">
-                  <img
-                    src={customAvatarUrl}
-                    alt="Custom avatar"
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.src = PREDEFINED_AVATARS[0];
-                    }}
-                  />
-                </div>
-              )}
+              <div className="relative">
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/jpg,image/gif,image/webp"
+                  onChange={handleFileUpload}
+                  disabled={uploadingFile}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed z-10"
+                  id="avatar-upload"
+                />
+                <button
+                  type="button"
+                  disabled={uploadingFile}
+                  className={`w-full h-12 px-4 rounded-xl border-2 transition-all flex items-center justify-center gap-2 font-bold ${
+                    uploadingFile
+                      ? 'bg-primary/50 text-primary-foreground border-primary cursor-not-allowed'
+                      : 'bg-primary text-primary-foreground border-primary shadow-[0_4px_0] shadow-primary-shadow hover:shadow-[0_2px_0] hover:shadow-primary-shadow hover:translate-y-[2px]'
+                  }`}
+                >
+                  {uploadingFile ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-5 h-5" />
+                      <span>Upload Image</span>
+                    </>
+                  )}
+                </button>
+              </div>
+              <p className="text-xs text-text-secondary dark:text-text-secondary mt-2">
+                PNG, JPG, JPEG, GIF, or WebP • Max 5MB
+              </p>
             </div>
           </div>
 

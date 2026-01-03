@@ -8,52 +8,59 @@ interface IconProps {
 
 // Binary Tree: one root splitting into two
 export const BinaryTreeIcon = ({ className = '', size = 24 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-    <circle cx="12" cy="4" r="2" fill="currentColor" />
-    <line x1="12" y1="6" x2="8" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    <line x1="12" y1="6" x2="16" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    <circle cx="8" cy="14" r="2" fill="currentColor" />
-    <circle cx="16" cy="14" r="2" fill="currentColor" />
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className} strokeWidth="2">
+    <circle cx="12" cy="5" r="2.5" stroke="currentColor" fill="currentColor" />
+    <line x1="12" y1="7.5" x2="7" y2="13" stroke="currentColor" strokeLinecap="round" />
+    <line x1="12" y1="7.5" x2="17" y2="13" stroke="currentColor" strokeLinecap="round" />
+    <circle cx="7" cy="15" r="2.5" stroke="currentColor" fill="currentColor" />
+    <circle cx="17" cy="15" r="2.5" stroke="currentColor" fill="currentColor" />
+    <line x1="7" y1="17.5" x2="5" y2="20" stroke="currentColor" strokeLinecap="round" />
+    <line x1="7" y1="17.5" x2="9" y2="20" stroke="currentColor" strokeLinecap="round" />
+    <circle cx="5" cy="21" r="1.2" fill="currentColor" />
+    <circle cx="9" cy="21" r="1.2" fill="currentColor" />
   </svg>
 );
 
-// Binary Search Tree: binary tree with left side smaller
+// Binary Search Tree: binary tree with search arrows
 export const BinarySearchTreeIcon = ({ className = '', size = 24 }: IconProps) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-    <circle cx="12" cy="4" r="2" fill="currentColor" />
-    <line x1="12" y1="6" x2="7" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    <line x1="12" y1="6" x2="17" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    <circle cx="7" cy="14" r="1.5" fill="currentColor" />
-    <circle cx="17" cy="14" r="2" fill="currentColor" />
-    <text x="11.5" y="5.5" fontSize="3" fill="white" textAnchor="middle">8</text>
-    <text x="6.5" y="14.5" fontSize="2" fill="white" textAnchor="middle">3</text>
-    <text x="16.5" y="15" fontSize="3" fill="white" textAnchor="middle">10</text>
+    <circle cx="12" cy="5" r="2.5" stroke="currentColor" strokeWidth="2" fill="currentColor" />
+    <line x1="12" y1="7.5" x2="7" y2="13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <line x1="12" y1="7.5" x2="17" y2="13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <circle cx="7" cy="15" r="2.5" stroke="currentColor" strokeWidth="2" fill="currentColor" />
+    <circle cx="17" cy="15" r="2.5" stroke="currentColor" strokeWidth="2" fill="currentColor" />
+    {/* Search magnifying glass overlay */}
+    <circle cx="19" cy="4" r="2.5" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <line x1="17.5" y1="5.5" x2="16" y2="7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
   </svg>
 );
 
-// M Way Tree: one parent with multiple children
+// M Way Tree: one parent with multiple children (3+ branches)
 export const MWayTreeIcon = ({ className = '', size = 24 }: IconProps) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-    <circle cx="12" cy="4" r="2" fill="currentColor" />
-    <line x1="12" y1="6" x2="6" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    <line x1="12" y1="6" x2="12" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    <line x1="12" y1="6" x2="18" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    <circle cx="6" cy="16" r="1.5" fill="currentColor" />
-    <circle cx="12" cy="16" r="1.5" fill="currentColor" />
-    <circle cx="18" cy="16" r="1.5" fill="currentColor" />
+    <circle cx="12" cy="4" r="2.5" stroke="currentColor" strokeWidth="2" fill="currentColor" />
+    <line x1="12" y1="6.5" x2="5" y2="13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <line x1="12" y1="6.5" x2="12" y2="13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <line x1="12" y1="6.5" x2="19" y2="13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <circle cx="5" cy="15.5" r="2" stroke="currentColor" strokeWidth="2" fill="currentColor" />
+    <circle cx="12" cy="15.5" r="2" stroke="currentColor" strokeWidth="2" fill="currentColor" />
+    <circle cx="19" cy="15.5" r="2" stroke="currentColor" strokeWidth="2" fill="currentColor" />
+    {/* Additional child to show "M-way" */}
+    <line x1="12" y1="6.5" x2="8" y2="18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
+    <circle cx="8" cy="20" r="1.5" fill="currentColor" opacity="0.6" />
   </svg>
 );
 
-// M Way Search Tree: multi-branch nodes with ordered values
+// M Way Search Tree: multiple keys per node
 export const MWaySearchTreeIcon = ({ className = '', size = 24 }: IconProps) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-    <rect x="9" y="2" width="6" height="4" rx="1" fill="currentColor" />
-    <line x1="10" y1="6" x2="6" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    <line x1="12" y1="6" x2="12" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    <line x1="14" y1="6" x2="18" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    <circle cx="6" cy="16" r="1.5" fill="currentColor" />
-    <circle cx="12" cy="16" r="1.5" fill="currentColor" />
-    <circle cx="18" cy="16" r="1.5" fill="currentColor" />
+    <rect x="8" y="2" width="8" height="5" rx="1.5" stroke="currentColor" strokeWidth="2" fill="currentColor" />
+    <line x1="8.5" y1="7" x2="6" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <line x1="12" y1="7" x2="12" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <line x1="15.5" y1="7" x2="18" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <rect x="3.5" y="16" width="5" height="4" rx="1" stroke="currentColor" strokeWidth="1.5" fill="currentColor" />
+    <rect x="10" y="16" width="4" height="4" rx="1" stroke="currentColor" strokeWidth="1.5" fill="currentColor" />
+    <rect x="15.5" y="16" width="5" height="4" rx="1" stroke="currentColor" strokeWidth="1.5" fill="currentColor" />
   </svg>
 );
 

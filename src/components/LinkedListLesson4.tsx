@@ -148,20 +148,20 @@ export function LinkedListLesson4({ onNavigate, currentProgress, onProgressUpdat
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-background">
       {/* Fixed Top Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b-2 border-[#E5E5E5] px-6 py-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-card dark:bg-card border-b-2 border-border dark:border-border px-6 py-4">
         <div className="max-w-3xl mx-auto w-full flex items-center gap-4">
           <button
             onClick={() => onNavigate('linked-list-lesson-3')}
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777] hover:bg-[#E5E5E5] transition-all rounded-xl"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-hover-background dark:bg-hover-background border-2 border-border dark:border-border text-text-secondary dark:text-text-secondary hover:bg-border dark:hover:bg-border transition-all rounded-xl"
           >
             <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
           </button>
           <ProgressBar 
             currentProgress={currentProgress}
-            currentXP={Math.round(150 * currentProgress / 100)} 
-            totalXP={150}
+            currentXP={Math.round(170 * currentProgress / 100)}
+            totalXP={170}
           />
         </div>
       </div>
@@ -172,14 +172,14 @@ export function LinkedListLesson4({ onNavigate, currentProgress, onProgressUpdat
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-2xl border-2 border-[#E5E5E5] p-5"
+            className="bg-card dark:bg-card rounded-2xl border-2 border-border dark:border-border p-5"
           >
-            <h2 className="mb-4 text-[#4B4B4B] text-xl font-bold">Interactive Linked List</h2>
+            <h2 className="mb-4 text-text-primary dark:text-text-primary text-xl font-bold">Interactive Linked List</h2>
             
             <div className="flex flex-col gap-6">
               {/* Visualization Area */}
               <div className={`rounded-2xl border-2 p-4 h-[280px] md:h-[260px] flex items-center justify-start overflow-x-auto relative transition-colors ${
-                  isDeleteMode ? 'bg-[#FFF4F4] border-[#FF4B4B] border-dashed' : 'bg-[#F7F7F7] border-[#E5E5E5]'
+                  isDeleteMode ? 'bg-[#FFF4F4] dark:bg-[#4A2020] border-[#FF4B4B] dark:border-[#FF4B4B] border-dashed' : 'bg-hover-background dark:bg-hover-background border-border dark:border-border'
               }`}>
                   
                   {isDeleteMode && (
@@ -321,14 +321,14 @@ export function LinkedListLesson4({ onNavigate, currentProgress, onProgressUpdat
                </div>
 
               {/* Controls */}
-              <div className="bg-[#F7F7F7] p-3 rounded-xl border-2 border-[#E5E5E5]">
+              <div className="bg-hover-background dark:bg-hover-background p-3 rounded-xl border-2 border-border dark:border-border">
                  <div className="grid grid-cols-2 gap-3 mb-3">
                     <button
                       onClick={handleInsertHead}
                       disabled={nodes.length >= MAX_NODES || isDeleteMode}
                       className={`h-12 rounded-xl font-bold text-sm shadow-[0_4px_0_rgba(0,0,0,0.1)] active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center gap-2 ${
                           nodes.length >= MAX_NODES || isDeleteMode
-                          ? 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-not-allowed'
+                          ? 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none cursor-not-allowed'
                           : 'bg-[#1CB0F6] text-white shadow-[0_4px_0_#0D9FE8]'
                       }`}
                     >
@@ -339,7 +339,7 @@ export function LinkedListLesson4({ onNavigate, currentProgress, onProgressUpdat
                       disabled={nodes.length >= MAX_NODES || isDeleteMode}
                       className={`h-12 rounded-xl font-bold text-sm shadow-[0_4px_0_rgba(0,0,0,0.1)] active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center gap-2 ${
                           nodes.length >= MAX_NODES || isDeleteMode
-                          ? 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-not-allowed'
+                          ? 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none cursor-not-allowed'
                           : 'bg-[#1CB0F6] text-white shadow-[0_4px_0_#0D9FE8]'
                       }`}
                     >
@@ -350,7 +350,7 @@ export function LinkedListLesson4({ onNavigate, currentProgress, onProgressUpdat
                       disabled={nodes.length === 0 || isDeleteMode}
                       className={`h-12 rounded-xl font-bold text-sm shadow-[0_4px_0_rgba(0,0,0,0.1)] active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center gap-2 ${
                           nodes.length === 0 || isDeleteMode
-                          ? 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-not-allowed'
+                          ? 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none cursor-not-allowed'
                           : 'bg-[#FF4B4B] text-white shadow-[0_4px_0_#D93535]'
                       }`}
                     >
@@ -361,7 +361,7 @@ export function LinkedListLesson4({ onNavigate, currentProgress, onProgressUpdat
                       disabled={nodes.length === 0}
                       className={`h-12 rounded-xl font-bold text-sm shadow-[0_4px_0_rgba(0,0,0,0.1)] active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center gap-2 ${
                           nodes.length === 0
-                          ? 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-not-allowed'
+                          ? 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none cursor-not-allowed'
                           : isDeleteMode
                             ? 'bg-[#777] text-white shadow-[0_4px_0_#4B4B4B]'
                             : 'bg-[#FF4B4B] text-white shadow-[0_4px_0_#D93535]'
@@ -386,8 +386,8 @@ export function LinkedListLesson4({ onNavigate, currentProgress, onProgressUpdat
 
         {/* Quick Explainer */}
         <div className="mt-4 mb-2 px-1">
-          <h4 className="font-bold text-[#AFAFAF] mb-2 text-xs uppercase tracking-wide">Explanation:</h4>
-          <p className="text-sm text-[#4B4B4B] text-left leading-relaxed">
+          <h4 className="font-bold text-text-secondary dark:text-text-secondary mb-2 text-xs uppercase tracking-wide">Explanation:</h4>
+          <p className="text-sm text-text-primary dark:text-text-primary text-left leading-relaxed">
             {explanation}
           </p>
         </div>
@@ -395,16 +395,16 @@ export function LinkedListLesson4({ onNavigate, currentProgress, onProgressUpdat
         {/* Task List / Guide */}
         <div className="mt-4">
            {completedTasks.length < tasks.length && (
-             <div className="mb-4 bg-[#F7F7F7] p-4 rounded-xl border-2 border-[#E5E5E5]">
-               <h3 className="font-bold text-[#AFAFAF] text-xs uppercase tracking-wide mb-3">Your Task</h3>
+             <div className="mb-4 bg-hover-background dark:bg-hover-background p-4 rounded-xl border-2 border-border dark:border-border">
+               <h3 className="font-bold text-text-secondary dark:text-text-secondary text-xs uppercase tracking-wide mb-3">Your Task</h3>
                <div className="space-y-3">
                  {tasks.map(task => {
                    const isCompleted = completedTasks.includes(task.id);
                    if (isCompleted) return null;
                    return (
                      <div key={task.id} className="flex items-center gap-3">
-                       <Circle className="w-5 h-5 text-[#E5E5E5]" />
-                       <span className="text-sm font-bold text-[#777]">
+                       <Circle className="w-5 h-5 text-border dark:text-border" />
+                       <span className="text-sm font-bold text-text-secondary dark:text-text-secondary">
                          {task.label}
                        </span>
                      </div>
@@ -420,7 +420,7 @@ export function LinkedListLesson4({ onNavigate, currentProgress, onProgressUpdat
             className={`w-full h-14 rounded-2xl font-bold text-lg uppercase tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.1)] hover:brightness-105 active:translate-y-[4px] active:shadow-[0_2px_0_rgba(0,0,0,0.1)] transition-all flex items-center justify-center gap-3 ${
                completedTasks.length >= tasks.length 
                ? 'bg-[#288CFF] text-white shadow-[0_4px_0_#2563EB] active:shadow-[0_2px_0_#2563EB] cursor-pointer' 
-               : 'bg-[#E5E5E5] text-[#AFAFAF] shadow-none cursor-default'
+               : 'bg-border dark:bg-border text-text-secondary dark:text-text-secondary shadow-none cursor-default'
             }`}
           >
             Complete Lesson
